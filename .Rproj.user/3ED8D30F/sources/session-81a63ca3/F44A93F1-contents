@@ -1,0 +1,13 @@
+Package: RMarkUs
+Type: Package
+Title: Autograding Package for MarkUs
+Version: 0.1.0
+Author: Kanika Chopra
+Maintainer: Kanika Chopra <kanika.chopra@mail.utoronto.ca>
+Description: This package will allow for autograding capabilities for quantitative assessments using MarkUs.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    cli,
+    testthat

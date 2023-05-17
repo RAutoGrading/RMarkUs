@@ -9,15 +9,20 @@ source('R/autotests.R')
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param datatype A string representing the datatype expected for the solution
+#' @param check_datatype Boolean indicating whether data type will be checked.
+#' Default is FALSE.
+#' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+#' DEFAULT is double.
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testScalar <- function(variableName, variables, studentSoln, actualSoln, datatype) {
+testScalar <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='double') {
   # Check if variable is present
   variableExistsTest(variableName, variables)
 
   # Run tests
-  dataTypeTest(studentSoln, datatype)
+  if (check_datatype) {
+    dataTypeTest(studentSoln, datatype)
+  }
   correctSolnTest(studentSoln, actualSoln, type="scalar")
 }
 
@@ -28,17 +33,22 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln, datatyp
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param datatype A string representing the datatype expected for the solution
+#' @param check_datatype Boolean indicating whether data type will be checked.
+#' Default is FALSE.
+#' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+#' DEFAULT is list
 #' @param order Boolean indicating if order matters in correctness.
 #' Default is TRUE.
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testVector <- function(variableName, variables, studentSoln, actualSoln, datatype, order=TRUE) {
+testVector <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='list', order=TRUE) {
   # Check if variable is present
   variableExistsTest(variableName, variables)
 
   # Run tests
-  dataTypeTest(studentSoln, datatype)
+  if (check_datatype) {
+    dataTypeTest(studentSoln, datatype)
+  }
   correctSizeTest(studentSoln, actualSoln, type="list")
   correctSolnTest(studentSoln, actualSoln, order, type="list")
 }
@@ -50,17 +60,22 @@ testVector <- function(variableName, variables, studentSoln, actualSoln, datatyp
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param datatype A string representing the datatype expected for the solution
+#' @param check_datatype Boolean indicating whether data type will be checked.
+#' Default is FALSE.
+#' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+#' DEFAULT is list.
 #' @param order Boolean indicating if order matters in correctness.
 #' Default is FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testDataFrame <- function(variableName, variables, studentSoln, actualSoln, datatype, order=FALSE) {
+testDataFrame <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='list', order=FALSE) {
   # Check if variable is present
   variableExistsTest(variableName, variables)
 
   # Run tests
-  dataTypeTest(studentSoln, datatype)
+  if (check_datatype) {
+    dataTypeTest(studentSoln, datatype)
+  }
   correctSizeTest(studentSoln, actualSoln, type="dataframe")
   correctAttributes(studentSoln, actualSoln)
   variableClassTest(studentSoln, actualSoln)

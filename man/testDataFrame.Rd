@@ -9,7 +9,8 @@ testDataFrame(
   variables,
   studentSoln,
   actualSoln,
-  datatype,
+  check_datatype = FALSE,
+  datatype = "list",
   order = FALSE
 )
 }
@@ -22,7 +23,11 @@ testDataFrame(
 
 \item{actualSoln}{The actual solution for the question}
 
-\item{datatype}{A string representing the datatype expected for the solution}
+\item{check_datatype}{Boolean indicating whether data type will be checked.
+Default is FALSE.}
+
+\item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+DEFAULT is list.}
 
 \item{order}{Boolean indicating if order matters in correctness.
 Default is FALSE}

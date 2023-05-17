@@ -4,7 +4,14 @@
 \alias{testScalar}
 \title{Scalar Tests}
 \usage{
-testScalar(variableName, variables, studentSoln, actualSoln, datatype)
+testScalar(
+  variableName,
+  variables,
+  studentSoln,
+  actualSoln,
+  check_datatype = FALSE,
+  datatype = "double"
+)
 }
 \arguments{
 \item{variableName}{The name of the variable in question}
@@ -15,7 +22,11 @@ testScalar(variableName, variables, studentSoln, actualSoln, datatype)
 
 \item{actualSoln}{The actual solution for the question}
 
-\item{datatype}{A string representing the datatype expected for the solution}
+\item{check_datatype}{Boolean indicating whether data type will be checked.
+Default is FALSE.}
+
+\item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+DEFAULT is double.}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

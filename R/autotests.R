@@ -8,10 +8,11 @@ library(cli)
 #' Tests to see if the variable for a question exists in the R environment
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in environment
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
 
-variableExistsTest <- function(variableName, variables) {
+variableExistsTest <- function(variableName, variables, error_message=NULL) {
   error_message <- paste("Missing", variableName)
   if (!(variableName %in% variables)) stop (paste("Missing", variableName))
   print(paste(variableName, "present"))
@@ -22,9 +23,10 @@ variableExistsTest <- function(variableName, variables) {
 #' Tests to see if the student's solution is of the correct data type
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param datatype A string representing the datatype expected for the solution
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-dataTypeTest <- function(studentSoln, datatype) {
+dataTypeTest <- function(studentSoln, datatype, error_message=NULL) {
   error_message = "Incorrect data type"
   success_message = "Correct data type"
   tryCatch (
@@ -44,9 +46,10 @@ dataTypeTest <- function(studentSoln, datatype) {
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param datatype A string representing the datatype expected for the solution
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-variableClassTest <- function(studentSoln, actualSoln, datatype) {
+variableClassTest <- function(studentSoln, actualSoln, datatype, error_message=NULL) {
   error_message = "Incorrect data type"
   success_message = "Correct data type"
   tryCatch (
@@ -67,9 +70,10 @@ variableClassTest <- function(studentSoln, actualSoln, datatype) {
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, list, dataframe
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSizeTest <- function(studentSoln, actualSoln, type) {
+correctSizeTest <- function(studentSoln, actualSoln, type, error_message=NULL) {
   error_message = "Incorrect answer"
   success_message = "Correct answer"
 
@@ -104,9 +108,10 @@ correctSizeTest <- function(studentSoln, actualSoln, type) {
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, list, dataframe
 #' @param order Whether the order of the data matters for lists. Default is TRUE.
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type) {
+correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
   error_message = "Incorrect answer"
   success_message = "Correct answer"
   if (order==FALSE & type == 'list') {
@@ -132,9 +137,10 @@ correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type) {
 #' Tests to see if the attributes of the student's DataFrame matches the attributes of the solution's DataFrame
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctAttributes <- function(studentSoln, actualSoln) {
+correctAttributes <- function(studentSoln, actualSoln, error_message=NULL) {
   error_message = "Incorrect answer"
   success_message = "Correct answer"
   tryCatch (

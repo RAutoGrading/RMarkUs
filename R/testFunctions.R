@@ -9,21 +9,30 @@ source('R/autotests.R')
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param check_datatype Boolean indicating whether data type will be checked.
+#' @param check_present Boolean indicating whether a test will check if the variable exists.
+#' Default is TRUE.
+#' @param check_correct Boolean indicating whether a test will check if the solution is correct.
+#' Default is TRUE.
+#' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is double.
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testScalar <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='double') {
-  # Check if variable is present
-  variableExistsTest(variableName, variables)
+testScalar <- function(variableName, variables, studentSoln, actualSoln,
+                       check_present=TRUE, check_correct=TRUE,
+                       check_datatype=FALSE, datatype='double') {
+  if (check_present) {
+    variableExistsTest(variableName, variables)
+  }
 
-  # Run tests
   if (check_datatype) {
     dataTypeTest(studentSoln, datatype)
   }
-  correctSolnTest(studentSoln, actualSoln, type="scalar")
+
+  if (check_correct) {
+    correctSolnTest(studentSoln, actualSoln, type="scalar")
+  }
 }
 
 #' Vector Tests
@@ -33,7 +42,13 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln, check_d
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param check_datatype Boolean indicating whether data type will be checked.
+#' @param check_present Boolean indicating whether a test will check if the variable exists.
+#' Default is TRUE.
+#' @param check_correct Boolean indicating whether a test will check if the solution is correct.
+#' Default is TRUE.
+#' @param check_size Boolean indicating whether a test will check if the size of the vector is correct.
+#' Default is TRUE.
+#' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is list
@@ -41,16 +56,24 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln, check_d
 #' Default is TRUE.
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testVector <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='list', order=TRUE) {
-  # Check if variable is present
-  variableExistsTest(variableName, variables)
+testVector <- function(variableName, variables, studentSoln, actualSoln,
+                       check_present=TRUE, check_correct=TRUE, check_size=TRUE,
+                       check_datatype=FALSE, datatype='list', order=TRUE) {
+  if (check_present) {
+    variableExistsTest(variableName, variables)
+  }
 
-  # Run tests
   if (check_datatype) {
     dataTypeTest(studentSoln, datatype)
   }
-  correctSizeTest(studentSoln, actualSoln, type="list")
-  correctSolnTest(studentSoln, actualSoln, order, type="list")
+
+  if (check_size) {
+    correctSizeTest(studentSoln, actualSoln, type="list")
+  }
+
+  if (check_correct) {
+    correctSolnTest(studentSoln, actualSoln, order, type="list")
+  }
 }
 
 #' DataFrame Tests
@@ -60,7 +83,17 @@ testVector <- function(variableName, variables, studentSoln, actualSoln, check_d
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param check_datatype Boolean indicating whether data type will be checked.
+#' @param check_present Boolean indicating whether a test will check if the variable exists.
+#' Default is TRUE.
+#' @param check_correct Boolean indicating whether a test will check if the solution is correct.
+#' Default is TRUE.
+#' @param check_size Boolean indicating whether a test will check if the size of the dataframe is correct.
+#' Default is TRUE.
+#' @param check_attributes Boolean indicating whether a test will check if the attributes of the dataframe are correct.
+#' Default is TRUE.
+#' @param check_class Boolean indicating whether a test will check if the variable classes of the dataframe are correct.
+#' Default is TRUE.
+#' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is list.
@@ -68,18 +101,34 @@ testVector <- function(variableName, variables, studentSoln, actualSoln, check_d
 #' Default is FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
-testDataFrame <- function(variableName, variables, studentSoln, actualSoln, check_datatype=FALSE, datatype='list', order=FALSE) {
-  # Check if variable is present
-  variableExistsTest(variableName, variables)
+testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
+                          check_present=TRUE, check_correct=TRUE, check_size=TRUE,
+                          check_attributes=TRUE, check_class=TRUE,
+                          check_datatype=FALSE, datatype='list', order=FALSE) {
+  if (check_present) {
+    variableExistsTest(variableName, variables)
+  }
 
-  # Run tests
   if (check_datatype) {
     dataTypeTest(studentSoln, datatype)
   }
-  correctSizeTest(studentSoln, actualSoln, type="dataframe")
-  correctAttributes(studentSoln, actualSoln)
-  variableClassTest(studentSoln, actualSoln)
-  correctSolnTest(studentSoln, actualSoln, order, type="dataframe")
+
+  if (check_size) {
+    correctSizeTest(studentSoln, actualSoln, type="dataframe")
+  }
+
+  if (check_attributes) {
+    correctAttributes(studentSoln, actualSoln)
+  }
+
+  if (check_class) {
+    variableClassTest(studentSoln, actualSoln)
+  }
+
+  if (check_correct) {
+    correctSolnTest(studentSoln, actualSoln, order, type="dataframe")
+  }
+
 }
 
 #' Source List

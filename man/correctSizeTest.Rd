@@ -4,7 +4,7 @@
 \alias{correctSizeTest}
 \title{Test Correct Size}
 \usage{
-correctSizeTest(studentSoln, actualSoln, type)
+correctSizeTest(studentSoln, actualSoln, type, error_message = NULL)
 }
 \arguments{
 \item{studentSoln}{The student's solution loaded from their assignment}
@@ -12,6 +12,8 @@ correctSizeTest(studentSoln, actualSoln, type)
 \item{actualSoln}{The actual solution for the question}
 
 \item{type}{The type of data. Options are: scalar, list, dataframe}
+
+\item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails

@@ -4,12 +4,14 @@
 \alias{variableExistsTest}
 \title{Test if Variable Exists}
 \usage{
-variableExistsTest(variableName, variables)
+variableExistsTest(variableName, variables, error_message = NULL)
 }
 \arguments{
 \item{variableName}{The name of the variable in question}
 
 \item{variables}{List of variables in environment}
+
+\item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails

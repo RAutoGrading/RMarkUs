@@ -4,7 +4,7 @@
 \alias{variableClassTest}
 \title{Test Variable Class}
 \usage{
-variableClassTest(studentSoln, actualSoln, datatype)
+variableClassTest(studentSoln, actualSoln, datatype, error_message = NULL)
 }
 \arguments{
 \item{studentSoln}{The student's solution loaded from their assignment}
@@ -12,6 +12,8 @@ variableClassTest(studentSoln, actualSoln, datatype)
 \item{actualSoln}{The actual solution for the question}
 
 \item{datatype}{A string representing the datatype expected for the solution}
+
+\item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails

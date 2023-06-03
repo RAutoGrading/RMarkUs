@@ -4,7 +4,13 @@
 \alias{correctSolnTest}
 \title{Test Correct Solution}
 \usage{
-correctSolnTest(studentSoln, actualSoln, order = TRUE, type)
+correctSolnTest(
+  studentSoln,
+  actualSoln,
+  order = TRUE,
+  type,
+  error_message = NULL
+)
 }
 \arguments{
 \item{studentSoln}{The student's solution loaded from their assignment}
@@ -14,6 +20,8 @@ correctSolnTest(studentSoln, actualSoln, order = TRUE, type)
 \item{order}{Whether the order of the data matters for lists. Default is TRUE.}
 
 \item{type}{The type of data. Options are: scalar, list, dataframe}
+
+\item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails

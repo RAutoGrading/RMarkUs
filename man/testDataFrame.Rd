@@ -9,9 +9,20 @@ testDataFrame(
   variables,
   studentSoln,
   actualSoln,
+  check_present = TRUE,
+  present_error_msg = NULL,
+  check_correct = TRUE,
+  correct_error_msg = NULL,
+  check_size = TRUE,
+  size_error_msg = NULL,
+  check_attributes = TRUE,
+  attributes_error_msg = NULL,
+  check_class = TRUE,
+  class_error_msg = NULL,
   check_datatype = FALSE,
   datatype = "list",
-  order = FALSE
+  order = FALSE,
+  data_error_msg = NULL
 )
 }
 \arguments{
@@ -23,7 +34,37 @@ testDataFrame(
 
 \item{actualSoln}{The actual solution for the question}
 
-\item{check_datatype}{Boolean indicating whether data type will be checked.
+\item{check_present}{Boolean indicating whether a test will check if the variable exists.
+Default is TRUE.}
+
+\item{present_error_msg}{A function that will generate the appropriate error message as a string for if variable does not exist.
+Default is NULL and will use preset error message.}
+
+\item{check_correct}{Boolean indicating whether a test will check if the solution is correct.
+Default is TRUE.}
+
+\item{correct_error_msg}{A function that will generate the appropriate error message as a string if the value is incorrect.
+Default is NULL and will use preset error message.}
+
+\item{check_size}{Boolean indicating whether a test will check if the size of the dataframe is correct.
+Default is TRUE.}
+
+\item{size_error_msg}{A function that will generate the appropriate error message as a string if the size is incorrect.
+Default is NULL and will use preset error message.}
+
+\item{check_attributes}{Boolean indicating whether a test will check if the attributes of the dataframe are correct.
+Default is TRUE.}
+
+\item{attributes_error_msg}{A function that will generate the appropriate error message as a string if the attributes of the dataframe are incorrect.
+Default is NULL and will use preset error message.}
+
+\item{check_class}{Boolean indicating whether a test will check if the variable classes of the dataframe are correct.
+Default is TRUE.}
+
+\item{class_error_msg}{A function that will generate the appropriate error message as a string if the classes of the dataframe are incorrect.
+Default is NULL and will use preset error message.}
+
+\item{check_datatype}{Boolean indicating whether a test will check if the data type is correct.
 Default is FALSE.}
 
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
@@ -31,6 +72,9 @@ DEFAULT is list.}
 
 \item{order}{Boolean indicating if order matters in correctness.
 Default is FALSE}
+
+\item{data_error_msg}{A function that will generate the appropriate error message as a string for if the data type is not correct.
+Default is NULL and will use preset error message.}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

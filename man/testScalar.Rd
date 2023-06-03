@@ -9,8 +9,13 @@ testScalar(
   variables,
   studentSoln,
   actualSoln,
+  check_present = TRUE,
+  present_error_msg = NULL,
+  check_correct = TRUE,
+  correct_error_msg = NULL,
   check_datatype = FALSE,
-  datatype = "double"
+  datatype = "double",
+  data_error_msg = NULL
 )
 }
 \arguments{
@@ -22,14 +27,27 @@ testScalar(
 
 \item{actualSoln}{The actual solution for the question}
 
-\item{check_datatype}{Boolean indicating whether data type will be checked.
+\item{check_present}{Boolean indicating whether a test will check if the variable exists.
+Default is TRUE.}
+
+\item{present_error_msg}{A function that will generate the appropriate error message as a string for if variable does not exist.
+Default is NULL and will use preset error message.}
+
+\item{check_correct}{Boolean indicating whether a test will check if the solution is correct.
+Default is TRUE.}
+
+\item{correct_error_msg}{A function that will generate the appropriate error message as a string if the value is incorrect.
+Default is NULL and will use preset error message.}
+
+\item{check_datatype}{Boolean indicating whether a test will check if the data type is correct.
 Default is FALSE.}
 
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 DEFAULT is double.}
-}
-\value{
-Error message if one exists, otherwise will print that every test has passed.
+
+\item{data_error_msg}{A function that will generate the appropriate error message as a string for if the data type is not correct.
+Default is NULL and will use preset error message.
+#' @return Error message if one exists, otherwise will print that every test has passed.}
 }
 \description{
 Completes all of the basic tests for a scalar value

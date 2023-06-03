@@ -4,12 +4,14 @@
 \alias{dataTypeTest}
 \title{Test Data Type}
 \usage{
-dataTypeTest(studentSoln, datatype)
+dataTypeTest(studentSoln, datatype, error_message = NULL)
 }
 \arguments{
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{datatype}{A string representing the datatype expected for the solution}
+
+\item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails

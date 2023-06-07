@@ -29,15 +29,15 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
                        check_present=TRUE, present_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_datatype=FALSE, datatype='double', data_error_msg=NULL) {
-  if (check_present) {
+  if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
 
-  if (check_datatype) {
+  if (isTRUE(check_datatype)) {
     dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
   }
 
-  if (check_correct) {
+  if (isTRUE(check_correct)) {
     correctSolnTest(studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
   }
 }
@@ -76,19 +76,19 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_size=TRUE, size_error_msg=NULL,
                        check_datatype=FALSE, datatype='list', order=TRUE, data_error_msg=NULL) {
-  if (check_present) {
+  if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
 
-  if (check_datatype) {
+  if (isTRUE(check_datatype)) {
     dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
   }
 
-  if (check_size) {
+  if (isTRUE(check_size)) {
     correctSizeTest(studentSoln, actualSoln, type="list", error_message=size_error_msg)
   }
 
-  if (check_correct) {
+  if (isTRUE(check_correct)) {
     correctSolnTest(studentSoln, actualSoln, type="list", order, error_message=correct_error_msg)
   }
 }
@@ -137,27 +137,27 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
                           check_attributes=TRUE, attributes_error_msg=NULL,
                           check_class=TRUE, class_error_msg=NULL,
                           check_datatype=FALSE, datatype='list', order=FALSE, data_error_msg=NULL) {
-  if (check_present) {
+  if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
 
-  if (check_datatype) {
+  if (isTRUE(check_datatype)) {
     dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
   }
 
-  if (check_size) {
+  if (isTRUE(check_size)) {
     correctSizeTest(studentSoln, actualSoln, type="dataframe", error_message=size_error_msg)
   }
 
-  if (check_attributes) {
+  if (isTRUE(check_attributes)) {
     correctAttributes(studentSoln, actualSoln, error_message=attributes_error_msg)
   }
 
-  if (check_class) {
+  if (isTRUE(check_class)) {
     variableClassTest(studentSoln, actualSoln, error_message=class_error_msg)
   }
 
-  if (check_correct) {
+  if (isTRUE(check_correct)) {
     correctSolnTest(studentSoln, actualSoln, type="dataframe", order, error_message=correct_error_msg)
   }
 }

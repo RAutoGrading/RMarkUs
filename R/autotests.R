@@ -11,11 +11,19 @@ library(cli)
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-
 variableExistsTest <- function(variableName, variables, error_message=NULL) {
   error_message <- paste("Missing", variableName)
-  if (!(variableName %in% variables)) stop (paste("Missing", variableName))
-  print(paste(variableName, "present"))
+  success_message <- paste(variableName, "present")
+  var_exists <- variableName %in% variables
+  tryCatch (
+    {
+      test_that("Variable Exists", {expect_equal(var_exists, TRUE)})
+      print(success_message)
+    },
+    error = function(e) {
+      message(error_message)
+    }
+  )
 }
 
 #' Test Data Type

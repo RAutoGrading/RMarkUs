@@ -14,10 +14,11 @@ library(cli)
 variableExistsTest <- function(variableName, variables, error_message=NULL) {
   error_message <- paste("Missing", variableName)
   success_message <- paste(variableName, "present")
+  test_name <- paste(variableName, "Exists")
   var_exists <- variableName %in% variables
   tryCatch (
     {
-      test_that("Variable Exists", {expect_equal(var_exists, TRUE)})
+      test_that(test_name, {expect_equal(var_exists, TRUE)})
       print(success_message)
     },
     error = function(e) {
@@ -37,9 +38,11 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 dataTypeTest <- function(studentSoln, datatype, error_message=NULL) {
   error_message = "Incorrect data type"
   success_message = "Correct data type"
+  var_name <- deparse(substitute(studentSoln))
+  test_name <- paste(var_name, "datatype test")
   tryCatch (
     {
-      test_that("Data Type", {expect_type(studentSoln, datatype)})
+      test_that(test_name, {expect_type(studentSoln, datatype)})
       print(success_message)
     },
   error = function(e) {
@@ -58,11 +61,13 @@ dataTypeTest <- function(studentSoln, datatype, error_message=NULL) {
 #' @return Message for a successful test or an error message if fails
 #' @export
 variableClassTest <- function(studentSoln, actualSoln, datatype, error_message=NULL) {
-  error_message = "Incorrect data type"
-  success_message = "Correct data type"
+  error_message = "Incorrect variable classes"
+  success_message = "Correct variable classes"
+  var_name <- deparse(substitute(actualSoln))
+  test_name <- paste(var_name, "variable class test")
   tryCatch (
     {
-      test_that("Variable Class", {expect_identical(sapply(studentSoln, class), sapply(actualSoln, class))})
+      test_that(test_name, {expect_identical(sapply(studentSoln, class), sapply(actualSoln, class))})
       print(success_message)
     },
     error = function(e) {
@@ -82,13 +87,14 @@ variableClassTest <- function(studentSoln, actualSoln, datatype, error_message=N
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctSizeTest <- function(studentSoln, actualSoln, type, error_message=NULL) {
-  error_message = "Incorrect answer"
-  success_message = "Correct answer"
-
+  error_message = "Incorrect variable size"
+  success_message = "Correct variable size"
+  var_name <- deparse(substitute(actualSoln))
   if (type=="list") {
+    test_name <- paste(var_name, "correct length test")
     tryCatch (
       {
-        test_that("Correct Length", {expect_equal(length(studentSoln), length(actualSoln))})
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
         print(success_message)
       },
       error = function(e) {
@@ -96,9 +102,10 @@ correctSizeTest <- function(studentSoln, actualSoln, type, error_message=NULL) {
       }
     )
   } else if (type == "dataframe") {
+    test_name <- paste(var_name, "correct dimensions test")
     tryCatch (
       {
-        test_that("Correct Dimensions", {expect_identical(dim(studentSoln), dim(actualSoln))})
+        test_that(test_name, {expect_identical(dim(studentSoln), dim(actualSoln))})
 
         print(success_message)
       },
@@ -122,6 +129,9 @@ correctSizeTest <- function(studentSoln, actualSoln, type, error_message=NULL) {
 correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
   error_message = "Incorrect answer"
   success_message = "Correct answer"
+  var_name <- deparse(substitute(actualSoln))
+  test_name <- paste(var_name, "correct value")
+
   if (order==FALSE & type == 'list') {
     studentSoln <- sort(studentSoln)
     actualSoln <- sort(actualSoln)
@@ -129,9 +139,9 @@ correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type, error_mes
   tryCatch (
     {
       if (type=="dataframe") {
-        test_that("Correct value", {expect_identical(studentSoln, actualSoln)})
+        test_that(test_name, {expect_identical(studentSoln, actualSoln)})
       } else {
-      test_that("Correct Value", {expect_equal(studentSoln, actualSoln)})}
+      test_that(test_name, {expect_equal(studentSoln, actualSoln)})}
       print(success_message)
     },
     error = function(e) {
@@ -149,11 +159,13 @@ correctSolnTest <- function(studentSoln, actualSoln, order=TRUE, type, error_mes
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctAttributes <- function(studentSoln, actualSoln, error_message=NULL) {
-  error_message = "Incorrect answer"
-  success_message = "Correct answer"
+  error_message = "Incorrect attributes"
+  success_message = "Correct attributes"
+  var_name <- deparse(substitute(actualSoln))
+  test_name <- paste(var_name, "correct attributes")
   tryCatch (
     {
-      test_that("Correct attributes", {expect_identical(attributes(studentSoln), attributes(actualSoln))})
+      test_that(test_name, {expect_identical(attributes(studentSoln), attributes(actualSoln))})
       print(success_message)
     },
     error = function(e) {

@@ -4,9 +4,11 @@
 \alias{dataTypeTest}
 \title{Test Data Type}
 \usage{
-dataTypeTest(studentSoln, datatype, error_message = NULL)
+dataTypeTest(variableName, studentSoln, datatype, error_message = NULL)
 }
 \arguments{
+\item{variableName}{The name of the variable in question}
+
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{datatype}{A string representing the datatype expected for the solution}

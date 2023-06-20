@@ -34,11 +34,11 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_datatype)) {
-    dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
+    correctSolnTest(variableName, studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
   }
 }
 
@@ -81,15 +81,15 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_datatype)) {
-    dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_size)) {
-    correctSizeTest(studentSoln, actualSoln, type="list", error_message=size_error_msg)
+    correctSizeTest(variableName, studentSoln, actualSoln, type="list", error_message=size_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(studentSoln, actualSoln, type="list", order, error_message=correct_error_msg)
+    correctSolnTest(variableName, studentSoln, actualSoln, type="list", order, error_message=correct_error_msg)
   }
 }
 
@@ -142,23 +142,23 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_datatype)) {
-    dataTypeTest(studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_size)) {
-    correctSizeTest(studentSoln, actualSoln, type="dataframe", error_message=size_error_msg)
+    correctSizeTest(variableName, studentSoln, actualSoln, type="dataframe", error_message=size_error_msg)
   }
 
   if (isTRUE(check_attributes)) {
-    correctAttributes(studentSoln, actualSoln, error_message=attributes_error_msg)
+    correctAttributes(variableName, studentSoln, actualSoln, error_message=attributes_error_msg)
   }
 
   if (isTRUE(check_class)) {
-    variableClassTest(studentSoln, actualSoln, error_message=class_error_msg)
+    variableClassTest(variableName, studentSoln, actualSoln, error_message=class_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(studentSoln, actualSoln, type="dataframe", order, error_message=correct_error_msg)
+    correctSolnTest(variableName, studentSoln, actualSoln, type="dataframe", order, error_message=correct_error_msg)
   }
 }
 

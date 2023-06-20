@@ -4,9 +4,17 @@
 \alias{correctSizeTest}
 \title{Test Correct Size}
 \usage{
-correctSizeTest(studentSoln, actualSoln, type, error_message = NULL)
+correctSizeTest(
+  variableName,
+  studentSoln,
+  actualSoln,
+  type,
+  error_message = NULL
+)
 }
 \arguments{
+\item{variableName}{The name of the variable in question}
+
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{actualSoln}{The actual solution for the question}

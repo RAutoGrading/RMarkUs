@@ -4,9 +4,17 @@
 \alias{variableClassTest}
 \title{Test Variable Class}
 \usage{
-variableClassTest(studentSoln, actualSoln, datatype, error_message = NULL)
+variableClassTest(
+  variableName,
+  studentSoln,
+  actualSoln,
+  datatype,
+  error_message = NULL
+)
 }
 \arguments{
+\item{variableName}{The name of the variable in question}
+
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{actualSoln}{The actual solution for the question}

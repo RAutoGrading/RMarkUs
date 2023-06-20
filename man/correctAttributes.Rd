@@ -4,9 +4,11 @@
 \alias{correctAttributes}
 \title{Test Correct Attributes}
 \usage{
-correctAttributes(studentSoln, actualSoln, error_message = NULL)
+correctAttributes(variableName, studentSoln, actualSoln, error_message = NULL)
 }
 \arguments{
+\item{variableName}{The name of the variable in question}
+
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{actualSoln}{The actual solution for the question}

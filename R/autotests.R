@@ -89,7 +89,7 @@ variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, e
 #' @param variableName The name of the variable in question
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param type The type of data. Options are: scalar, list, dataframe
+#' @param type The type of data. Options are: scalar, vector, dataframe
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
@@ -98,7 +98,7 @@ correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_m
     error_message = "Incorrect variable size"
   }
   success_message = "Correct variable size"
-  if (type=="list") {
+  if (type=="vector") {
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
@@ -130,7 +130,7 @@ correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_m
 #' @param variableName The name of the variable in question
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param type The type of data. Options are: scalar, list, dataframe
+#' @param type The type of data. Options are: scalar, vector, dataframe
 #' @param order Whether the order of the data matters for lists. Default is TRUE.
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
@@ -142,9 +142,13 @@ correctSolnTest <- function(variableName, studentSoln, actualSoln, order=TRUE, t
   success_message = "Correct answer"
   test_name <- paste(variableName, "correct value")
 
-  if (order==FALSE & type == 'list') {
+  if (order==FALSE & type == 'vector') {
     studentSoln <- sort(studentSoln)
     actualSoln <- sort(actualSoln)
+  }
+  if (order==FALSE & type == 'dataframe') {
+    studentSoln <- studentSoln[order(names(studentSoln))]
+    actualSoln <- actualSoln[order(names(actualSoln))]
   }
   tryCatch (
     {

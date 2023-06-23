@@ -89,7 +89,7 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, studentSoln, actualSoln, type="list", order, error_message=correct_error_msg)
+    correctSolnTest(variableName, studentSoln, actualSoln, type="vector", order, error_message=correct_error_msg)
   }
 }
 

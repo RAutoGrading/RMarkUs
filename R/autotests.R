@@ -12,7 +12,9 @@ library(cli)
 #' @return Message for a successful test or an error message if fails
 #' @export
 variableExistsTest <- function(variableName, variables, error_message=NULL) {
-  error_message <- paste("Missing", variableName)
+  if (is.null(error_message)) {
+    error_message <- paste("Missing", variableName)
+  }
   success_message <- paste(variableName, "present")
   test_name <- paste(variableName, "Exists")
   var_exists <- variableName %in% variables
@@ -37,7 +39,9 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 #' @return Message for a successful test or an error message if fails
 #' @export
 dataTypeTest <- function(variableName, studentSoln, datatype, error_message=NULL) {
-  error_message = "Incorrect data type"
+  if (is.null(error_message)) {
+    error_message = "Incorrect data type"
+  }
   success_message = "Correct data type"
   test_name <- paste(variableName, "datatype test")
   tryCatch (
@@ -62,7 +66,9 @@ dataTypeTest <- function(variableName, studentSoln, datatype, error_message=NULL
 #' @return Message for a successful test or an error message if fails
 #' @export
 variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, error_message=NULL) {
-  error_message = "Incorrect variable classes"
+  if (is.null(error_message)) {
+    error_message = "Incorrect variable classes"
+  }
   success_message = "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
   tryCatch (
@@ -88,7 +94,9 @@ variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, e
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_message=NULL) {
-  error_message = "Incorrect variable size"
+  if (is.null(error_message)) {
+    error_message = "Incorrect variable size"
+  }
   success_message = "Correct variable size"
   if (type=="list") {
     test_name <- paste(variableName, "correct length test")
@@ -128,7 +136,9 @@ correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_m
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctSolnTest <- function(variableName, studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
-  error_message = "Incorrect answer"
+  if (is.null(error_message)) {
+    error_message = "Incorrect answer"
+  }
   success_message = "Correct answer"
   test_name <- paste(variableName, "correct value")
 
@@ -160,7 +170,9 @@ correctSolnTest <- function(variableName, studentSoln, actualSoln, order=TRUE, t
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctAttributes <- function(variableName, studentSoln, actualSoln, error_message=NULL) {
-  error_message = "Incorrect attributes"
+  if (is.null(error_message)) {
+    error_message = "Incorrect attributes"
+  }
   success_message = "Correct attributes"
   test_name <- paste(variableName, "correct attributes")
   tryCatch (

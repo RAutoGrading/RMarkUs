@@ -82,6 +82,47 @@ variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, e
   )
 }
 
+#' Test Correct Length (for vector, scalar, or list)
+#'
+#' Tests to see if the length of the student solution list is equal to the length of the actual solution list
+#' @param variableName The name of the variable in question
+#' @param studentSoln The student's solution loaded from their assignment
+#' @param actualSoln The actual solution for the question
+#' @param type The type of data. Options are: scalar, vector, list
+#' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
+#' @return Message for a successful test or an error message if fails
+#' @export
+correctLengthTest <- function(variableName, studentSoln, actualSoln, type, error_message=NULL) {
+  if (is.null(error_message)) {
+    error_message = "Incorrect length"
+  }
+  success_message = "Correct length"
+
+  if (type=="vector" | type=="list") {
+    test_name <- paste(variableName, "correct length test")
+    tryCatch (
+      {
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
+        print(success_message)
+      },
+      error = function(e) {
+        message(error_message)
+      }
+    )
+  } else if (type == "scalar") {
+    test_name <- paste(variableName, "correct length test")
+    tryCatch (
+      {
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(length(studentSoln), 1)})
+        print(success_message)
+      },
+      error = function(e) {
+        message(error_message)
+      }
+    )
+  }
+}
+
 
 #' Test Correct Size
 #'

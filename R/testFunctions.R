@@ -66,7 +66,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is double. Options include `double`, `character`, `logical`
 #' @param type Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' DEFAULT is vector. Options are `vector`, `scalar`, `list`, `data.frame`
+#' DEFAULT is vector. Options are `vector`, `scalar`, `list`
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
 #' @param order Boolean indicating if order matters in correctness.
@@ -89,7 +89,8 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_size)) {
-    correctSizeTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
+    #correctSizeTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
+    correctLengthTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
   }
 
   if (isTRUE(check_correct)) {

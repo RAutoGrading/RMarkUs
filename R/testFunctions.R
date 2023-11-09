@@ -64,7 +64,9 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 #' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' DEFAULT is list
+#' DEFAULT is double. Options include `double`, `character`, `logical`
+#' @param type Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+#' DEFAULT is vector. Options are `vector`, `scalar`, `list`, `data.frame`
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
 #' @param order Boolean indicating if order matters in correctness.
@@ -75,7 +77,9 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
                        check_present=TRUE, present_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_size=TRUE, size_error_msg=NULL,
-                       check_datatype=FALSE, datatype='list', order=TRUE, data_error_msg=NULL) {
+                       check_datatype=FALSE,
+                       datatype='double',
+                       type='vector', order=TRUE, data_error_msg=NULL) {
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
@@ -85,11 +89,11 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_size)) {
-    correctSizeTest(variableName, studentSoln, actualSoln, type="list", error_message=size_error_msg)
+    correctSizeTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, studentSoln, actualSoln, type="vector", order, error_message=correct_error_msg)
+    correctSolnTest(variableName, studentSoln, actualSoln, type=type, order, error_message=correct_error_msg)
   }
 }
 

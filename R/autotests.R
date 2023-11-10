@@ -113,7 +113,7 @@ correctLengthTest <- function(variableName, studentSoln, actualSoln, type, error
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(length(studentSoln), 1)})
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
         print(success_message)
       },
       error = function(e) {

@@ -68,7 +68,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 
 #' Vector Tests
 #'
-#' Completes all of the tests for a list
+#' Completes all of the tests for a vector
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in environment
 #' @param studentSoln The student's solution loaded from their assignment
@@ -88,7 +88,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 #' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' DEFAULT is double. Options include `double`, `character`, `logical`
+#' Options are `double`, `character`, `logical`
 #' @param type Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is vector. Options are `vector`, `scalar`, `list`
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
@@ -102,8 +102,37 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_size=TRUE, size_error_msg=NULL,
                        check_datatype=FALSE,
-                       datatype='double',
+                       datatype=NULL,
                        type='vector', order=TRUE, data_error_msg=NULL) {
+
+
+  # Validating inputs
+  if (isTRUE(check_datatype) & is.null(datatype)){
+    stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
+  }
+
+  if(isTRUE(check_datatype) & !(datatype %in% c("double", "character", "logical"))){
+    stop("The testVector function received an invalid value for the datatype argument; valid values are double, character, and logical")
+  }
+
+  if (type == "vector" & !is.vector(actualSoln)){
+    stop("In testVector, you passed type='vector' but actualSoln is not a vector")
+  }
+  if (type == "scalar" & length(actualSoln) > 1){
+    stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
+  }
+
+  if (datatype == "double" & !is.double(actualSoln)){
+    stop("In testVector you indicated the datatype was 'double' but actualSoln is not a double; the datatype of actualSoln should agree with the value passed for datatype")
+  }
+  else if (datatype == "logical" & !is.logical(actualSoln)){
+    stop("In testVector you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
+  }
+  else if (datatype == "character" & !is.logical(actualSoln)){
+    stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
+  }
+
+
 
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
@@ -114,7 +143,6 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_size)) {
-    #correctSizeTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
     correctLengthTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
   }
 

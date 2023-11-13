@@ -53,6 +53,8 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
     stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
   }
 
+
+  # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
@@ -65,6 +67,8 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
     correctSolnTest(variableName, studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
   }
 }
+
+
 
 #' Vector Tests
 #'
@@ -133,7 +137,7 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
 
-
+  # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
@@ -195,6 +199,10 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
                           check_attributes=TRUE, attributes_error_msg=NULL,
                           check_class=TRUE, class_error_msg=NULL,
                           check_datatype=FALSE, datatype='list', order=FALSE, data_error_msg=NULL) {
+
+  # Validating inputs
+
+  # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }

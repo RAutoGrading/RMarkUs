@@ -85,7 +85,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 #' Default is TRUE.
 #' @param correct_error_msg A function that will generate the appropriate error message as a string if the value is incorrect.
 #' Default is NULL and will use preset error message.
-#' @param check_size Boolean indicating whether a test will check if the size of the vector is correct.
+#' @param check_length Boolean indicating whether a test will check if the length of the vector is correct.
 #' Default is TRUE.
 #' @param size_error_msg A function that will generate the appropriate error message as a string if the size is incorrect.
 #' Default is NULL and will use preset error message.
@@ -104,7 +104,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 testVector <- function(variableName, variables, studentSoln, actualSoln,
                        check_present=TRUE, present_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
-                       check_size=TRUE, size_error_msg=NULL,
+                       check_length=TRUE, size_error_msg=NULL,
                        check_datatype=FALSE,
                        datatype=NULL,
                        type='vector', order=TRUE, data_error_msg=NULL) {
@@ -146,7 +146,7 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
     dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
   }
 
-  if (isTRUE(check_size)) {
+  if (isTRUE(check_length)) {
     correctLengthTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
   }
 

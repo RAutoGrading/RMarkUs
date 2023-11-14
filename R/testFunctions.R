@@ -49,7 +49,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
   else if (datatype == "logical" & !is.logical(actualSoln)){
     stop("In testScalar you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
   }
-  else if (datatype == "character" & !is.logical(actualSoln)){
+  else if (datatype == "character" & !is.character(actualSoln)){
     stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
   }
 
@@ -132,7 +132,7 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   else if (datatype == "logical" & !is.logical(actualSoln)){
     stop("In testVector you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
   }
-  else if (datatype == "character" & !is.logical(actualSoln)){
+  else if (datatype == "character" & !is.character(actualSoln)){
     stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
   }
 

@@ -35,12 +35,14 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
     stop("The testScalar function expects a value of length 1 for the actualSoln argument and but the value passed has length greater than 1")
   }
 
-  if (isTRUE(check_datatype) & is.null(datatype)){
-    stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
-  }
+  if (isTRUE(check_datatype)){
+    if (is.null(datatype)){
+      stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
+    }
 
-  if(isTRUE(check_datatype) & !(datatype %in% c("numeric", "character", "logical"))){
-    stop("The testScalar function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
+    if(!(datatype %in% c("numeric", "character", "logical"))){
+      stop("The testScalar function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
+    }
   }
 
   if (datatype == "numeric" & !is.numeric(actualSoln)){
@@ -111,19 +113,14 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
 
 
   # Validating inputs
-  if (isTRUE(check_datatype) & is.null(datatype)){
-    stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
-  }
+  if (isTRUE(check_datatype)){
+    if (is.null(datatype)){
+      stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
+    }
 
-  if(isTRUE(check_datatype) & !(datatype %in% c("numeric", "character", "logical"))){
-    stop("The testVector function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
-  }
-
-  if (type == "vector" & !is.vector(actualSoln)){
-    stop("In testVector, you passed type='vector' but actualSoln is not a vector")
-  }
-  if (type == "scalar" & length(actualSoln) > 1){
-    stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
+    if(!(datatype %in% c("numeric", "character", "logical"))){
+      stop("The testVector function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
+    }
   }
 
   if (datatype == "numeric" & !is.numeric(actualSoln)){
@@ -135,6 +132,15 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   else if (datatype == "character" & !is.character(actualSoln)){
     stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
   }
+
+  if (type == "vector" & !is.vector(actualSoln)){
+    stop("In testVector, you passed type='vector' but actualSoln is not a vector")
+  }
+  if (type == "scalar" & length(actualSoln) > 1){
+    stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
+  }
+
+
 
 
   # Unit tests

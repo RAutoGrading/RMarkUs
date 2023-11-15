@@ -35,23 +35,27 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
     stop("The testScalar function expects a value of length 1 for the actualSoln argument and but the value passed has length greater than 1")
   }
 
-  if (isTRUE(check_datatype) & is.null(datatype)){
-    stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
+  if (isTRUE(check_datatype)){
+    if (is.null(datatype)){
+      stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
+    }
+
+    if(!(datatype %in% c("double", "character", "logical"))){
+      stop("The testScalar function received an invalid value for the datatype argument; valid values are double, character, and logical")
+    }
+
+    if (datatype == "double" & !is.double(actualSoln)){
+      stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double; the datatype of actualSoln should agree with the value passed for datatype")
+    }
+    else if (datatype == "logical" & !is.logical(actualSoln)){
+      stop("In testScalar you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
+    }
+    else if (datatype == "character" & !is.character(actualSoln)){
+      stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
+    }
   }
 
-  if(isTRUE(check_datatype) & !(datatype %in% c("double", "character", "logical"))){
-    stop("The testScalar function received an invalid value for the datatype argument; valid values are double, character, and logical")
-  }
 
-  if (datatype == "double" & !is.double(actualSoln)){
-    stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double; the datatype of actualSoln should agree with the value passed for datatype")
-  }
-  else if (datatype == "logical" & !is.logical(actualSoln)){
-    stop("In testScalar you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
-  }
-  else if (datatype == "character" & !is.character(actualSoln)){
-    stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
-  }
 
 
   # Unit tests
@@ -111,12 +115,24 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
 
 
   # Validating inputs
-  if (isTRUE(check_datatype) & is.null(datatype)){
-    stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
-  }
+  if (isTRUE(check_datatype)){
+    if (is.null(datatype)){
+      stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
+    }
 
-  if(isTRUE(check_datatype) & !(datatype %in% c("double", "character", "logical"))){
-    stop("The testVector function received an invalid value for the datatype argument; valid values are double, character, and logical")
+    if(!(datatype %in% c("double", "character", "logical"))){
+      stop("The testVector function received an invalid value for the datatype argument; valid values are double, character, and logical")
+    }
+
+    if (datatype == "double" & !is.double(actualSoln)){
+      stop("In testVector you indicated the datatype was 'double' but actualSoln is not a double; the datatype of actualSoln should agree with the value passed for datatype")
+    }
+    else if (datatype == "logical" & !is.logical(actualSoln)){
+      stop("In testVector you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
+    }
+    else if (datatype == "character" & !is.character(actualSoln)){
+      stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
+    }
   }
 
   if (type == "vector" & !is.vector(actualSoln)){
@@ -124,16 +140,6 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
   if (type == "scalar" & length(actualSoln) > 1){
     stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
-  }
-
-  if (datatype == "double" & !is.double(actualSoln)){
-    stop("In testVector you indicated the datatype was 'double' but actualSoln is not a double; the datatype of actualSoln should agree with the value passed for datatype")
-  }
-  else if (datatype == "logical" & !is.logical(actualSoln)){
-    stop("In testVector you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
-  }
-  else if (datatype == "character" & !is.character(actualSoln)){
-    stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
   }
 
 

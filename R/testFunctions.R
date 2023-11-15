@@ -216,7 +216,7 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_attributes)) {
-    correctAttributes(variableName, studentSoln, actualSoln, error_message=attributes_error_msg)
+    correctAttributes(variableName, studentSoln, actualSoln, error_message=attributes_error_msg)  ## NCM: This test fails even when I pass it two copies of the same object...
   }
 
   if (isTRUE(check_class)) {

@@ -20,7 +20,7 @@ source('R/autotests.R')
 #' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' Accepts values "numeric", "character", and "logical"
+#' Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
 #' #' @return Error message if one exists, otherwise will print that every test has passed.
@@ -40,7 +40,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
       stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
     }
 
-    if(!(datatype %in% c("numeric", "character", "logical"))){
+    if(!(datatype %in% c("numeric", "character", "logical", "double"))){
       stop("The testScalar function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
     }
 
@@ -52,6 +52,9 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
     }
     else if (datatype == "character" & !is.character(actualSoln)){
       stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
+    }
+    else if (datatype == "double" & !is.double(actualSoln)){
+      stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
     }
   }
 
@@ -105,7 +108,7 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
 #' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
 #' Default is FALSE.
 #' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' Options are `numeric`, `character`, `logical`
+#' Options are `numeric`, `character`, `logical`, and `double` (if numeric, then tests pass if solution is either double or integer)
 #' @param type Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 #' DEFAULT is vector. Options are `vector`, `scalar`, `list`
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
@@ -129,7 +132,7 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
       stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
     }
 
-    if(!(datatype %in% c("numeric", "character", "logical"))){
+    if(!(datatype %in% c("numeric", "character", "logical", "double"))){
       stop("The testVector function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
     }
 
@@ -142,6 +145,9 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
     else if (datatype == "character" & !is.character(actualSoln)){
       stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
     }
+    else if (datatype == "double" & !is.double(actualSoln)){
+      stop("In testVector you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
+    }
   }
 
   if (type == "vector" & !is.vector(actualSoln)){
@@ -150,7 +156,6 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   if (type == "scalar" & length(actualSoln) > 1){
     stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
   }
-
 
   # Unit tests
   if (isTRUE(check_present)) {

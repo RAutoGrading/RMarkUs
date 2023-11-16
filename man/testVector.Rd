@@ -13,10 +13,11 @@ testVector(
   present_error_msg = NULL,
   check_correct = TRUE,
   correct_error_msg = NULL,
-  check_size = TRUE,
+  check_length = TRUE,
   size_error_msg = NULL,
   check_datatype = FALSE,
-  datatype = "list",
+  datatype = NULL,
+  type = "vector",
   order = TRUE,
   data_error_msg = NULL
 )
@@ -42,7 +43,7 @@ Default is TRUE.}
 \item{correct_error_msg}{A function that will generate the appropriate error message as a string if the value is incorrect.
 Default is NULL and will use preset error message.}
 
-\item{check_size}{Boolean indicating whether a test will check if the size of the vector is correct.
+\item{check_length}{Boolean indicating whether a test will check if the length of the vector is correct.
 Default is TRUE.}
 
 \item{size_error_msg}{A function that will generate the appropriate error message as a string if the size is incorrect.
@@ -52,7 +53,10 @@ Default is NULL and will use preset error message.}
 Default is FALSE.}
 
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-DEFAULT is list}
+Options are `numeric`, `character`, `logical`}
+
+\item{type}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
+DEFAULT is vector. Options are `vector`, `scalar`, `list`}
 
 \item{order}{Boolean indicating if order matters in correctness.
 Default is TRUE.}
@@ -64,5 +68,5 @@ Default is NULL and will use preset error message.}
 Error message if one exists, otherwise will print that every test has passed.
 }
 \description{
-Completes all of the tests for a list
+Completes all of the tests for a vector
 }

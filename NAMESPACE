@@ -5,6 +5,7 @@ import("cli")
 
 export(correctAttributes)
 export(correctSizeTest)
+export(correctLengthTest)
 export(correctSolnTest)
 export(dataTypeTest)
 export(extractData)

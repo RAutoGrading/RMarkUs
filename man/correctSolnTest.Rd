@@ -22,7 +22,7 @@ correctSolnTest(
 
 \item{order}{Whether the order of the data matters for lists. Default is TRUE.}
 
-\item{type}{The type of data. Options are: scalar, list, dataframe}
+\item{type}{The type of data. Options are: scalar, vector, dataframe}
 
 \item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }

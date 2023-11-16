@@ -149,6 +149,15 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_datatype)) {
+    if (datatype == "numeric"){
+      # If student solution is integer, convert to double to facilitate comparison
+      if(is.integer(studentSoln)){
+        studentSoln <- as.double(studentSoln)
+      }
+      # In this case, we'll call dataTypeTest with 'double' because
+      datatype <- "double"
+    }
+
     dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
   }
 

@@ -38,15 +38,19 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-dataTypeTest <- function(variableName, studentSoln, datatype, error_message=NULL) {
+dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = "Incorrect data type"
   }
   success_message = "Correct data type"
   test_name <- paste(variableName, "datatype test")
+
+  var_exists <- variableName %in% variables
+
   tryCatch (
     {
-      test_that(test_name, {expect_type(studentSoln, datatype)})
+      # Need to also check that the target variable exists due to partial matching in R
+      test_that(test_name, { expect_type(studentSoln, datatype) & expect_equal(var_exists,TRUE) })
       print(success_message)
     },
   error = function(e) {
@@ -176,7 +180,7 @@ correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_m
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSolnTest <- function(variableName, studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
+correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = "Incorrect answer"
   }
@@ -191,12 +195,15 @@ correctSolnTest <- function(variableName, studentSoln, actualSoln, order=TRUE, t
     studentSoln <- studentSoln[order(names(studentSoln))]
     actualSoln <- actualSoln[order(names(actualSoln))]
   }
+
+  var_exists <- variableName %in% variables
+
   tryCatch (
     {
       if (type=="dataframe") {
-        test_that(test_name, {expect_identical(studentSoln, actualSoln)})
+        test_that(test_name, { expect_identical(studentSoln, actualSoln) & expect_equal(var_exists,TRUE) })
       } else {
-      test_that(test_name, {expect_equal(studentSoln, actualSoln)})}
+      test_that(test_name, { expect_equal(studentSoln, actualSoln) & expect_equal(var_exists,TRUE) })}
       print(success_message)
     },
     error = function(e) {

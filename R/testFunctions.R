@@ -76,11 +76,11 @@ testScalar <- function(variableName, variables, studentSoln, actualSoln,
       datatype <- "double"
     }
 
-    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, variables, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
+    correctSolnTest(variableName, variables, studentSoln, actualSoln, type="scalar", error_message=correct_error_msg)
   }
 }
 

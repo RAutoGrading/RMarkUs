@@ -256,13 +256,13 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
 
   var_exists <- variableName %in% variables
 
-  print(all_attributes_equal)
-  print(var_exists)
+  #print(all_attributes_equal)
+  #print(var_exists)
 
-  print("student")
-  print(attributes(studentSoln))
-  print("actual")
-  print(attributes(actualSoln))
+  #print("student")
+  #print(attributes(studentSoln))
+  #print("actual")
+  #print(attributes(actualSoln))
 
   tryCatch (
     {

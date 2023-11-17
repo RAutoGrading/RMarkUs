@@ -9,7 +9,7 @@ variableExistsTest(variableName, variables, error_message = NULL)
 \arguments{
 \item{variableName}{The name of the variable in question}
 
-\item{variables}{List of variables in environment}
+\item{variables}{List of variables in the student solution environment}
 
 \item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }

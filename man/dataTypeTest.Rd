@@ -15,6 +15,8 @@ dataTypeTest(
 \arguments{
 \item{variableName}{The name of the variable in question}
 
+\item{variables}{List of variables in the student solution environment}
+
 \item{studentSoln}{The student's solution loaded from their assignment}
 
 \item{datatype}{A string representing the datatype expected for the solution}

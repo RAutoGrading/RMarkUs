@@ -4,7 +4,13 @@
 \alias{dataTypeTest}
 \title{Test Data Type}
 \usage{
-dataTypeTest(variableName, studentSoln, datatype, error_message = NULL)
+dataTypeTest(
+  variableName,
+  variables,
+  studentSoln,
+  datatype,
+  error_message = NULL
+)
 }
 \arguments{
 \item{variableName}{The name of the variable in question}

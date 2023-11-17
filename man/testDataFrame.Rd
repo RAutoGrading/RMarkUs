@@ -15,7 +15,7 @@ testDataFrame(
   correct_error_msg = NULL,
   check_size = TRUE,
   size_error_msg = NULL,
-  check_attributes = TRUE,
+  check_attributes = FALSE,
   attributes_error_msg = NULL,
   check_class = TRUE,
   class_error_msg = NULL,

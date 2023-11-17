@@ -6,9 +6,9 @@
 \usage{
 variableClassTest(
   variableName,
+  variables,
   studentSoln,
   actualSoln,
-  datatype,
   error_message = NULL
 )
 }
@@ -19,13 +19,11 @@ variableClassTest(
 
 \item{actualSoln}{The actual solution for the question}
 
-\item{datatype}{A string representing the datatype expected for the solution}
-
 \item{error_message}{A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.}
 }
 \value{
 Message for a successful test or an error message if fails
 }
 \description{
-Tests to see if the classes of the DataFrame columns are the same
+Tests to see if the columns of two given dataframes have the same classes
 }

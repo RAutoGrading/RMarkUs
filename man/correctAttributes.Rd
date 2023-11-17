@@ -4,7 +4,13 @@
 \alias{correctAttributes}
 \title{Test Correct Attributes}
 \usage{
-correctAttributes(variableName, studentSoln, actualSoln, error_message = NULL)
+correctAttributes(
+  variableName,
+  variables,
+  studentSoln,
+  actualSoln,
+  error_message = NULL
+)
 }
 \arguments{
 \item{variableName}{The name of the variable in question}

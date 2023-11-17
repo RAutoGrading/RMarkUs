@@ -6,6 +6,7 @@
 \usage{
 correctSizeTest(
   variableName,
+  variables,
   studentSoln,
   actualSoln,
   type,

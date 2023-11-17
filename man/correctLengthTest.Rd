@@ -6,6 +6,7 @@
 \usage{
 correctLengthTest(
   variableName,
+  variables,
   studentSoln,
   actualSoln,
   type,

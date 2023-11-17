@@ -6,6 +6,7 @@
 \usage{
 correctSolnTest(
   variableName,
+  variables,
   studentSoln,
   actualSoln,
   order = TRUE,

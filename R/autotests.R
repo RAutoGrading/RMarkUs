@@ -7,7 +7,7 @@ library(cli)
 #'
 #' Tests to see if the variable for a question exists in the R environment
 #' @param variableName The name of the variable in question
-#' @param variables List of variables in environment
+#' @param variables List of variables in the student solution environment
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
@@ -33,6 +33,7 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 #'
 #' Tests to see if the student's solution is of the correct data type
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param datatype A string representing the datatype expected for the solution
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
@@ -65,6 +66,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 #'
 #'Tests to see if the columns of two given dataframes have the same classes
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
@@ -96,6 +98,7 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 #'
 #' Tests to see if the length of the student solution list is equal to the length of the actual solution list
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, vector, list
@@ -140,6 +143,7 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
 #'
 #' Tests to see if the length of the student solution list is equal to the length of the actual solution list
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, vector, dataframe
@@ -184,6 +188,7 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
 #'
 #' Tests to see if the student solution is equal to the actual solution
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, vector, dataframe
@@ -229,6 +234,7 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
 #'
 #' Tests to see if the attributes of the student's DataFrame matches the attributes of the solution's DataFrame
 #' @param variableName The name of the variable in question
+#' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.

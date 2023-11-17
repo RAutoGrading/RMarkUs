@@ -43,7 +43,7 @@ Default is NULL and will use preset error message.}
 Default is FALSE.}
 
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-Accepts values "numeric", "character", and "logical"}
+Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)}
 
 \item{data_error_msg}{A function that will generate the appropriate error message as a string for if the data type is not correct.
 Default is NULL and will use preset error message.

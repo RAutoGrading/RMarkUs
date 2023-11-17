@@ -53,7 +53,7 @@ Default is NULL and will use preset error message.}
 Default is FALSE.}
 
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-Options are `numeric`, `character`, `logical`}
+Options are `numeric`, `character`, `logical`, and `double` (if numeric, then tests pass if solution is either double or integer)}
 
 \item{type}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 DEFAULT is vector. Options are `vector`, `scalar`, `list`}

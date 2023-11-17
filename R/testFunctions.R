@@ -172,15 +172,15 @@ testVector <- function(variableName, variables, studentSoln, actualSoln,
       datatype <- "double"
     }
 
-    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, variables, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_length)) {
-    correctLengthTest(variableName, studentSoln, actualSoln, type=type, error_message=size_error_msg)
+    correctLengthTest(variableName, variables, studentSoln, actualSoln, type=type, error_message=size_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, studentSoln, actualSoln, type=type, order, error_message=correct_error_msg)
+    correctSolnTest(variableName, variables, studentSoln, actualSoln, type=type, order, error_message=correct_error_msg)
   }
 }
 
@@ -225,7 +225,7 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
                           check_present=TRUE, present_error_msg=NULL,
                           check_correct=TRUE, correct_error_msg=NULL,
                           check_size=TRUE, size_error_msg=NULL,
-                          check_attributes=TRUE, attributes_error_msg=NULL,
+                          check_attributes=FALSE, attributes_error_msg=NULL,
                           check_class=TRUE, class_error_msg=NULL,
                           check_datatype=FALSE, datatype='list', order=FALSE, data_error_msg=NULL) {
 
@@ -237,23 +237,23 @@ testDataFrame <- function(variableName, variables, studentSoln, actualSoln,
   }
 
   if (isTRUE(check_datatype)) {
-    dataTypeTest(variableName, studentSoln, datatype, error_message=data_error_msg)
+    dataTypeTest(variableName, variables, studentSoln, datatype, error_message=data_error_msg)
   }
 
   if (isTRUE(check_size)) {
-    correctSizeTest(variableName, studentSoln, actualSoln, type="dataframe", error_message=size_error_msg)
+    correctSizeTest(variableName, variables, studentSoln, actualSoln, type="dataframe", error_message=size_error_msg)
   }
 
   if (isTRUE(check_attributes)) {
-    correctAttributes(variableName, studentSoln, actualSoln, error_message=attributes_error_msg)  ## NCM: This test fails even when I pass it two copies of the same object...
+    correctAttributes(variableName, variables, studentSoln, actualSoln, error_message=attributes_error_msg)  ## NCM: This test fails even when I pass it two copies of the same object...
   }
 
   if (isTRUE(check_class)) {
-    variableClassTest(variableName, studentSoln, actualSoln, error_message=class_error_msg)
+    variableClassTest(variableName, variables, studentSoln, actualSoln, error_message=class_error_msg)
   }
 
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, studentSoln, actualSoln, type="dataframe", order, error_message=correct_error_msg)
+    correctSolnTest(variableName, variables, studentSoln, actualSoln, type="dataframe", order, error_message=correct_error_msg)
   }
 }
 

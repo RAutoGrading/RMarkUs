@@ -234,15 +234,33 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctAttributes <- function(variableName, studentSoln, actualSoln, error_message=NULL) {
+correctAttributes <- function(variableName, variables, studentSoln, actualSoln, error_message=NULL) {
+  # Note that this function can give somewhat weird results: Consider the following example:
+  # d <- tibble(v1=1:2, v2=3:4)
+  # d1 <- d; d1[1,1] <- 44
+  # identical(attributes(d), attributes(d1)) # The order of items in the attributes list is different even though contents are the same - modifying the object somehow changes this
+
   if (is.null(error_message)) {
     error_message = "Incorrect attributes"
   }
   success_message = "Correct attributes"
   test_name <- paste(variableName, "correct attributes")
+
+  all_attributes_equal <- identical(attributes(studentSoln), attributes(actualSoln))
+
+  var_exists <- variableName %in% variables
+
+  print(all_attributes_equal)
+  print(var_exists)
+
+  print("student")
+  print(attributes(studentSoln))
+  print("actual")
+  print(attributes(actualSoln))
+
   tryCatch (
     {
-      test_that(test_name, {expect_identical(attributes(studentSoln), attributes(actualSoln))})
+      test_that(test_name, {expect_identical(all_attributes_equal, TRUE) & expect_equal(var_exists,TRUE)})
       print(success_message)
     },
     error = function(e) {

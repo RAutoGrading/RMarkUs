@@ -45,12 +45,14 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
   success_message = "Correct data type"
   test_name <- paste(variableName, "datatype test")
 
+  correct_dataType <- all(typeof(studentSoln) == datatype)
+
   var_exists <- variableName %in% variables
 
   tryCatch (
     {
       # Need to also check that the target variable exists due to partial matching in R
-      test_that(test_name, { expect_type(studentSoln, datatype) & expect_equal(var_exists,TRUE) })
+      test_that(test_name, { expect_equal(correct_dataType, TRUE) & expect_equal(var_exists,TRUE) })
       print(success_message)
     },
   error = function(e) {
@@ -61,23 +63,27 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 
 #' Test Variable Class
 #'
-#'Tests to see if the classes of the DataFrame columns are the same
+#'Tests to see if the columns of two given dataframes have the same classes
 #' @param variableName The name of the variable in question
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
-#' @param datatype A string representing the datatype expected for the solution
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, error_message=NULL) {
+variableClassTest <- function(variableName, variables, studentSoln, actualSoln, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = "Incorrect variable classes"
   }
   success_message = "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
+
+  all_columns_same_classes <- all( sapply(studentSoln, class) == sapply(actualSoln, class) )
+
+  var_exists <- variableName %in% variables
+
   tryCatch (
     {
-      test_that(test_name, {expect_identical(sapply(studentSoln, class), sapply(actualSoln, class))})
+      test_that(test_name, {expect_identical(all_columns_same_classes, TRUE) & expect_equal(var_exists,TRUE)})
       print(success_message)
     },
     error = function(e) {
@@ -96,17 +102,19 @@ variableClassTest <- function(variableName, studentSoln, actualSoln, datatype, e
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctLengthTest <- function(variableName, studentSoln, actualSoln, type, error_message=NULL) {
+correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = "Incorrect length"
   }
   success_message = "Correct length"
 
+  var_exists <- variableName %in% variables
+
   if (type=="vector" | type=="list") {
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -117,7 +125,7 @@ correctLengthTest <- function(variableName, studentSoln, actualSoln, type, error
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -138,16 +146,19 @@ correctLengthTest <- function(variableName, studentSoln, actualSoln, type, error
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_message=NULL) {
+correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = "Incorrect variable size"
   }
   success_message = "Correct variable size"
+
+  var_exists <- variableName %in% variables
+
   if (type=="vector") {
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln))})
+        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -158,7 +169,7 @@ correctSizeTest <- function(variableName, studentSoln, actualSoln, type, error_m
     test_name <- paste(variableName, "correct dimensions test")
     tryCatch (
       {
-        test_that(test_name, {expect_identical(dim(studentSoln), dim(actualSoln))})
+        test_that(test_name, {expect_identical(dim(studentSoln), dim(actualSoln)) & expect_equal(var_exists,TRUE)})
 
         print(success_message)
       },
@@ -198,12 +209,14 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
 
   var_exists <- variableName %in% variables
 
+  all_values_equal <- all(studentSoln == actualSoln)
+
   tryCatch (
     {
       if (type=="dataframe") {
-        test_that(test_name, { expect_identical(studentSoln, actualSoln) & expect_equal(var_exists,TRUE) })
+        test_that(test_name, { expect_identical(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
       } else {
-      test_that(test_name, { expect_equal(studentSoln, actualSoln) & expect_equal(var_exists,TRUE) })}
+        test_that(test_name, { expect_equal(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })}
       print(success_message)
     },
     error = function(e) {

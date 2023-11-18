@@ -30,7 +30,7 @@ testScalar <- function(variableName,
                        student_environment,
                        instructor_environment,
                        check_present=TRUE, present_error_msg=NULL,
-                       check_datatype=FALSE, data_error_msg=NULL,
+                       check_datatype=TRUE, data_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
                        datatype = NULL) {
 

@@ -195,7 +195,7 @@ testVector <- function(variableName,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_present=TRUE, present_error_msg=NULL,
                        check_length=TRUE, size_error_msg=NULL,
-                       check_datatype=FALSE, data_error_msg=NULL) {
+                       check_datatype=TRUE, data_error_msg=NULL) {
 
   # Initial validation of variableName, student_environment, and instructor_environment
   if(!(is.character(variableName))){

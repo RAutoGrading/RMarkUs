@@ -131,6 +131,20 @@ testScalar_raw <- function(variableName,
     }
   }
 
+  simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
+  if(isTRUE(simplify_student_answer)){
+    # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
+    if(is.data.frame(studentSoln)){
+      print("I'm here")
+      warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
+      if(ncol(studentSoln)==1 & nrow(studentSoln)==1){
+        print("We have 1 column")
+        studentSoln <- studentSoln %>% as.vector() %>% unlist()
+        datatype <- class(studentSoln)
+      }
+    }
+  }
+
   # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
@@ -308,6 +322,20 @@ testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
   if (type == "scalar" & length(actualSoln) > 1){
     stop("In testVector, you passed type=scalar but actualSoln has length greater than 1.")
   }
+
+
+  simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
+  if(isTRUE(simplify_student_answer)){
+    # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
+    if(is.data.frame(studentSoln)){
+      warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
+      if(ncol(studentSoln)==1 | nrow(studentSoln)==1){
+        studentSoln <- studentSoln %>% as.vector() %>% unlist()
+        datatype <- class(studentSoln)
+      }
+    }
+  }
+
 
   # Unit tests
   if (isTRUE(check_present)) {
@@ -495,4 +523,13 @@ sourceList <- function(path) {
   return(val)
 }# end sourceList function
 
+
+
+### Other ideas?
+# tetsList to test more general model objects (like output of linear models, survival models, etc?)
+# but maybe the above aren't feasible if minor differences in how they were run make a difference in
+# the object. Instead, could test equality of several components, but not the whole object because it isn't meaningful
+# This should just be one test, not several, because generally you wouldn't just get some wrong...?
+# Maybe could have one test checking if it's output from the right kind of function? But keep in mind there
+# may be several functions that can be used to fit a linear model for example
 

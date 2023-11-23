@@ -17,7 +17,7 @@ testVector(
   present_error_msg = NULL,
   check_length = TRUE,
   size_error_msg = NULL,
-  check_datatype = FALSE,
+  check_datatype = TRUE,
   data_error_msg = NULL
 )
 }

@@ -10,7 +10,7 @@ testScalar(
   instructor_environment,
   check_present = TRUE,
   present_error_msg = NULL,
-  check_datatype = FALSE,
+  check_datatype = TRUE,
   data_error_msg = NULL,
   check_correct = TRUE,
   correct_error_msg = NULL,

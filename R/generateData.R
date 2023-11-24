@@ -5,49 +5,65 @@ library(utils)
 #' Data Extraction
 #'
 #' Extract the data from the file
-#' @param filename Filename of full data set
-#' @param filetype Type of file, i.e. csv, tab-delim, space-delim
+#' @param file Filename of the full data set
+#' @param sep The field separator character. Values on each line of the \
+#' file are separated by this character. If sep="", the separator is 'white space',
+#' that is one or more spaces, tabs, newlines, or carriage returns.
+#' Permitted values are: ",", "", and "\t"; defaults to ",".
+#' @param ... Further arguments to be passed to the function
 #' @return The data extracted from the file as a data.frame
 #' @export
-
-extractData <- function(filename, filetype) {
-  if (filetype == "csv") {
-    data <- read.csv(filename)
-  } else if (filetype == "space-delim") {
-    data <- read.table(filename)
-  } else if (filetype=="tab-delim") {
-    data <- read.delim(filename)
+extractData <- function(file, sep=",", ...){
+  if(sep==","){
+    data <- read.csv(file=file, sep=sep, ...)
+  } else if(sep==" "){
+    data <- read.table(file=file, sep=sep, ...)
+  } else if(sep=="\t"){
+    data <- read.delim(file = file, sep = sep, ...)
+  }
+  else{
+    stop("Invalid value of `sep` passed to extractData function.")
   }
   return(data)
-}
+}# end extractData
+
 
 #' Random Subset
 #'
 #' Randomly subset data from a full dataset
-#' @param filename Filename of full dataset
-#' @param filetype Type of file, i.e. csv files, text files, table
-#' @param n Size of dataset
+#' @param file Filename of full dataset
+#' @param sep The field separator character. Values on each line of the \
+#' file are separated by this character. If sep="", the separator is 'white space',
+#' that is one or more spaces, tabs, newlines, or carriage returns.
+#' Permitted values are: ",", "", and "\t"; defaults to ",".
+#' @param size Number of rows to choose for the subset.
 #' @param variables Variables to select from data set.
 #' DEFAULT is all.
 #' @param seedNum Seed to randomly select data from data set
+#' @param ... Further arguments to be passed to the function
 #' @return The random subset of data from the full dataset
 #' @export
 
-subsetData <- function(filename, filetype, n, variables='all', seedNum) {
+subsetData <- function(file, sep, size, variables="all", seedNum, ...){
+  data <- extractData(file=file, sep=sep, ...)
+
+  if(size >= nrow(data)){
+    stop(paste("To get a random subset from a dataset, size should be smaller than the number of rows, but here you passed size=", size, " and the full data has ", nrow(data), " rows."))
+  }
+
   set.seed(seedNum)
+  random_rows <- sample(1:nrow(data), size)
 
-  data <- extractData(filename, filetype)
-
-  if (variables=='all'){
-    randomData <- data[sample(1:nrow(data), n),]
-  }
-  else {
+  if(variables != "all"){
     data <- data[variables]
-    randomData <- data[sample(1:nrow(data), n),]
   }
+
+  randomData <- data[random_rows,]
 
   return(randomData)
-}
+} # end subsetData function
+
+
 
 #' Probability Distribution
 #'

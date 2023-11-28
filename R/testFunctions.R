@@ -24,6 +24,7 @@ source('R/autotests.R')
 #' Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
+#' @param simplify_datatype Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testScalar <- function(variableName,
@@ -32,7 +33,8 @@ testScalar <- function(variableName,
                        check_present=TRUE, present_error_msg=NULL,
                        check_datatype=TRUE, data_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
-                       datatype = NULL) {
+                       datatype = NULL,
+                       simplify_datatype = FALSE) {
 
   # Initial validation of variableName, student_environment, and instructor_environment
   if(!(is.character(variableName))){
@@ -62,13 +64,14 @@ testScalar <- function(variableName,
   }
 
   testScalar_raw(variableName = variableName,
-                    variables = variables,
-                    studentSoln = studentSoln,
-                    actualSoln = actualSoln,
-                    check_correct = check_correct, correct_error_msg=correct_error_msg,
-                    check_present = check_present, present_error_msg=present_error_msg,
-                    check_datatype = check_datatype, data_error_msg=data_error_msg,
-                    datatype = datatype)
+                 variables = variables,
+                 studentSoln = studentSoln,
+                 actualSoln = actualSoln,
+                 check_correct = check_correct, correct_error_msg=correct_error_msg,
+                 check_present = check_present, present_error_msg=present_error_msg,
+                 check_datatype = check_datatype, data_error_msg=data_error_msg,
+                 datatype = datatype,
+                 simplify_datatype=simplify_datatype)
 }# end testScalar
 
 
@@ -93,16 +96,18 @@ testScalar <- function(variableName,
 #' Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
+#' @param simplify_datatype Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testScalar_raw <- function(variableName,
-                              variables,
-                              studentSoln,
-                              actualSoln,
-                              check_present=TRUE, present_error_msg=NULL,
-                              check_datatype=FALSE, data_error_msg=NULL,
-                              check_correct=TRUE, correct_error_msg=NULL,
-                              datatype=NULL){
+                           variables,
+                           studentSoln,
+                           actualSoln,
+                           check_present=TRUE, present_error_msg=NULL,
+                           check_datatype=FALSE, data_error_msg=NULL,
+                           check_correct=TRUE, correct_error_msg=NULL,
+                           datatype=NULL,
+                           simplify_datatype = FALSE){
   # Validating inputs
   if (length(actualSoln) != 1){
     stop("The testScalar function expects a value of length 1 for the actualSoln argument and but the value passed has length greater than 1")
@@ -131,8 +136,8 @@ testScalar_raw <- function(variableName,
     }
   }
 
-  simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
-  if(isTRUE(simplify_student_answer)){
+  #simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
+  if(isTRUE(simplify_datatype)){
     # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
     if(is.data.frame(studentSoln)){
       print("I'm here")
@@ -198,6 +203,7 @@ testScalar_raw <- function(variableName,
 #' Default is FALSE.
 #' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
 #' Default is NULL and will use preset error message.
+#' @param simplify_datatype Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testVector <- function(variableName,
@@ -209,7 +215,8 @@ testVector <- function(variableName,
                        check_correct=TRUE, correct_error_msg=NULL,
                        check_present=TRUE, present_error_msg=NULL,
                        check_length=TRUE, size_error_msg=NULL,
-                       check_datatype=TRUE, data_error_msg=NULL) {
+                       check_datatype=TRUE, data_error_msg=NULL,
+                       simplify_datatype=FALSE) {
 
   # Initial validation of variableName, student_environment, and instructor_environment
   if(!(is.character(variableName))){
@@ -248,7 +255,8 @@ testVector <- function(variableName,
                  check_length = check_length, size_error_msg=NULL,
                  type=type,
                  order=order,
-                 datatype=datatype)
+                 datatype=datatype,
+                 simplify_datatype=simplify_datatype)
 
 
 
@@ -281,6 +289,7 @@ testVector <- function(variableName,
 #' DEFAULT is vector. Options are `vector`, `scalar`, `list`
 #' @param order Boolean indicating if order matters in correctness.
 #' Default is TRUE.
+#' @param simplify_datatype Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
@@ -290,7 +299,8 @@ testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
                            check_datatype=FALSE, data_error_msg=NULL,
                            datatype=NULL,
                            type='vector',
-                           order=TRUE) {
+                           order=TRUE,
+                           simplify_datatype=FALSE) {
 
   # Validating inputs
   if (isTRUE(check_datatype)){
@@ -324,8 +334,8 @@ testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
   }
 
 
-  simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
-  if(isTRUE(simplify_student_answer)){
+  #simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
+  if(isTRUE(simplify_datatype)){
     # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
     if(is.data.frame(studentSoln)){
       warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))

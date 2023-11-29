@@ -9,7 +9,7 @@ library(utils)
 #' @param sep The field separator character. Values on each line of the \
 #' file are separated by this character. If sep="", the separator is 'white space',
 #' that is one or more spaces, tabs, newlines, or carriage returns.
-#' Permitted values are: ",", "", and "\t"; defaults to ",".
+#' Permitted values are: ",", "", and tab (backslash t); defaults to ",".
 #' @param ... Further arguments to be passed to the function
 #' @return The data extracted from the file as a data.frame
 #' @export
@@ -35,7 +35,7 @@ extractData <- function(file, sep=",", ...){
 #' @param sep The field separator character. Values on each line of the \
 #' file are separated by this character. If sep="", the separator is 'white space',
 #' that is one or more spaces, tabs, newlines, or carriage returns.
-#' Permitted values are: ",", "", and "\t"; defaults to ",".
+#' Permitted values are: ",", "", and tab (backslash t); defaults to ",".
 #' @param size Number of rows to choose for the subset.
 #' @param variables Variables to select from data set.
 #' DEFAULT is all.

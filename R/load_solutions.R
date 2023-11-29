@@ -1,3 +1,8 @@
+library(testthat)
+library(cli)
+library(utils)
+library(knitr)
+
 #' Loads solutions file and return a list of variables in the environment
 #' @param file The file name (and path, relative to the project's root folder. Valid filetypes are .Rmd and .R
 #' @param print_variables Boolean value indicating whether the names of the variables loaded from the specified filepath should be printed. Defaults to false

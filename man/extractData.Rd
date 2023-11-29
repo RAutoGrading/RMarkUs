@@ -4,12 +4,17 @@
 \alias{extractData}
 \title{Data Extraction}
 \usage{
-extractData(filename, filetype)
+extractData(file, sep = ",", ...)
 }
 \arguments{
-\item{filename}{Filename of full data set}
+\item{file}{Filename of the full data set}
 
-\item{filetype}{Type of file, i.e. csv, tab-delim, space-delim}
+\item{sep}{The field separator character. Values on each line of the \
+file are separated by this character. If sep="", the separator is 'white space',
+that is one or more spaces, tabs, newlines, or carriage returns.
+Permitted values are: ",", "", and tab (backslash t); defaults to ",".}
+
+\item{...}{Further arguments to be passed to the function}
 }
 \value{
 The data extracted from the file as a data.frame

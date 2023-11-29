@@ -18,7 +18,8 @@ testVector(
   check_length = TRUE,
   size_error_msg = NULL,
   check_datatype = TRUE,
-  data_error_msg = NULL
+  data_error_msg = NULL,
+  simplify_datatype = FALSE
 )
 }
 \arguments{
@@ -60,6 +61,8 @@ Default is FALSE.}
 
 \item{data_error_msg}{A function that will generate the appropriate error message as a string for if the data type is not correct.
 Default is NULL and will use preset error message.}
+
+\item{simplify_datatype}{Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

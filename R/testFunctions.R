@@ -144,7 +144,7 @@ testScalar_raw <- function(variableName,
       warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
       if(ncol(studentSoln)==1 & nrow(studentSoln)==1){
         print("We have 1 column")
-        studentSoln <- studentSoln %>% as.vector() %>% unlist()
+        studentSoln <- studentSoln |> as.vector() |> unlist()
         datatype <- class(studentSoln)
       }
     }
@@ -340,7 +340,7 @@ testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
     if(is.data.frame(studentSoln)){
       warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
       if(ncol(studentSoln)==1 | nrow(studentSoln)==1){
-        studentSoln <- studentSoln %>% as.vector() %>% unlist()
+        studentSoln <- studentSoln |> as.vector() |> unlist()
         datatype <- class(studentSoln)
       }
     }

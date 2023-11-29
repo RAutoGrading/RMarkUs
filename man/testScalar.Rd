@@ -14,7 +14,8 @@ testScalar(
   data_error_msg = NULL,
   check_correct = TRUE,
   correct_error_msg = NULL,
-  datatype = NULL
+  datatype = NULL,
+  simplify_datatype = FALSE
 )
 }
 \arguments{
@@ -45,6 +46,8 @@ Default is NULL and will use preset error message.}
 \item{datatype}{Optional argument (string) for data type expected for solution if check_datatype is TRUE.
 If NULL, will check against the data type of the solution
 Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)}
+
+\item{simplify_datatype}{Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

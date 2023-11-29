@@ -19,7 +19,8 @@ testVector_raw(
   data_error_msg = NULL,
   datatype = NULL,
   type = "vector",
-  order = TRUE
+  order = TRUE,
+  simplify_datatype = FALSE
 )
 }
 \arguments{
@@ -63,6 +64,8 @@ DEFAULT is vector. Options are `vector`, `scalar`, `list`}
 
 \item{order}{Boolean indicating if order matters in correctness.
 Default is TRUE.}
+
+\item{simplify_datatype}{Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

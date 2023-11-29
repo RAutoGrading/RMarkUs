@@ -4,19 +4,24 @@
 \alias{subsetData}
 \title{Random Subset}
 \usage{
-subsetData(filename, filetype, n, variables = "all", seedNum)
+subsetData(file, sep, size, variables = "all", seedNum, ...)
 }
 \arguments{
-\item{filename}{Filename of full dataset}
+\item{file}{Filename of full dataset}
 
-\item{filetype}{Type of file, i.e. csv files, text files, table}
+\item{sep}{The field separator character. Values on each line of the \
+file are separated by this character. If sep="", the separator is 'white space',
+that is one or more spaces, tabs, newlines, or carriage returns.
+Permitted values are: ",", "", and tab (backslash t); defaults to ",".}
 
-\item{n}{Size of dataset}
+\item{size}{Number of rows to choose for the subset.}
 
 \item{variables}{Variables to select from data set.
 DEFAULT is all.}
 
 \item{seedNum}{Seed to randomly select data from data set}
+
+\item{...}{Further arguments to be passed to the function}
 }
 \value{
 The random subset of data from the full dataset

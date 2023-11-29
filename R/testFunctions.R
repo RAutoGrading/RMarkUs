@@ -51,6 +51,7 @@ testScalar <- function(variableName,
   }
 
   # Extract information from inputs
+  # This is cleaner and fixes issue of partial matching of variable names
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
   if(variableName %in% variables){

@@ -48,12 +48,12 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 
   correct_dataType <- all(typeof(studentSoln) == datatype)
 
-  var_exists <- variableName %in% variables
+  #var_exists <- variableName %in% variables
 
   tryCatch (
     {
-      # Need to also check that the target variable exists due to partial matching in R
-      test_that(test_name, { expect_equal(correct_dataType, TRUE) & expect_equal(var_exists,TRUE) })
+      test_that(test_name, expect_equal(correct_dataType, TRUE))
+      #test_that(test_name, { expect_equal(correct_dataType, TRUE) & expect_equal(var_exists,TRUE) })
       print(success_message)
     },
   error = function(e) {
@@ -79,13 +79,14 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
   success_message = "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
 
-  all_columns_same_classes <- all( sapply(studentSoln, class) == sapply(actualSoln, class) )
+  #all_columns_same_classes <- all( sapply(studentSoln, class) == sapply(actualSoln, class) )
 
-  var_exists <- variableName %in% variables
+  #var_exists <- variableName %in% variables
 
   tryCatch (
     {
-      test_that(test_name, {expect_identical(all_columns_same_classes, TRUE) & expect_equal(var_exists,TRUE)})
+      test_that(test_name, expect_identical(sapply(studentSoln, class), sapply(actualSoln, class)))
+      #test_that(test_name, {expect_identical(all_columns_same_classes, TRUE) & expect_equal(var_exists,TRUE)})
       print(success_message)
     },
     error = function(e) {
@@ -111,13 +112,14 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
   }
   success_message = "Correct length"
 
-  var_exists <- variableName %in% variables
+  #var_exists <- variableName %in% variables
 
   if (type=="vector" | type=="list") {
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
+        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
+        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -128,7 +130,8 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
+        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
+        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -156,13 +159,14 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
   }
   success_message = "Correct variable size"
 
-  var_exists <- variableName %in% variables
+  #var_exists <- variableName %in% variables
 
   if (type=="vector") {
     test_name <- paste(variableName, "correct length test")
     tryCatch (
       {
-        test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
+        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
+        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
         print(success_message)
       },
       error = function(e) {
@@ -173,7 +177,8 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
     test_name <- paste(variableName, "correct dimensions test")
     tryCatch (
       {
-        test_that(test_name, {expect_identical(dim(studentSoln), dim(actualSoln)) & expect_equal(var_exists,TRUE)})
+        test_that(test_name, expect_equal(dim(studentSoln), dim(actualSoln)))
+        #test_that(test_name, {expect_identical(dim(studentSoln), dim(actualSoln)) & expect_equal(var_exists,TRUE)})
 
         print(success_message)
       },
@@ -212,16 +217,19 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
     actualSoln <- actualSoln[order(names(actualSoln))]
   }
 
-  var_exists <- variableName %in% variables
-
-  all_values_equal <- all(studentSoln == actualSoln)
+  #var_exists <- variableName %in% variables
+  #all_values_equal <- all(studentSoln == actualSoln)
 
   tryCatch (
     {
       if (type=="dataframe") {
-        test_that(test_name, { expect_identical(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
+        test_that(test_name, { expect_equal(studentSoln, actualSoln) }) # Not sure why was expect_identical before?
+        #test_that(test_name, { expect_identical(studentSoln, actualSoln) })
+        #test_that(test_name, { expect_identical(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
       } else {
-        test_that(test_name, { expect_equal(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })}
+        test_that(test_name, { expect_equal(studentSoln, actualSoln)})
+        #test_that(test_name, { expect_equal(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
+        }
       print(success_message)
     },
     error = function(e) {
@@ -252,21 +260,16 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
   success_message = "Correct attributes"
   test_name <- paste(variableName, "correct attributes")
 
-  all_attributes_equal <- identical(attributes(studentSoln), attributes(actualSoln))
-
-  var_exists <- variableName %in% variables
+  #all_attributes_equal <- identical(attributes(studentSoln), attributes(actualSoln))
+  #var_exists <- variableName %in% variables
 
   #print(all_attributes_equal)
   #print(var_exists)
 
-  #print("student")
-  #print(attributes(studentSoln))
-  #print("actual")
-  #print(attributes(actualSoln))
-
   tryCatch (
     {
-      test_that(test_name, {expect_identical(all_attributes_equal, TRUE) & expect_equal(var_exists,TRUE)})
+      test_that(test_name, expect_identical(attributes(studentSoln), attributes(actualSoln)))
+      #test_that(test_name, {expect_identical(all_attributes_equal, TRUE) & expect_equal(var_exists,TRUE)})
       print(success_message)
     },
     error = function(e) {

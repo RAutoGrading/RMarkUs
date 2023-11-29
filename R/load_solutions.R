@@ -7,7 +7,7 @@ load_solutions <- function(file, print_variables=FALSE){
   if(isTRUE(grepl(pattern=".rmd", x=file, ignore.case=TRUE))){
     vars <- sourceList(knitr::purl(file, quiet=TRUE))
   } else if(isTRUE(grepl(pattern=".r", x=file, ignore.case=TRUE))){
-    # What to do if .R file is passed?
+    vars <- sourceList(file)
   }
   else{
     stop("The file passed to load_solutions does not have a supported extension; only .Rmd and .R files are accepted")

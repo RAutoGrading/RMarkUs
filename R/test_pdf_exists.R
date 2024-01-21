@@ -8,7 +8,6 @@
 #' @return A list of variables from specified environment
 #' @export
 test_pdf_exists <- function(filename=NULL,error_message=NULL) {
-
   if(is.null(filename)){
     filename <- "*.pdf" # In this case we'll just check for any pdf file
   }
@@ -18,20 +17,24 @@ test_pdf_exists <- function(filename=NULL,error_message=NULL) {
   }
 
   pdffiles_in_folder <- list.files(pattern = "*.pdf")
-  test_name <- paste(filename, ".pdf file exists", sep="")
+  test_name <- paste(filename, " file exists", sep="")
 
   if (is.null(error_message)) {
     error_message <- paste("Missing", filename, "file", sep=" ")
   }
   success_message <- paste(filename, "file is present")
 
+  # Check if filename is present
+  file_present <- any(grepl(pattern=filename, x = pdffiles_in_folder))
+
   tryCatch (
     {
-      test_that(test_name, {expect_true(!identical(pdffiles_in_folder, character(0)))})
+      test_that(test_name, {expect_true(file_present)})
       print(success_message)
     },
     error = function(e) {
       message(error_message)
     }
   )
-}# end test_pdf_present function
+}
+

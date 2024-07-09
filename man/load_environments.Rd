@@ -8,7 +8,7 @@ load_environments(
   instructor_file,
   student_file,
   student_file_MarkUs,
-  environment_variable = "MARKUS_GROUP",
+  markus_environment_variable = "MARKUS_GROUP",
   print_variables = FALSE
 )
 }
@@ -19,9 +19,9 @@ load_environments(
 
 \item{student_file_MarkUs}{The expected file name for student submission on MarkUs (and path, relative to the project's root folder. Valid filetypes are .Rmd and .R}
 
-\item{print_variables}{Boolean value indicating whether the names of the variables loaded from the specified filepath should be printed. Defaults to false}
-
 \item{markus_environment_variable}{The name of the environmental variable on MarkUs}
+
+\item{print_variables}{Boolean value indicating whether the names of the variables loaded from the specified filepath should be printed. Defaults to false}
 }
 \value{
 List of 2 sub-lists: the first sub-list contains all variables in the instructor submission and

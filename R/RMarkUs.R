@@ -2,9 +2,9 @@
 #'
 #' This package will allow for autograding capabilities for quantitative assessments using MarkUs.
 #'
-#' @docType _PACKAGE
+#' @docType package
 #'
-#' @author Kanika Chopra \email{kanikadatt@gmail.com}
+#' @author Siqi Zheng \email{timothy.zheng@utoronto.ca}, Kanika Chopra \email{kanikadatt@gmail.com}
 #'
 #' @name RMarkUs
 NULL

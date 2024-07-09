@@ -16,7 +16,7 @@ source("R/load_solutions.R")
 load_environments <- function(instructor_file,
                                student_file,
                                student_file_MarkUs, 
-                               environment_variable="MARKUS_GROUP", 
+                               markus_environment_variable="MARKUS_GROUP", 
                                print_variables=FALSE){
   # Load instructor solutions
   instructor_environment <- load_solutions(file=instructor_file,

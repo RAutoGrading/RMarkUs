@@ -27,6 +27,6 @@ load_environments <- function(instructor_file,
                                                  markus_environment_variable=markus_environment_variable,
                                                  print_variables=print_variables
                                                  )
-  all_submissions <- c(instructor_environment, student_environment)
+  all_submissions <- list(instructor_environment=instructor_environment, student_environment=student_environment)
   return(all_submissions)
 }

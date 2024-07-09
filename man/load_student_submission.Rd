@@ -7,7 +7,7 @@
 load_student_submission(
   file,
   file_MarkUs = NULL,
-  filepath_local_root = "C:/",
+  markus_environment_variable = "MARKUS_GROUP",
   print_variables = FALSE
 )
 }
@@ -16,8 +16,7 @@ load_student_submission(
 
 \item{file_MarkUs}{The expected file name for student submissions on MarkUs (and path, relative to the project's root folder. Valid filetypes are .Rmd and .R}
 
-\item{filepath_local_root}{String used to identify whether the current environment is on the user's local computer or on MarkUs' servers.
-Defaults to "C:/" but can be changed if the user isn't working in the C drive. To specify a good value for this, users can use `getwd()` to identify the root of their local filepath}
+\item{markus_environment_variable}{The name of the environmental variable on MarkUs}
 
 \item{print_variables}{Boolean value indicating whether the names of the variables loaded from the specified filepath should be printed. Defaults to false}
 }

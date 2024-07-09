@@ -2,7 +2,7 @@
 #'
 #' This package will allow for autograding capabilities for quantitative assessments using MarkUs.
 #'
-#' @docType package
+#' @docType _PACKAGE
 #'
 #' @author Kanika Chopra \email{kanikadatt@gmail.com}
 #'

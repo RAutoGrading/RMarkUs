@@ -57,4 +57,3 @@ get_student_number <- function(student_number = 1,
 
 
 
-I’m envisioning functions like test_student_number() and test_environment_loaded() (and others?) to be part of a "debugging" preamble at the top of every .R test script, right after the instructor and student environments are loaded. 

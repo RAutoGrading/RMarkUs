@@ -2,7 +2,6 @@
 % Please edit documentation in R/RMarkUs.R
 \docType{package}
 \name{RMarkUs}
-\alias{RMarkUs-package}
 \alias{RMarkUs}
 \title{Autograding Package for MarkUs}
 \description{

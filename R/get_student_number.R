@@ -29,7 +29,7 @@ get_student_number <- function(student_number = 1,
     names(student_mapping) <- c("username", "LastName", "FirstName", 
                                 "Tutorial", "StudentNumber", "email")
     # Get current student number by finding the student ID in the system 
-    MARKUS_GROUP <- Sys.getenv(c("MARKUS_GROUP"))
+    MARKUS_GROUP <- Sys.getenv(MarkUs_environment_variable)
     # Match the student ID with the info in .csv to obtain student number
     student_number <- student_mapping[student_mapping$username == MARKUS_GROUP,]$StudentNumber
   }

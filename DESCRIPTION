@@ -13,4 +13,4 @@ Imports:
     testthat,
     utils,
     knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.1

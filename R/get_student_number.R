@@ -14,8 +14,7 @@ source("R/is_running_on_MarkUs.R")
 #' @return The student number based on who and where the tests are run. If a student runs locally, the user-defined student number will be used. When tests are run on MarkUs, then the student number will be extracted from the environmental variable. 
 #' @export
 get_student_number <- function(student_number = 1,
-                               solution_filename_keyword = "sol",
-                               filename_student_info = "student_info.csv",
+                               filename_student_info = "student_list.csv",
                                MarkUs_environment_variable = "MARKUS_GROUP"){ 
   # Call is_running_on_MarkUs(), false if not on MarkUs i.e., on a local computer
   # return student number provided by the user/student  

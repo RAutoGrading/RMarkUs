@@ -12,6 +12,5 @@ Imports:
     cli,
     testthat,
     utils,
-    knitr,
-    rstudioapi
+    knitr
 RoxygenNote: 7.3.2

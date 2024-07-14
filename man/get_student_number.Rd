@@ -14,8 +14,6 @@ get_student_number(
 \arguments{
 \item{student_number}{Student number provided by students}
 
-\item{solution_filename_keyword}{The file name of solution should contain 'sol' so that it can be used to identify whether the instructor is running the script}
-
 \item{filename_student_info}{The .csv file contains student information with 6 columns ("username", "LastName", "FirstName", "Tutorial", "StudentNumber", "email")}
 
 \item{MarkUs_environment_variable}{The name of the environmental variable on MarkUs}

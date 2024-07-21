@@ -36,19 +36,7 @@ testScalar <- function(variableName,
                        datatype = NULL,
                        simplify_datatype = FALSE) {
 
-  # Initial validation of variableName, student_environment, and instructor_environment
-  if(!(is.character(variableName))){
-    stop("variableName should be a character object")
-  }
-  if(length(variableName) != 1){
-    stop("variableName should have length equal to 1")
-  }
-  if(!is.list(student_environment)){
-    stop("student_environment should be a list but it isn't")
-  }
-  if(!is.list(instructor_environment)){
-    stop("instructor_environment should be a list but it isn't")
-  }
+  correctArgsTest(variableName, student_environment, instructor_environment)
 
   # Extract information from inputs
   # This is cleaner and fixes issue of partial matching of variable names
@@ -111,7 +99,7 @@ testScalar_raw <- function(variableName,
                            simplify_datatype = FALSE){
   # Validating inputs
   if (length(actualSoln) != 1){
-    stop("The testScalar function expects a value of length 1 for the actualSoln argument and but the value passed has length greater than 1")
+    stop(paste("The actualSoln argument should have length 1, but it has length", length(actualSoln)))
   }
 
   if (isTRUE(check_datatype)){
@@ -219,19 +207,7 @@ testVector <- function(variableName,
                        check_datatype=TRUE, data_error_msg=NULL,
                        simplify_datatype=FALSE) {
 
-  # Initial validation of variableName, student_environment, and instructor_environment
-  if(!(is.character(variableName))){
-    stop("variableName should be a character object")
-  }
-  if(length(variableName) != 1){
-    stop("variableName should have length equal to 1")
-  }
-  if(!is.list(student_environment)){
-    stop("student_environment should be a list but it isn't")
-  }
-  if(!is.list(instructor_environment)){
-    stop("instructor_environment should be a list but it isn't")
-  }
+  correctArgsTest(variableName, student_environment, instructor_environment)
 
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]
@@ -417,19 +393,7 @@ testDataFrame <- function(variableName,
                           check_class=TRUE, class_error_msg=NULL,
                           col_order=TRUE){
 
-  # Initial validation of variableName, student_environment, and instructor_environment
-  if(!(is.character(variableName))){
-    stop("variableName should be a character object")
-  }
-  if(length(variableName) != 1){
-    stop("variableName should have length equal to 1")
-  }
-  if(!is.list(student_environment)){
-    stop("student_environment should be a list but it isn't")
-  }
-  if(!is.list(instructor_environment)){
-    stop("instructor_environment should be a list but it isn't")
-  }
+  correctArgsTest(variableName, student_environment, instructor_environment)
 
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]

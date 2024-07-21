@@ -6,8 +6,7 @@
 \usage{
 get_student_number(
   student_number = 1,
-  solution_filename_keyword = "sol",
-  filename_student_info = "student_info.csv",
+  filename_student_info = "student_list.csv",
   MarkUs_environment_variable = "MARKUS_GROUP"
 )
 }

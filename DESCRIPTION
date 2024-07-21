@@ -2,7 +2,7 @@ Package: RMarkUs
 Type: Package
 Title: Autograding Package for MarkUs
 Version: 0.3.1
-Author: Siqi Zheng, Kanika Chopra
+Author: Siqi Zheng, Nathalie Moon, Kanika Chopra
 Maintainer: Siqi Zheng <timothy.zheng@mail.utoronto.ca>
 Description: This package will allow for autograding capabilities for quantitative assessments using MarkUs.
 License: GPL-2
@@ -13,4 +13,4 @@ Imports:
     testthat,
     utils,
     knitr
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

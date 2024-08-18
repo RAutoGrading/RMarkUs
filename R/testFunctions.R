@@ -42,102 +42,61 @@ testScalar <- function(variableName,
   # This is cleaner and fixes issue of partial matching of variable names
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
-  if(variableName %in% variables){
-    studentSoln <- student_environment[[variableName]]
-  }
-  else{
-    studentSoln <- NULL
-  }
-  if(is.null(datatype)){
-    datatype <- class(instructor_environment[[variableName]])
-  }
+  # if(variableName %in% variables){
+  #   studentSoln <- student_environment[[variableName]]
+  # }
+  # else{
+  #   studentSoln <- NULL
+  # }
+  studentSoln <- ifelse(variableName %in% variables, student_environment[[variableName]], NULL)
+  datatype <- ifelse(is.null(datatype), class(instructor_environment[[variableName]]), datatype)
+  # if(is.null(datatype)){
+  #   datatype <- class(instructor_environment[[variableName]])
+  # }
 
-  testScalar_raw(variableName = variableName,
-                 variables = variables,
-                 studentSoln = studentSoln,
-                 actualSoln = actualSoln,
-                 check_correct = check_correct, correct_error_msg=correct_error_msg,
-                 check_present = check_present, present_error_msg=present_error_msg,
-                 check_datatype = check_datatype, data_error_msg=data_error_msg,
-                 datatype = datatype,
-                 simplify_datatype=simplify_datatype)
-}# end testScalar
-
-
-#' testScalar_raw
-#'
-#' Completes all of the basic tests for a single (scalar) value (that is, a vector of length 1), where the user can directly input values to be compared
-#' @param variableName The name of the variable in question
-#' @param variables Vector listing the names of variables in the student's environment
-#' @param studentSoln The student's answer, loaded from their submission
-#' @param actualSoln The actual answer, loaded from the solution file
-#' @param check_correct Boolean indicating whether a test will check if the solution is correct.
-#' Default is TRUE.
-#' @param correct_error_msg A function that will generate the appropriate error message as a string if the value is incorrect.
-#' Default is NULL and will use preset error message.
-#' @param check_present Boolean indicating whether a test will check if the variable exists.
-#' Default is TRUE.
-#' @param present_error_msg A function that will generate the appropriate error message as a string for if variable does not exist.
-#' Default is NULL and will use preset error message.
-#' @param check_datatype Boolean indicating whether a test will check if the data type is correct.
-#' Default is FALSE.
-#' @param datatype Optional argument (string) for data type expected for solution if check_datatype is TRUE.
-#' Accepts values "numeric", "character", "logical", and "double" (if numeric, then tests pass if solution is either double or integer)
-#' @param data_error_msg A function that will generate the appropriate error message as a string for if the data type is not correct.
-#' Default is NULL and will use preset error message.
-#' @param simplify_datatype Boolean indicating whether datatype tests will pass if a student passes a tibble when the solutions expect a primitive instead. Defaults to FALSE
-#' @return Error message if one exists, otherwise will print that every test has passed.
-#' @export
-testScalar_raw <- function(variableName,
-                           variables,
-                           studentSoln,
-                           actualSoln,
-                           check_present=TRUE, present_error_msg=NULL,
-                           check_datatype=FALSE, data_error_msg=NULL,
-                           check_correct=TRUE, correct_error_msg=NULL,
-                           datatype=NULL,
-                           simplify_datatype = FALSE){
   # Validating inputs
   if (length(actualSoln) != 1){
     stop(paste("The actualSoln argument should have length 1, but it has length", length(actualSoln)))
   }
 
   if (isTRUE(check_datatype)){
-    if (is.null(datatype)){
-      stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
-    }
+    # if (is.null(datatype)){
+    #   stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
+    # }
 
-    if(!(datatype %in% c("numeric", "character", "logical", "double"))){
-      stop("The testScalar function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
+    if(isFALSE(datatype %in% c("numeric", "integer", "complex"))){
+      stop(paste("Invalid data type:", datatype, "- Only numeric, integer or complex values are allowed. Please verify the variable in the instructor solution via class() function."))
     }
-
-    if (datatype == "numeric" & !is.numeric(actualSoln)){
-      stop("In testScalar you indicated the datatype was 'numeric' but actualSoln is not a numeric; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "logical" & !is.logical(actualSoln)){
-      stop("In testScalar you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "character" & !is.character(actualSoln)){
-      stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "double" & !is.double(actualSoln)){
-      stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
+    # if (datatype == "numeric" & !is.numeric(actualSoln)){
+    #   stop("In testScalar you indicated the datatype was 'numeric' but actualSoln is not a numeric; the datatype of actualSoln should agree with the value passed for datatype")
+    # }
+    # else if (datatype == "logical" & !is.logical(actualSoln)){
+    #   stop("In testScalar you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
+    # }
+    # else if (datatype == "character" & !is.character(actualSoln)){
+    #   stop("In testScalar you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
+    # }
+    # else if (datatype == "double" & !is.double(actualSoln)){
+    #   stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
+    # }    
+    if(isFALSE(isa(actualSoln, datatype))){
+      stop(paste("The data type of the variable in the instructor solution:", class(actualSoln), "does not match the data type user specified in the function argument:", datatype))
     }
   }
 
   #simplify_student_answer <- TRUE # This could be turned into a parameter to turn on or off
-  if(isTRUE(simplify_datatype)){
-    # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
-    if(is.data.frame(studentSoln)){
-      print("I'm here")
-      warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
-      if(ncol(studentSoln)==1 & nrow(studentSoln)==1){
-        print("We have 1 column")
-        studentSoln <- studentSoln |> as.vector() |> unlist()
-        datatype <- class(studentSoln)
-      }
-    }
-  }
+  # if(isTRUE(simplify_datatype)){
+  #   # Try to convert the student's answer to a simpler datatype for comparison (e.g. tibble to single number)
+  #   if(is.data.frame(studentSoln)){
+  #     print("I'm here")
+  #     warning(paste("You submitted a dataframe when an object with datatype", datatype, "was expected"))
+  #     if(ncol(studentSoln)==1 & nrow(studentSoln)==1){
+  #       print("We have 1 column")
+  #       studentSoln <- studentSoln |> as.vector() |> unlist()
+  #       datatype <- class(studentSoln)
+  #     }
+  #   }
+  # }
 
   # Unit tests
   if (isTRUE(check_present)) {
@@ -145,14 +104,14 @@ testScalar_raw <- function(variableName,
   }
 
   if (isTRUE(check_datatype)) {
-    if (datatype == "numeric"){
-      # If student solution is integer, convert to double to facilitate comparison
-      if(is.integer(studentSoln)){
-        studentSoln <- as.double(studentSoln)
-      }
-      # In this case, we'll call dataTypeTest with 'double' because
-      datatype <- "double"
-    }
+    # if (datatype == "numeric"){
+    #   # If student solution is integer, convert to double to facilitate comparison
+    #   if(is.integer(studentSoln)){
+    #     studentSoln <- as.double(studentSoln)
+    #   }
+    #   # In this case, we'll call dataTypeTest with 'double' because
+    #   datatype <- "double"
+    # }
 
     dataTypeTest(variableName, variables, studentSoln, datatype, error_message=data_error_msg)
   }
@@ -285,21 +244,12 @@ testVector_raw <- function(variableName, variables, studentSoln, actualSoln,
       stop("The testVector function requires a value for datatype when check_datatype=TRUE.")
     }
 
-    if(!(datatype %in% c("numeric", "character", "logical", "double"))){
+    if(isFALSE(datatype %in% c("numeric", "character", "logical", "integer", "complex"))){
       stop("The testVector function received an invalid value for the datatype argument; valid values are numeric, character, and logical")
     }
 
-    if (datatype == "numeric" & !is.numeric(actualSoln)){
-      stop("In testVector you indicated the datatype was 'numeric' but actualSoln is not a numeric; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "logical" & !is.logical(actualSoln)){
-      stop("In testVector you indicated the datatype was 'logical' but actualSoln is not a logical; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "character" & !is.character(actualSoln)){
-      stop("In testVector you indicated the datatype was 'character' but actualSoln is not a character object; the datatype of actualSoln should agree with the value passed for datatype")
-    }
-    else if (datatype == "double" & !is.double(actualSoln)){
-      stop("In testVector you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
+    if(isFALSE(isa(actualSoln, datatype))){
+      stop(paste("The class of your answer is", class(actualSoln), "but the correct class should be", datatype))
     }
   }
 

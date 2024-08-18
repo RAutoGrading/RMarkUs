@@ -46,7 +46,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
   success_message = "Correct data type"
   test_name <- paste(variableName, "datatype test")
 
-  correct_dataType <- all(typeof(studentSoln) == datatype)
+  correct_dataType <- all(class(studentSoln) == datatype)
 
   #var_exists <- variableName %in% variables
 

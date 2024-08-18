@@ -65,7 +65,7 @@ testScalar <- function(variableName,
     # }
 
     if(isFALSE(datatype %in% c("numeric", "integer", "complex", "logical", "character"))){
-      stop(paste("Invalid data type:", datatype, "- Only numeric, integer or complex values are allowed. Please verify the variable in the instructor solution via class() function."))
+      stop(paste("Invalid data type:", datatype, "- Only numeric, integer, complex, character or logical values are allowed. Please verify the variable type in the instructor solution via class() function."))
     }
     # if (datatype == "numeric" & !is.numeric(actualSoln)){
     #   stop("In testScalar you indicated the datatype was 'numeric' but actualSoln is not a numeric; the datatype of actualSoln should agree with the value passed for datatype")
@@ -80,7 +80,7 @@ testScalar <- function(variableName,
     #   stop("In testScalar you indicated the datatype was 'double' but actualSoln is not a double object; the datatype of actualSoln should agree with the value passed for datatype")
     # }    
     if(isFALSE(isa(actualSoln, datatype))){
-      stop(paste("The data type of the variable in the instructor solution:", class(actualSoln), "does not match the data type user specified in the function argument:", datatype))
+      stop(paste("The data type of the variable in the instructor solution:", class(actualSoln), "\ndoes NOT match the data type specified in the function argument:", datatype, "\nYou may consider removing the datatype argument in the function call as the data type can be automatically defined based on the instructor solution."))
     }
   }
 

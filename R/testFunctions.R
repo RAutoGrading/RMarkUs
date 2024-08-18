@@ -64,7 +64,7 @@ testScalar <- function(variableName,
     #   stop("The testScalar function requires a value for datatype when check_datatype=TRUE.")
     # }
 
-    if(isFALSE(datatype %in% c("numeric", "integer", "complex"))){
+    if(isFALSE(datatype %in% c("numeric", "integer", "complex", "logical", "character"))){
       stop(paste("Invalid data type:", datatype, "- Only numeric, integer or complex values are allowed. Please verify the variable in the instructor solution via class() function."))
     }
     # if (datatype == "numeric" & !is.numeric(actualSoln)){

@@ -13,9 +13,9 @@ library(cli)
 #' @export
 variableExistsTest <- function(variableName, variables, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message <- paste("Missing", variableName)
+    error_message <- paste("Missing", variableName, "in the student solution.")
   }
-  success_message <- paste(variableName, "present")
+  success_message <- paste(variableName, "is present in the student solution.")
   test_name <- paste(variableName, "Exists")
   var_exists <- variableName %in% variables
   tryCatch (
@@ -41,9 +41,10 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 #' @export
 dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message = "Incorrect data type"
+    error_message = paste("Data type in student solution:", class(studentSoln), 
+                          "\ndoes not match the actual solution", datatype)
   }
-  success_message = "Correct data type"
+  success_message = paste("Correct data type", datatype, "is provided")
   test_name <- paste(variableName, "datatype test")
 
   correct_dataType <- all(class(studentSoln) == datatype)
@@ -58,7 +59,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
     },
   error = function(e) {
     message(error_message)
-  }
+    }
   )
 }
 
@@ -108,37 +109,21 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 #' @export
 correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message = "Incorrect length"
+    error_message = paste("Length of", variableName, "in the student solution:", length(studentSoln), 
+                          "\ndoes not match the actual solution:", length(actualSoln))
   }
   success_message = "Correct length"
-
-  #var_exists <- variableName %in% variables
-
-  if (type=="vector" | type=="list") {
-    test_name <- paste(variableName, "correct length test")
-    tryCatch (
-      {
-        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
-        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
-        print(success_message)
-      },
-      error = function(e) {
-        message(error_message)
-      }
-    )
-  } else if (type == "scalar") {
-    test_name <- paste(variableName, "correct length test")
-    tryCatch (
-      {
-        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
-        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
-        print(success_message)
-      },
-      error = function(e) {
-        message(error_message)
-      }
-    )
-  }
+  test_name <- paste(variableName, "correct length test")
+  tryCatch (
+    {
+      test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
+      #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
+      print(success_message)
+    },
+    error = function(e) {
+      message(error_message)
+    }
+  )
 }
 
 

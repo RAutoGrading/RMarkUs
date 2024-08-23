@@ -42,8 +42,9 @@ testScalar <- function(variableName,
   # This is cleaner and fixes issue of partial matching of variable names
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
-  studentSoln <- ifelse(variableName %in% variables, student_environment[[variableName]], NULL)
-  datatype <- ifelse(is.null(datatype), class(instructor_environment[[variableName]]), datatype)
+  studentSoln <- NULL
+  if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
+  if(is.null(datatype)) datatype <- class(instructor_environment[[variableName]])
 
   # Validating inputs
   if (length(actualSoln) != 1){
@@ -137,8 +138,9 @@ testVector <- function(variableName,
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
-  studentSoln <- ifelse(variableName %in% variables, student_environment[[variableName]], NULL)
-  datatype <- ifelse(is.null(datatype), class(instructor_environment[[variableName]]), datatype)
+  studentSoln <- NULL
+  if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
+  if(is.null(datatype)) datatype <- class(instructor_environment[[variableName]])
 
   # Validating inputs
   if (isTRUE(check_datatype)){
@@ -228,7 +230,8 @@ testDataFrame <- function(variableName,
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
-  studentSoln <- ifelse(variableName %in% variables, student_environment[[variableName]], NULL)
+  studentSoln <- NULL
+  if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
 
   # Validating inputs
 

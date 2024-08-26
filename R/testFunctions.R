@@ -258,7 +258,67 @@ testDataFrame <- function(variableName,
 
 }# end testDataFrame function
 
+#' Compare if 2 linear models are the same
+#'
+#' @param variableName The name of the variable in question
+#' @param student_environment A list of all variables in the environment from the student's submission
+#' @param instructor_environment A list of all variables in the environment from the solution file
+#' @param check_correct Boolean indicating whether a test will check if the solution is correct.
+#' Default is TRUE.
+#' @param correct_error_msg A function that will generate the appropriate error message as a string if the value is incorrect.
+#' Default is NULL and will use preset error message.
+#' @param check_present Boolean indicating whether a test will check if the variable exists.
+#' Default is TRUE.
+#' @param present_error_msg A function that will generate the appropriate error message as a string for if variable does not exist.
+#' Default is NULL and will use preset error message.
+#' @param round_precision The number of decimal places RSS and df will be rounded. Default is 3.
+#' @param AIC_compare Optional parameter that enables AIC comparison of models. Default is FALSE.
+#'
+#' @return Error message if one exists, otherwise will print that every test has passed.
+#' @export
+#'
+#' @examples
+testLinearModel <- function(variableName,
+                            student_environment,
+                            instructor_environment,
+                            check_correct=TRUE, correct_error_msg=NULL,
+                            check_present=TRUE, present_error_msg=NULL,
+                            AIC_compare = FALSE, round_precision=3){
+  
+  correctArgsTest(variableName, student_environment, instructor_environment)
+  
+  # Extract information from inputs
+  actualSoln <- instructor_environment[[variableName]]
+  variables <- names(student_environment) # this should be a list of the names
+  studentSoln <- NULL
+  if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
+  datatype <- class(instructor_environment[[variableName]])[1]
+  if(isFALSE(datatype == 'lm')){
+    stop(paste("Invalid data type:", datatype, "- Only lm object is allowed. Please verify the model class in the instructor solution via class() function."))
+  }
+  if(isFALSE(class(studentSoln) == 'lm')){
+    stop(paste("Invalid data type:", class(studentSoln), "- Only lm object is allowed. Please verify the model class in the student solution via class() function."))
+  }
+  features <- anova(actualSoln, studentSoln)
+  if (isTRUE(AIC_compare)){
+    actualSoln <- round(AIC(actualSoln),round_precision)
+    studentSoln <- round(AIC(studentSoln),round_precision)
+  }
+  actualSoln <- c(actualSoln, round(as.numeric(features[1,1:2]),round_precision))
+  studentSoln <- c(studentSoln, round(as.numeric(features[2,1:2]),round_precision))
 
+  # Validating inputs
+  
+  # Unit tests
+  if (isTRUE(check_present)) {
+    variableExistsTest(variableName, variables, error_message=present_error_msg)
+  }
+  
+  if (isTRUE(check_correct)) {
+    correctSolnTest(variableName, variables, studentSoln, actualSoln, type='vector', order, error_message=correct_error_msg)
+  }
+  
+}# end testDataFrame function
 
 #' Source List
 #'

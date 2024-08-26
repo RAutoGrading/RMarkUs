@@ -42,7 +42,7 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = paste("Data type in student solution:", class(studentSoln), 
-                          "\ndoes not match the actual solution", datatype)
+                          "\ndoes NOT match the actual solution:", datatype)
   }
   success_message = paste("Correct data type", datatype, "is provided")
   test_name <- paste(variableName, "datatype test")
@@ -76,7 +76,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 variableClassTest <- function(variableName, variables, studentSoln, actualSoln, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = paste("The type of", variableName, "in the student solution:", as.character(sapply(studentSoln, class)), 
-                          "\ndoes not match the actual solution:", as.character(sapply(actualSoln, class)))
+                          "\ndoes NOT match the actual solution:", as.character(sapply(actualSoln, class)))
   }
   success_message = "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
@@ -111,7 +111,7 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
   if (is.null(error_message)) {
     error_message = paste("Length of", variableName, "in the student solution:", length(studentSoln), 
-                          "\ndoes not match the actual solution:", length(actualSoln))
+                          "\ndoes NOT match the actual solution:", length(actualSoln))
   }
   success_message = "Correct length"
   test_name <- paste(variableName, "correct length test")
@@ -149,7 +149,7 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
     test_name <- paste(variableName, "correct length test")
     if (is.null(error_message)) {
       error_message = paste("Length of", variableName, "in the student solution:", length(studentSoln), 
-                            "\ndoes not match the actual solution:", length(actualSoln))
+                            "\ndoes NOT match the actual solution:", length(actualSoln))
     }
     tryCatch (
       {
@@ -165,9 +165,7 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
     test_name <- paste(variableName, "correct dimensions test")
     if (is.null(error_message)) {
       error_message = paste("Length of", variableName, "in the student solution:", dim(studentSoln), 
-                            "\ndoes not match the actual solution:", dim(actualSoln))
-    }
-    message(error_message)
+                            "\ndoes NOT match the actual solution:", dim(actualSoln))
   }
     tryCatch (
       {
@@ -250,7 +248,7 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
 
   if (is.null(error_message)) {
     error_message = paste("The attributes of", variableName, "in the student solution:", attributes(studentSoln), 
-                          "\ndoes not match the actual solution:", attributes(actualSoln))
+                          "\ndoes NOT match the actual solution:", attributes(actualSoln))
   }
   success_message = "Correct attributes"
   test_name <- paste(variableName, "correct attributes")

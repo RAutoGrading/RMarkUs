@@ -277,7 +277,6 @@ testDataFrame <- function(variableName,
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 #'
-#' @examples
 testLinearModel <- function(variableName,
                             student_environment,
                             instructor_environment,
@@ -296,16 +295,16 @@ testLinearModel <- function(variableName,
   if(isFALSE(datatype == 'lm')){
     stop(paste("Invalid data type:", datatype, "- Only lm object is allowed. Please verify the model class in the instructor solution via class() function."))
   }
-  if(isFALSE(class(studentSoln) == 'lm')){
-    stop(paste("Invalid data type:", class(studentSoln), "- Only lm object is allowed. Please verify the model class in the student solution via class() function."))
-  }
-  features <- anova(actualSoln, studentSoln)
+  # if(isFALSE(class(studentSoln) == 'lm')){
+  #   stop(paste("Invalid data type:", class(studentSoln), "- Only lm object is allowed. Please verify the model class in the student solution via class() function."))
+  # }
+  anova_table <- anova(actualSoln, studentSoln)
   if (isTRUE(AIC_compare)){
     actualSoln <- round(AIC(actualSoln),round_precision)
     studentSoln <- round(AIC(studentSoln),round_precision)
   }
-  actualSoln <- c(actualSoln, round(as.numeric(features[1,1:2]),round_precision))
-  studentSoln <- c(studentSoln, round(as.numeric(features[2,1:2]),round_precision))
+  actualSoln <- c(actualSoln, round(as.numeric(anova_table[1,c("Res.Df","RSS")]),round_precision))
+  studentSoln <- c(studentSoln, round(as.numeric(anova_table[2,c("Res.Df","RSS")]),round_precision))
 
   # Validating inputs
   
@@ -315,7 +314,7 @@ testLinearModel <- function(variableName,
   }
   
   if (isTRUE(check_correct)) {
-    correctSolnTest(variableName, variables, studentSoln, actualSoln, type='vector', order, error_message=correct_error_msg)
+    correctSolnTest(variableName, variables, studentSoln, actualSoln, type='vector', order=F, error_message=correct_error_msg)
   }
   
 }# end testDataFrame function

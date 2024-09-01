@@ -12,6 +12,8 @@ source("R/is_running_on_MarkUs.R")
 load_solutions <- function(file, print_variables=FALSE){
   if(isTRUE(grepl(pattern=".rmd", x=file, ignore.case=TRUE))){
     vars <- sourceList(knitr::purl(file, quiet=TRUE))
+  } else if(isTRUE(grepl(pattern=".qmd", x=file, ignore.case=TRUE))){
+    vars <- sourceList(knitr::purl(file, quiet=TRUE))
   } else if(isTRUE(grepl(pattern=".r", x=file, ignore.case=TRUE))){
     vars <- sourceList(file)
   }

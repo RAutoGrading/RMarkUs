@@ -277,3 +277,30 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
     }
   )
 }
+
+#' Test if the arguments have correct data types
+#'
+#' @param variableName The name of the variable in question
+#' @param student_environment A list of all variables in the environment from the student's submission
+#' @param instructor_environment A list of all variables in the environment from the solution file
+#'
+#' @return an error message will be provided if none of the tests passed
+#' @export
+
+correctArgsTest <- function(variableName,
+                            student_environment,
+                            instructor_environment){
+  # Initial validation of variableName, student_environment, and instructor_environment
+  if(!(is.character(variableName))){
+    stop("variableName should be a character object")
+  }
+  if(length(variableName) != 1){
+    stop("variableName should have length equal to 1")
+  }
+  if(!is.list(student_environment)){
+    stop("student_environment should be a list but it isn't")
+  }
+  if(!is.list(instructor_environment)){
+    stop("instructor_environment should be a list but it isn't")
+  }
+}

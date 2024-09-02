@@ -4,7 +4,7 @@
 #'
 #' @docType package
 #'
-#' @author Kanika Chopra \email{kanikadatt@gmail.com}
+#' @author Siqi Zheng \email{timothy.zheng@utoronto.ca}, Kanika Chopra \email{kanikadatt@gmail.com}
 #'
 #' @name RMarkUs
 NULL

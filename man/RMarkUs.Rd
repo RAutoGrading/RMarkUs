@@ -2,11 +2,12 @@
 % Please edit documentation in R/RMarkUs.R
 \docType{package}
 \name{RMarkUs}
+\alias{RMarkUs-package}
 \alias{RMarkUs}
 \title{Autograding Package for MarkUs}
 \description{
 This package will allow for autograding capabilities for quantitative assessments using MarkUs.
 }
 \author{
-Kanika Chopra \email{kanikadatt@gmail.com}
+Siqi Zheng \email{timothy.zheng@utoronto.ca}, Kanika Chopra \email{kanikadatt@gmail.com}
 }

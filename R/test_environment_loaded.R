@@ -6,21 +6,21 @@ library(knitr)
 #' Test to check that environment loaded properly
 #' @param environment Name of the R object containing a loaded R session. Note that it should be a variable not a string!
 #' This should be a list with one element for each variable in the loaded environment
-#' @param error_message A function that will generate the appropriate error message as a string for if the environment is  NULL
-#' Default is a preset error message.
+#' @param error_message A function that will generate the appropriate error message as a string for if the environment is NULL
+#' Default is NULL.
 #' @return Error message if one exists, otherwise will print that test has passed
 #' @export
 #'
 # test_environment_loaded <- function(environment, error_message=NULL){
-# 
+#
 #   test_name <- paste(deparse(substitute(environment)), "loaded")
-# 
+#
 #   if (is.null(error_message)) {
 #     error_message <- paste(environment,
 #                            "is not loaded properly and is equal to NULL. Please reach out to your course instructor because this test should always pass.")
 #   }
 #   success_message <- paste(deparse(substitute(environment)), "is loaded properly and has length", length(environment))
-# 
+#
 #   tryCatch (
 #     {
 #       test_that(test_name, {expect_equal(!is.null(environment), TRUE)})
@@ -31,7 +31,11 @@ library(knitr)
 #     }
 #   )# end tryCatch
 #   }# end test_environment_loaded function
-test_environment_loaded <- function(environment, error_message="The evironment is not loaded properly. Please check if .Rmd file name in load environment function matches the actual .Rmd file name."){
+test_environment_loaded <- function(environment, error_message=NULL){
+  if(is.null(error_message)){
+    error_message = "The evironment is not loaded properly. Please check if
+    the file name in load_solutions function matches the actual .Rmd file name."
+  }
   if(length(environment)==0){
     print(error_message)
   }

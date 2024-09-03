@@ -1,8 +1,3 @@
-library(testthat)
-library(cli)
-source('R/autotests.R')
-
-
 #' testScalar
 #'
 #' Completes all of the basic tests for a single (scalar) value (that is, a vector of length 1), where the user can pass in the full environments from student and instructor solutions
@@ -54,7 +49,7 @@ testScalar <- function(variableName,
   if (isTRUE(check_datatype)){
     if(isFALSE(datatype %in% c("numeric", "integer", "complex", "logical", "character"))){
       stop(paste("Invalid data type:", datatype, "- Only numeric, integer, complex, character or logical values are allowed. Please verify the variable type in the instructor solution via class() function."))
-    } 
+    }
     if(isFALSE(isa(actualSoln, datatype))){
       stop(paste("The data type of the variable in the instructor solution:", class(actualSoln), "\ndoes NOT match the data type specified in the function argument:", datatype, "\nYou may consider removing the datatype argument in the function call as the data type can be automatically defined based on the instructor solution."))
     }
@@ -283,9 +278,9 @@ testLinearModel <- function(variableName,
                             check_correct=TRUE, correct_error_msg=NULL,
                             check_present=TRUE, present_error_msg=NULL,
                             AIC_compare = FALSE, round_precision=3){
-  
+
   correctArgsTest(variableName, student_environment, instructor_environment)
-  
+
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
@@ -298,25 +293,25 @@ testLinearModel <- function(variableName,
   # if(isFALSE(class(studentSoln) == 'lm')){
   #   stop(paste("Invalid data type:", class(studentSoln), "- Only lm object is allowed. Please verify the model class in the student solution via class() function."))
   # }
-  anova_table <- anova(actualSoln, studentSoln)
+  anova_table <- stats::anova(actualSoln, studentSoln)
   if (isTRUE(AIC_compare)){
-    actualSoln <- round(AIC(actualSoln),round_precision)
-    studentSoln <- round(AIC(studentSoln),round_precision)
+    actualSoln <- round(stats::AIC(actualSoln),round_precision)
+    studentSoln <- round(stats::AIC(studentSoln),round_precision)
   }
   actualSoln <- c(actualSoln, round(as.numeric(anova_table[1,c("Res.Df","RSS")]),round_precision))
   studentSoln <- c(studentSoln, round(as.numeric(anova_table[2,c("Res.Df","RSS")]),round_precision))
 
   # Validating inputs
-  
+
   # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
-  
+
   if (isTRUE(check_correct)) {
     correctSolnTest(variableName, variables, studentSoln, actualSoln, type='vector', order=F, error_message=correct_error_msg)
   }
-  
+
 }# end testDataFrame function
 
 #' Source List

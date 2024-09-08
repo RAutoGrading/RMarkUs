@@ -166,7 +166,7 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
     if (is.null(error_message)) {
       error_message = paste("Length of", variableName, "in the student solution:", dim(studentSoln), 
                             "\ndoes NOT match the actual solution:", dim(actualSoln))
-  }
+    }
     tryCatch (
       {
         test_that(test_name, expect_equal(dim(studentSoln), dim(actualSoln)))

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 # RMarkUs
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/siqi-zheng/RMarkUs/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/siqi-zheng/RMarkUs/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/siqi-zheng/RMarkUs/workflows/check-release.yaml/badge.svg)](https://github.com/siqi-zheng/RMarkUs/actions/workflows/check-releaseyaml)
 <!-- badges: end -->
 
 ## Installation

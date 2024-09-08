@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/siqi-zheng/RMarkUs/workflows/check-release.yaml/badge.svg)](https://github.com/siqi-zheng/RMarkUs/actions/workflows/check-release.yaml)
+[![R-CMD-check](https://github.com/siqi-zheng/RMarkUs/actions/workflows/check-release.yaml/badge.svg)](https://github.com/siqi-zheng/RMarkUs/actions/workflows/check-release.yaml)
 <!-- badges: end -->
 
 ## Installation

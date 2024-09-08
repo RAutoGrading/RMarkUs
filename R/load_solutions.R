@@ -2,8 +2,6 @@ library(testthat)
 library(cli)
 library(utils)
 library(knitr)
-source("R/is_running_on_MarkUs.R")
-
 #' Loads solutions file and return a list of variables in the environment
 #' @param file The file name (and path, relative to the project's root folder. Valid filetypes are .Rmd and .R
 #' @param print_variables Boolean value indicating whether the names of the variables loaded from the specified filepath should be printed. Defaults to false
@@ -37,7 +35,7 @@ load_solutions <- function(file, print_variables=FALSE){
 #                                     file_MarkUs = NULL,
 #                                     filepath_local_root = "C:/",
 #                                     print_variables=FALSE){
-# 
+#
 #   if(isTRUE(grepl(pattern=filepath_local_root, x=getwd(), ignore.case = TRUE))){
 #     # In this case we'll load the local version of the student submission
 #     student_vars <- load_solutions(file = file, print_variables=print_variables)
@@ -51,14 +49,14 @@ load_solutions <- function(file, print_variables=FALSE){
 #   if(is.null(file_MarkUs)){
 #     warning("Missing filename for student submissions on MarkUs - make sure to specify it before uploading tests to MarkUs")
 #   }
-# 
+#
 #   return(student_vars)
 # }
 load_student_submission <- function(file,
                                     file_MarkUs = NULL,
                                     markus_environment_variable="MARKUS_GROUP",
                                     print_variables=FALSE){
-  
+
   if(isFALSE(is_running_on_MarkUs(markus_environment_variable))){
     # In this case we'll load the local version of the student submission
     student_vars <- load_solutions(file = file, print_variables=print_variables)
@@ -72,8 +70,8 @@ load_student_submission <- function(file,
   if(is.null(file_MarkUs)){
     warning("Missing filename for student submissions on MarkUs - make sure to specify it before uploading tests to MarkUs")
   }
-  
+
   return(student_vars)
 } # end of function
-# Deprecated: filepath_local_root String used to identify whether the current environment is on the user's local computer or on MarkUs' servers. 
+# Deprecated: filepath_local_root String used to identify whether the current environment is on the user's local computer or on MarkUs' servers.
 # Defaults to "C:/" but can be changed if the user isn't working in the C drive. To specify a good value for this, users can use `getwd()` to identify the root of their local filepath

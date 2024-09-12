@@ -43,8 +43,18 @@ You can install the development version of RMarkUs from [GitHub](https://github.
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("RAutoGrading/RMarkUs")
+devtools::install_github("siqi-zheng/RMarkUs@development-siqi", dependencies = TRUE, build_vignettes = TRUE)
 ```
+
+A local version of tutorial can be installed by specifying `build_vignettes = TRUE`.
+
+and then
+
+``` r
+browseVignettes("RMarkUs")
+```
+
+You can select HTML on the page to read the tutorial.
 
 ### Example
 

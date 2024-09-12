@@ -21,7 +21,7 @@ library(RMarkUs)
 
 # Introduction
 
-The minimum requirements of **RMarkUs** to auto grade students' problem sets consist of 3 files: a test file in `.R` containing scripts to specify what variables will be evaluated, a solution file in `.R` or `.qmd/.rmd` and a problem set file in `.R` or `.qmd/.rmd`.
+The minimum requirements of **RMarkUs** to auto grade students' problem sets consist of 3 files: a test file in `.R` specifying what variables will be evaluated, a solution file in `.R` or `.qmd/.rmd` and a problem set file in `.R` or `.qmd/.rmd`.
 
 ## Solution File Set-up
 

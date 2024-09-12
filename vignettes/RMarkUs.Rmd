@@ -1,0 +1,213 @@
+---
+title: "RMarkUs"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RMarkUs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RMarkUs)
+```
+
+# Introduction
+
+The minimum requirements of **RMarkUs** to auto grade students' problem sets consist of 3 files: a test file in `.R` containing scripts to specify what variables will be evaluated, a solution file in `.R` or `.qmd/.rmd` and a problem set file in `.R` or `.qmd/.rmd`.
+
+## Solution File Set-up
+
+A solution file should contain all questions and answers stored as variables. For instance, a solution `.Rmd` may contain a `YAML` header, a question and answers stored as variables:
+
+``` yaml
+title: "Problem Set 1"
+author: ""
+output: pdf_document
+```
+
+Question: What are the first 2 numbers in positive integers?
+
+``` r
+first_num <- 1
+second_num <- 2
+```
+
+## Problem Set File
+
+Usually, a problem set file is the same as the solution file except that the real values of variables in the problem set file will be replaced by `NULL`.
+
+``` r
+first_num <- NULL
+second_num <- NULL
+```
+
+The problem set file will be shared with students so that they can complete and submit to [**MarkUs**](https://github.com/MarkUsProject/Markus).
+
+## Test Script
+
+After loading the necessary package including `RMarkUs`, one should set the work directory to the source file `test_script.R` if instructor wants to test it locally.
+
+### Load instructor and student solutions
+
+``` r
+instructor_environment <- load_solutions("path/to/solution.Rmd") 
+student_environment <- load_student_submission(file="path/to/problemset.Rmd", file_MarkUs = "problem-set-on-MarkUs.Rmd")
+```
+
+Instructors have the option to check if the environments are properly loaded by calling without affecting the grading i.e., this function does not affect students’ grades and should be mainly used by instructors to debug:
+
+``` r
+test_environment_loaded(instructor_environment)
+test_environment_loaded(student_environment)
+```
+
+a.  If the variable is not NULL, the message is: "The environment is loaded successfully."
+
+b.  If the variable is NULL, it means the solution or submission if not loaded properly, usually due to 2 things:
+
+    a.  It is possible that the working directory is not set properly. If this is the case, setting it to the source file (assuming all files are in the same folder in a local setting) will solve the problem.
+
+    b.  The error message will remind instructors: "The environment is not loaded properly. Please check if .Rmd file name in load environment function matches the actual .Rmd file name."
+
+### Check Student Number
+
+We also allow additional checks for student numbers (unique identifiers for students) by calling function:
+
+``` r
+test_student_number(varname="STUDENT_NUMBER", student_environment=student_environment, instructor_environment=instructor_environment)
+```
+
+In the solution file, instructor needs to create a variable:
+
+``` r
+STUDENT_NUMBER <- RMarkUs::get_student_number()
+```
+
+In the problem set file distributed to students, instructor will ask students to provide their own student number (numeric):
+
+``` r
+STUDENT_NUMBER <- 130 # replace 130 by your real student number
+```
+
+This variable (student number) will be compared on [**MarkUs**](https://github.com/MarkUsProject/Markus) automatically.
+
+### Reduce Plagiarism by Random Seed
+
+Instructors can ask students to set seed using the student number variable and then run simulations based on the seed. Then each student will provide unique answers. When running on MarkUs, the student responses will be compared against solution based on the same seed to check for correctness.
+
+# Getting Started with Automatic Grading Functions
+
+This guide will introduce the purpose and usage of `testLinearModel()`, `testDataFrame()`, `testVector()`and `testScalar()`.
+
+## 1. `testLinearModel()`
+
+The `testLinearModel()` function is designed to validate a student's linear model against an instructor's expected model. This function can check the presence, correctness, and specific characteristics of a linear model. Though theoretically speaking two differently models can have the same degrees of freedom (n-p) and the same amount of residuals, we believe practically it would be hard (if impossible) to construct such models without good understandings of these concepts. For the purpose of grading, as long as two models have the same degrees of freedom (n-p) and residuals (and AIC if specified), then we have strong reasons to believe they are on the right track.
+
+P.S. If malicious users intentionally design a model that passes the function, it will show that they are experienced in linear models, which deserves credits.
+
+**Function Arguments:**
+
+-   `variableName`: The name of the variable being checked (as a string).
+-   `student_environment`: (Default: `student_environment`) The student's submission.
+-   `instructor_environment`: (Default: `instructor_environment`) The instructor solution.
+-   `check_correct`: (Default: `TRUE`) Checks if the model matches the expected model.
+-   `correct_error_msg`: Custom error message for incorrect models.
+-   `check_present`: (Default: `TRUE`) Ensures the model exists in the student's submission.
+-   `present_error_msg`: Custom error message for missing models.
+-   `AIC_compare`: (Default: `FALSE`) If `TRUE`, compares the AIC of the student's and instructor's models.
+-   `round_precision`: (Default: `3`) Precision level for rounding numeric comparisons.
+
+**Example Usage:**
+
+``` r
+testLinearModel("model_variable")
+```
+
+
+
+## 2. `testDataFrame()`
+
+The `testDataFrame()` function checks if a student's data frame meets the instructor's expectations. It can validate the presence, correctness, size, class, attributes, and column order of the data frame.
+
+**Function Arguments:**
+
+-   `variableName`: The name of the data frame to check.
+-   `student_environment`: (Default: `student_environment`) The student's submission.
+-   `instructor_environment`: (Default: `instructor_environment`) The instructor solution.
+-   `check_correct`: (Default: `TRUE`) Checks if the data frame matches the expected one.
+-   `correct_error_msg`: Custom error message for incorrect data frames.
+-   `check_present`: (Default: `TRUE`) Ensures the data frame is present in the student's submission.
+-   `present_error_msg`: Custom error message for missing data frames.
+-   `check_size`: (Default: `TRUE`) Verifies that the data frame size matches expectations.
+-   `size_error_msg`: Custom error message for size mismatches.
+-   `check_attributes`: (Default: `FALSE`) Checks data frame attributes like names.
+-   `attributes_error_msg`: Custom error message for incorrect attributes.
+-   `check_class`: (Default: `TRUE`) Ensures the class of the data frame matches the expected class.
+-   `class_error_msg`: Custom error message for class mismatches.
+-   `col_order`: (Default: `TRUE`) Checks if the column order matches the expected order.
+
+**Example Usage:**
+
+``` r
+testDataFrame("student_df")
+```
+
+## 3. `testVector()`
+
+The `testVector()` function validates vectors submitted by students, checking for properties like presence, length, datatype, order, and correctness.
+
+**Function Arguments:**
+
+-   `variableName`: The name of the vector being validated.
+-   `student_environment`: (Default: `student_environment`) The student's submission.
+-   `instructor_environment`: (Default: `instructor_environment`) The instructor solution.
+-   `datatype`: Expected datatype of the vector (e.g., `numeric`, `character`). User does **NOT** need to specify it as it can be inferred automatically from the instructor solution.
+-   `type`: (Default: `'vector'`) The type of object being validated.
+-   `order`: (Default: `TRUE`) Checks if elements are sorted.
+-   `check_correct`: (Default: `TRUE`) Check if the vector is correct.
+-   `correct_error_msg`: Custom error message for incorrect vectors.
+-   `check_present`: (Default: `TRUE`) Checks if the vector exists.
+-   `present_error_msg`: Custom error message for missing vectors.
+-   `check_length`: (Default: `TRUE`) Validates the vector length.
+-   `size_error_msg`: Custom error message for length mismatches.
+-   `check_datatype`: (Default: `TRUE`) Ensures the datatype matches expectations.
+-   `data_error_msg`: Custom error message for datatype mismatches.
+-   `simplify_datatype`: (Default: `FALSE`) Simplifies datatype checks (e.g., treating `integer` as `numeric`).
+
+**Example Usage:**
+
+``` r
+testVector("student_vector")
+```
+
+## 4. `testScalar()`
+
+The `testScalar()` function checks scalar values submitted by students against expected values provided by the instructor. This function is particularly useful for validating simple data types such as numeric values, characters, or logical values.
+
+**Function Arguments:**
+
+-   `variableName`: The name of the scalar variable being validated.
+-   `student_environment`: (Default: `student_environment`) The student's submission.
+-   `instructor_environment`: (Default: `instructor_environment`) The instructor solution.
+-   `check_present`: (Default: `TRUE`) Ensures the scalar is present in the student's submission.
+-   `present_error_msg`: Custom error message for missing scalar values.
+-   `check_datatype`: (Default: `TRUE`) Verifies that the scalar’s datatype matches the expected datatype.
+-   `data_error_msg`: Custom error message for datatype mismatches.
+-   `check_correct`: (Default: `TRUE`) Ensures the scalar value matches the expected value.
+-   `correct_error_msg`: Custom error message for incorrect scalar values.
+-   `datatype`: The expected datatype of the scalar (e.g., `numeric`, `character`, `logical`). User does **NOT** need to specify it as it can be inferred automatically from the instructor solution.
+-   `simplify_datatype`: (Default: `FALSE`) Simplifies datatype checks (e.g., treating `integer` as `numeric`).
+
+**Example Usage:**
+
+``` r
+testScalar("student_scalar")
+```

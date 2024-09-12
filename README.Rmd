@@ -21,17 +21,17 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-**RMarkUs** is an R package designed to streamline the grading process of R Markdown assignments (.qmd & .rmd) by integrating with the [**MarkUs**](https://github.com/MarkUsProject/Markus) online grading platform. Built on top of the popular [`testthat`](https://testthat.r-lib.org/) package, RMarkUs provides a robust and flexible framework for automatic grading, enabling educators to efficiently evaluate students' code, analyses, and reports directly within their R Markdown submissions.
+**RMarkUs** is an R package designed to streamline the grading process of R Markdown assignments (.qmd & .rmd) by integrating with the [**MarkUs**](https://github.com/MarkUsProject/Markus) online grading platform. Built on top of the popular [`testthat`](https://testthat.r-lib.org/) package, **RMarkUs** provides a robust and flexible framework for automatic grading, enabling educators to efficiently evaluate students' code, analyses, and reports directly within their R Markdown submissions.
 
 **Key Features:**
 
--   **Seamless Integration with MarkUs**: Automatically fetch, grade, and upload grades for R Markdown assignments submitted to MarkUs, eliminating manual grading tasks and saving time for educators.
+-   **Seamless Integration with MarkUs**: Automatically fetch, grade, and upload grades for R Markdown assignments submitted to [**MarkUs**](https://github.com/MarkUsProject/Markus), eliminating manual grading tasks and saving time for educators.
 -   **Test-Driven Grading**: Leverages `testthat` to define grading criteria as test cases, allowing for customizable, reproducible, and transparent grading.
--   **Scalable and Efficient**: Designed to handle large courses with hundreds of students, RMarkUs automates the entire grading pipeline, ensuring consistency and fairness across all submissions.
+-   **Scalable and Efficient**: Designed to handle large courses with hundreds of students, **RMarkUs** automates the entire grading pipeline, ensuring consistency and fairness across all submissions.
 
 **Who Should Use RMarkUs?**
 
-**RMarkUs** is ideal for educators, teaching assistants, and course administrators who manage large programming courses and want to automate the grading of assignments submitted through MarkUs. With its test-driven approach, it provides a reliable and efficient solution for enhancing the grading workflow, allowing instructors to focus more on teaching and less on administrative tasks.
+**RMarkUs** is a project initiated by educators at the Department of Statistical Sciences in the University of Toronto. **RMarkUs** is ideal for educators, teaching assistants, and course administrators who manage large programming courses and want to automate the grading of assignments submitted through [**MarkUs**](https://github.com/MarkUsProject/Markus).
 
 ## Getting started
 
@@ -59,5 +59,3 @@ library(RMarkUs)
 
 -   [testthat](https://testthat.r-lib.org/)
 -   [MarkUs](https://github.com/MarkUsProject/Markus)
-
-

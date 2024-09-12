@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>RMarkUs</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">RMarkUs</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(RMarkUs)</span></code></pre></div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The minimum requirements of <strong>RMarkUs</strong> to auto grade
+students’ problem sets consist of 3 files: a test file in
+<code>.R</code> containing scripts to specify what variables will be
+evaluated, a solution file in <code>.R</code> or <code>.qmd/.rmd</code>
+and a problem set file in <code>.R</code> or <code>.qmd/.rmd</code>.</p>
+<div id="solution-file-set-up" class="section level2">
+<h2>Solution File Set-up</h2>
+<p>A solution file should contain all questions and answers stored as
+variables. For instance, a solution <code>.Rmd</code> may contain a
+<code>YAML</code> header, a question and answers stored as
+variables:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Problem Set 1&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> pdf_document</span></span></code></pre></div>
+<p>Question: What are the first 2 numbers in positive integers?</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>first_num <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>second_num <span class="ot">&lt;-</span> <span class="dv">2</span></span></code></pre></div>
+</div>
+<div id="problem-set-file" class="section level2">
+<h2>Problem Set File</h2>
+<p>Usually, a problem set file is the same as the solution file except
+that the real values of variables in the problem set file will be
+replaced by <code>NULL</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>first_num <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>second_num <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<p>The problem set file will be shared with students so that they can
+complete and submit to <a href="https://github.com/MarkUsProject/Markus"><strong>MarkUs</strong></a>.</p>
+</div>
+<div id="test-script" class="section level2">
+<h2>Test Script</h2>
+<p>After loading the necessary package including <code>RMarkUs</code>,
+one should set the work directory to the source file
+<code>test_script.R</code> if instructor wants to test it locally.</p>
+<div id="load-instructor-and-student-solutions" class="section level3">
+<h3>Load instructor and student solutions</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>instructor_environment <span class="ot">&lt;-</span> <span class="fu">load_solutions</span>(<span class="st">&quot;path/to/solution.Rmd&quot;</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>student_environment <span class="ot">&lt;-</span> <span class="fu">load_student_submission</span>(<span class="at">file=</span><span class="st">&quot;path/to/problemset.Rmd&quot;</span>, <span class="at">file_MarkUs =</span> <span class="st">&quot;problem-set-on-MarkUs.Rmd&quot;</span>)</span></code></pre></div>
+<p>Instructors have the option to check if the environments are properly
+loaded by calling without affecting the grading i.e., this function does
+not affect students’ grades and should be mainly used by instructors to
+debug:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">test_environment_loaded</span>(instructor_environment)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">test_environment_loaded</span>(student_environment)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>If the variable is not NULL, the message is: “The environment is
+loaded successfully.”</p></li>
+<li><p>If the variable is NULL, it means the solution or submission if
+not loaded properly, usually due to 2 things:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>It is possible that the working directory is not set properly. If
+this is the case, setting it to the source file (assuming all files are
+in the same folder in a local setting) will solve the problem.</p></li>
+<li><p>The error message will remind instructors: “The environment is
+not loaded properly. Please check if .Rmd file name in load environment
+function matches the actual .Rmd file name.”</p></li>
+</ol></li>
+</ol>
+</div>
+<div id="check-student-number" class="section level3">
+<h3>Check Student Number</h3>
+<p>We also allow additional checks for student numbers (unique
+identifiers for students) by calling function:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">test_student_number</span>(<span class="at">varname=</span><span class="st">&quot;STUDENT_NUMBER&quot;</span>, <span class="at">student_environment=</span>student_environment, <span class="at">instructor_environment=</span>instructor_environment)</span></code></pre></div>
+<p>In the solution file, instructor needs to create a variable:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>STUDENT_NUMBER <span class="ot">&lt;-</span> RMarkUs<span class="sc">::</span><span class="fu">get_student_number</span>()</span></code></pre></div>
+<p>In the problem set file distributed to students, instructor will ask
+students to provide their own student number (numeric):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>STUDENT_NUMBER <span class="ot">&lt;-</span> <span class="dv">130</span> <span class="co"># replace 130 by your real student number</span></span></code></pre></div>
+<p>This variable (student number) will be compared on <a href="https://github.com/MarkUsProject/Markus"><strong>MarkUs</strong></a>
+automatically.</p>
+</div>
+<div id="reduce-plagiarism-by-random-seed" class="section level3">
+<h3>Reduce Plagiarism by Random Seed</h3>
+<p>Instructors can ask students to set seed using the student number
+variable and then run simulations based on the seed. Then each student
+will provide unique answers. When running on MarkUs, the student
+responses will be compared against solution based on the same seed to
+check for correctness.</p>
+</div>
+</div>
+</div>
+<div id="getting-started-with-automatic-grading-functions" class="section level1">
+<h1>Getting Started with Automatic Grading Functions</h1>
+<p>This guide will introduce the purpose and usage of
+<code>testLinearModel()</code>, <code>testDataFrame()</code>,
+<code>testVector()</code>and <code>testScalar()</code>.</p>
+<div id="testlinearmodel" class="section level2">
+<h2>1. <code>testLinearModel()</code></h2>
+<p>The <code>testLinearModel()</code> function is designed to validate a
+student’s linear model against an instructor’s expected model. This
+function can check the presence, correctness, and specific
+characteristics of a linear model. Though theoretically speaking two
+differently models can have the same degrees of freedom (n-p) and the
+same amount of residuals, we believe practically it would be hard (if
+impossible) to construct such models without good understandings of
+these concepts. For the purpose of grading, as long as two models have
+the same degrees of freedom (n-p) and residuals (and AIC if specified),
+then we have strong reasons to believe they are on the right track.</p>
+<p>P.S. If malicious users intentionally design a model that passes the
+function, it will show that they are experienced in linear models, which
+deserves credits.</p>
+<p><strong>Function Arguments:</strong></p>
+<ul>
+<li><code>variableName</code>: The name of the variable being checked
+(as a string).</li>
+<li><code>student_environment</code>: (Default:
+<code>student_environment</code>) The student’s submission.</li>
+<li><code>instructor_environment</code>: (Default:
+<code>instructor_environment</code>) The instructor solution.</li>
+<li><code>check_correct</code>: (Default: <code>TRUE</code>) Checks if
+the model matches the expected model.</li>
+<li><code>correct_error_msg</code>: Custom error message for incorrect
+models.</li>
+<li><code>check_present</code>: (Default: <code>TRUE</code>) Ensures the
+model exists in the student’s submission.</li>
+<li><code>present_error_msg</code>: Custom error message for missing
+models.</li>
+<li><code>AIC_compare</code>: (Default: <code>FALSE</code>) If
+<code>TRUE</code>, compares the AIC of the student’s and instructor’s
+models.</li>
+<li><code>round_precision</code>: (Default: <code>3</code>) Precision
+level for rounding numeric comparisons.</li>
+</ul>
+<p><strong>Example Usage:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">testLinearModel</span>(<span class="st">&quot;model_variable&quot;</span>)</span></code></pre></div>
+</div>
+<div id="testdataframe" class="section level2">
+<h2>2. <code>testDataFrame()</code></h2>
+<p>The <code>testDataFrame()</code> function checks if a student’s data
+frame meets the instructor’s expectations. It can validate the presence,
+correctness, size, class, attributes, and column order of the data
+frame.</p>
+<p><strong>Function Arguments:</strong></p>
+<ul>
+<li><code>variableName</code>: The name of the data frame to check.</li>
+<li><code>student_environment</code>: (Default:
+<code>student_environment</code>) The student’s submission.</li>
+<li><code>instructor_environment</code>: (Default:
+<code>instructor_environment</code>) The instructor solution.</li>
+<li><code>check_correct</code>: (Default: <code>TRUE</code>) Checks if
+the data frame matches the expected one.</li>
+<li><code>correct_error_msg</code>: Custom error message for incorrect
+data frames.</li>
+<li><code>check_present</code>: (Default: <code>TRUE</code>) Ensures the
+data frame is present in the student’s submission.</li>
+<li><code>present_error_msg</code>: Custom error message for missing
+data frames.</li>
+<li><code>check_size</code>: (Default: <code>TRUE</code>) Verifies that
+the data frame size matches expectations.</li>
+<li><code>size_error_msg</code>: Custom error message for size
+mismatches.</li>
+<li><code>check_attributes</code>: (Default: <code>FALSE</code>) Checks
+data frame attributes like names.</li>
+<li><code>attributes_error_msg</code>: Custom error message for
+incorrect attributes.</li>
+<li><code>check_class</code>: (Default: <code>TRUE</code>) Ensures the
+class of the data frame matches the expected class.</li>
+<li><code>class_error_msg</code>: Custom error message for class
+mismatches.</li>
+<li><code>col_order</code>: (Default: <code>TRUE</code>) Checks if the
+column order matches the expected order.</li>
+</ul>
+<p><strong>Example Usage:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">testDataFrame</span>(<span class="st">&quot;student_df&quot;</span>)</span></code></pre></div>
+</div>
+<div id="testvector" class="section level2">
+<h2>3. <code>testVector()</code></h2>
+<p>The <code>testVector()</code> function validates vectors submitted by
+students, checking for properties like presence, length, datatype,
+order, and correctness.</p>
+<p><strong>Function Arguments:</strong></p>
+<ul>
+<li><code>variableName</code>: The name of the vector being
+validated.</li>
+<li><code>student_environment</code>: (Default:
+<code>student_environment</code>) The student’s submission.</li>
+<li><code>instructor_environment</code>: (Default:
+<code>instructor_environment</code>) The instructor solution.</li>
+<li><code>datatype</code>: Expected datatype of the vector (e.g.,
+<code>numeric</code>, <code>character</code>). User does
+<strong>NOT</strong> need to specify it as it can be inferred
+automatically from the instructor solution.</li>
+<li><code>type</code>: (Default: <code>&#39;vector&#39;</code>) The type of
+object being validated.</li>
+<li><code>order</code>: (Default: <code>TRUE</code>) Checks if elements
+are sorted.</li>
+<li><code>check_correct</code>: (Default: <code>TRUE</code>) Check if
+the vector is correct.</li>
+<li><code>correct_error_msg</code>: Custom error message for incorrect
+vectors.</li>
+<li><code>check_present</code>: (Default: <code>TRUE</code>) Checks if
+the vector exists.</li>
+<li><code>present_error_msg</code>: Custom error message for missing
+vectors.</li>
+<li><code>check_length</code>: (Default: <code>TRUE</code>) Validates
+the vector length.</li>
+<li><code>size_error_msg</code>: Custom error message for length
+mismatches.</li>
+<li><code>check_datatype</code>: (Default: <code>TRUE</code>) Ensures
+the datatype matches expectations.</li>
+<li><code>data_error_msg</code>: Custom error message for datatype
+mismatches.</li>
+<li><code>simplify_datatype</code>: (Default: <code>FALSE</code>)
+Simplifies datatype checks (e.g., treating <code>integer</code> as
+<code>numeric</code>).</li>
+</ul>
+<p><strong>Example Usage:</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">testVector</span>(<span class="st">&quot;student_vector&quot;</span>)</span></code></pre></div>
+</div>
+<div id="testscalar" class="section level2">
+<h2>4. <code>testScalar()</code></h2>
+<p>The <code>testScalar()</code> function checks scalar values submitted
+by students against expected values provided by the instructor. This
+function is particularly useful for validating simple data types such as
+numeric values, characters, or logical values.</p>
+<p><strong>Function Arguments:</strong></p>
+<ul>
+<li><code>variableName</code>: The name of the scalar variable being
+validated.</li>
+<li><code>student_environment</code>: (Default:
+<code>student_environment</code>) The student’s submission.</li>
+<li><code>instructor_environment</code>: (Default:
+<code>instructor_environment</code>) The instructor solution.</li>
+<li><code>check_present</code>: (Default: <code>TRUE</code>) Ensures the
+scalar is present in the student’s submission.</li>
+<li><code>present_error_msg</code>: Custom error message for missing
+scalar values.</li>
+<li><code>check_datatype</code>: (Default: <code>TRUE</code>) Verifies
+that the scalar’s datatype matches the expected datatype.</li>
+<li><code>data_error_msg</code>: Custom error message for datatype
+mismatches.</li>
+<li><code>check_correct</code>: (Default: <code>TRUE</code>) Ensures the
+scalar value matches the expected value.</li>
+<li><code>correct_error_msg</code>: Custom error message for incorrect
+scalar values.</li>
+<li><code>datatype</code>: The expected datatype of the scalar (e.g.,
+<code>numeric</code>, <code>character</code>, <code>logical</code>).
+User does <strong>NOT</strong> need to specify it as it can be inferred
+automatically from the instructor solution.</li>
+<li><code>simplify_datatype</code>: (Default: <code>FALSE</code>)
+Simplifies datatype checks (e.g., treating <code>integer</code> as
+<code>numeric</code>).</li>
+</ul>
+<p><strong>Example Usage:</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">testScalar</span>(<span class="st">&quot;student_scalar&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

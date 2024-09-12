@@ -23,8 +23,8 @@
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testScalar <- function(variableName,
-                       student_environment,
-                       instructor_environment,
+                       student_environment=student_environment,
+                       instructor_environment=instructor_environment,
                        check_present=TRUE, present_error_msg=NULL,
                        check_datatype=TRUE, data_error_msg=NULL,
                        check_correct=TRUE, correct_error_msg=NULL,
@@ -117,8 +117,8 @@ testScalar <- function(variableName,
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testVector <- function(variableName,
-                       student_environment,
-                       instructor_environment,
+                       student_environment=student_environment,
+                       instructor_environment=instructor_environment,
                        datatype = NULL,
                        type='vector',
                        order=TRUE,
@@ -211,8 +211,8 @@ testVector <- function(variableName,
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 testDataFrame <- function(variableName,
-                          student_environment,
-                          instructor_environment,
+                          student_environment=student_environment,
+                          instructor_environment=instructor_environment,
                           check_correct=TRUE, correct_error_msg=NULL,
                           check_present=TRUE, present_error_msg=NULL,
                           check_size=TRUE, size_error_msg=NULL,
@@ -273,8 +273,8 @@ testDataFrame <- function(variableName,
 #' @export
 #'
 testLinearModel <- function(variableName,
-                            student_environment,
-                            instructor_environment,
+                            student_environment=student_environment,
+                            instructor_environment=instructor_environment,
                             check_correct=TRUE, correct_error_msg=NULL,
                             check_present=TRUE, present_error_msg=NULL,
                             AIC_compare = FALSE, round_precision=3){

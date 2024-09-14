@@ -128,7 +128,9 @@ P.S. If malicious users intentionally design a model that passes the function, i
 **Example Usage:**
 
 ``` r
-testLinearModel("model_variable")
+testLinearModel("model_variable",
+                student_environment = student_environment,
+                instructor_environment = instructor_environment)
 ```
 
 
@@ -157,7 +159,9 @@ The `testDataFrame()` function checks if a student's data frame meets the instru
 **Example Usage:**
 
 ``` r
-testDataFrame("student_df")
+testDataFrame("student_df",
+              student_environment = student_environment,
+              instructor_environment = instructor_environment)
 ```
 
 ## 3. `testVector()`
@@ -185,7 +189,9 @@ The `testVector()` function validates vectors submitted by students, checking fo
 **Example Usage:**
 
 ``` r
-testVector("student_vector")
+testVector("student_vector",
+           student_environment = student_environment,
+           instructor_environment = instructor_environment)
 ```
 
 ## 4. `testScalar()`
@@ -209,5 +215,7 @@ The `testScalar()` function checks scalar values submitted by students against e
 **Example Usage:**
 
 ``` r
-testScalar("student_scalar")
+testScalar("student_scalar",
+           student_environment = student_environment,
+           instructor_environment = instructor_environment)
 ```

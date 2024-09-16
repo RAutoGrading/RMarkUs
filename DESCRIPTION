@@ -1,9 +1,10 @@
 Package: RMarkUs
-Type: Package
 Title: Autograding Package for MarkUs
 Version: 0.3.1
-Author: Siqi Zheng, Nathalie Moon, Kanika Chopra
-Maintainer: Siqi Zheng <timothy.zheng@mail.utoronto.ca>
+Authors@R: c(
+    person("Siqi", "Zheng", email = "timothy.zheng@mail.utoronto.ca", role = c("aut", "cre")),
+    person("Nathalie", "Moon", role = c("aut", "fnd")),
+    person("Kanika", "Chopra", role = "aut"))
 Description: This package will allow for autograding capabilities for quantitative assessments using MarkUs.
 License: GPL-2
 Encoding: UTF-8
@@ -12,5 +13,9 @@ Imports:
     cli,
     testthat,
     utils,
+    stats,
     knitr
 RoxygenNote: 7.3.2
+Suggests: 
+    rmarkdown
+VignetteBuilder: knitr

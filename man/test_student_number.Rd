@@ -11,7 +11,7 @@ test_student_number(
 )
 }
 \arguments{
-\item{varname}{}
+\item{varname}{default is the student number}
 
 \item{student_environment}{A list of all variables in the environment from the student's submission}
 

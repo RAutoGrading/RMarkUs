@@ -2,8 +2,6 @@ library(testthat)
 library(cli)
 library(utils)
 library(knitr)
-source("R/load_solutions.R")
-
 #' Loads student and instructor submission file (locally or from MarkUs) and return a list of variables in both environments
 #' @param instructor_file The solution file name (and path, relative to the project's root folder for the instructor solutions. Valid filetypes are .Rmd and .R
 #' @param student_file The student submission file. Valid filetypes are .Rmd and .R
@@ -15,8 +13,8 @@ source("R/load_solutions.R")
 #' @export
 load_environments <- function(instructor_file,
                                student_file,
-                               student_file_MarkUs, 
-                               markus_environment_variable="MARKUS_GROUP", 
+                               student_file_MarkUs,
+                               markus_environment_variable="MARKUS_GROUP",
                                print_variables=FALSE){
   # Load instructor solutions
   instructor_environment <- load_solutions(file=instructor_file,
@@ -30,3 +28,4 @@ load_environments <- function(instructor_file,
   all_submissions <- list(instructor_environment=instructor_environment, student_environment=student_environment)
   return(all_submissions)
 }
+

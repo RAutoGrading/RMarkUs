@@ -16,3 +16,6 @@ Imports:
     stats,
     knitr
 RoxygenNote: 7.3.2
+Suggests: 
+    rmarkdown
+VignetteBuilder: knitr

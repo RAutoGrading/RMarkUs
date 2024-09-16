@@ -6,8 +6,8 @@
 \usage{
 testScalar(
   variableName,
-  student_environment,
-  instructor_environment,
+  student_environment = student_environment,
+  instructor_environment = instructor_environment,
   check_present = TRUE,
   present_error_msg = NULL,
   check_datatype = TRUE,

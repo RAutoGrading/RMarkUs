@@ -6,8 +6,8 @@
 \usage{
 testLinearModel(
   variableName,
-  student_environment,
-  instructor_environment,
+  student_environment = student_environment,
+  instructor_environment = instructor_environment,
   check_correct = TRUE,
   correct_error_msg = NULL,
   check_present = TRUE,

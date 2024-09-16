@@ -6,8 +6,8 @@
 \usage{
 testVector(
   variableName,
-  student_environment,
-  instructor_environment,
+  student_environment = student_environment,
+  instructor_environment = instructor_environment,
   datatype = NULL,
   type = "vector",
   order = TRUE,

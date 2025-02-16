@@ -39,7 +39,7 @@ testScalar <- function(variableName,
   variables <- names(student_environment) # this should be a list of the names
   studentSoln <- NULL
   if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
-  if(is.null(datatype)) datatype <- class(instructor_environment[[variableName]])
+  if(is.null(datatype)) datatype <- class(actualSoln)
 
   # Validating inputs
   if (length(actualSoln) != 1){
@@ -135,7 +135,7 @@ testVector <- function(variableName,
   variables <- names(student_environment) # this should be a list of the names
   studentSoln <- NULL
   if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
-  if(is.null(datatype)) datatype <- class(instructor_environment[[variableName]])
+  if(is.null(datatype)) datatype <- class(actualSoln)
 
   # Validating inputs
   if (isTRUE(check_datatype)){
@@ -228,8 +228,6 @@ testDataFrame <- function(variableName,
   studentSoln <- NULL
   if(variableName %in% variables) studentSoln <-student_environment[[variableName]]
 
-  # Validating inputs
-
   # Unit tests
   if (isTRUE(check_present)) {
     variableExistsTest(variableName, variables, error_message=present_error_msg)
@@ -244,6 +242,11 @@ testDataFrame <- function(variableName,
   }
 
   if (isTRUE(check_class)) {
+    # Reorder student solution based on instructor solution if we do not check order
+    if (isFALSE(col_order) & isFALSE(is.null(a))) {
+      student_sol_reorder <- names(actualSoln)
+      studentSoln <- studentSoln[student_sol_reorder]
+    }
     variableClassTest(variableName, variables, studentSoln, actualSoln, error_message=class_error_msg)
   }
 

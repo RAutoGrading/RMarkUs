@@ -354,7 +354,7 @@ testGroupNumber <- function(variableName,
   summary_table_name = paste(variableName,"summary_table_RMarkUs",sep='_')
   instructor_environment[[summary_table_name]] = actualSoln
   student_environment[[summary_table_name]] = studentSoln
-  testDataFrame(variableName,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
+  testDataFrame(summary_table_name,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
 }
 
 #' Source List

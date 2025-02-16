@@ -243,7 +243,7 @@ testDataFrame <- function(variableName,
 
   if (isTRUE(check_class)) {
     # Reorder student solution based on instructor solution if we do not check order
-    if (isFALSE(col_order) & isFALSE(is.null(a))) {
+    if (isFALSE(col_order) & isFALSE(is.null(studentSoln))) {
       student_sol_reorder <- names(actualSoln)
       studentSoln <- studentSoln[student_sol_reorder]
     }
@@ -354,7 +354,7 @@ testGroupNumber <- function(variableName,
   summary_table_name = paste(variableName,"summary_table_RMarkUs",sep='_')
   instructor_environment[[summary_table_name]] = actualSoln
   student_environment[[summary_table_name]] = studentSoln
-  testDataFrame(summary_table_name,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
+  testDataFrame(variableName = summary_table_name,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
 }
 
 #' Source List

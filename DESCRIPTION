@@ -14,7 +14,8 @@ Imports:
     testthat,
     utils,
     stats,
-    knitr
+    knitr,
+    rlang
 RoxygenNote: 7.3.2
 Suggests: 
     rmarkdown

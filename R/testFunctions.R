@@ -317,6 +317,46 @@ testLinearModel <- function(variableName,
 
 }# end testDataFrame function
 
+#' Compare if a particular column has the correct group and whether the number of
+#' observation in each group is correct.
+#'
+#' @param variableName The name of the variable in question
+#' @param student_environment A list of all variables in the environment from the student's submission
+#' @param instructor_environment A list of all variables in the environment from the solution file
+#' @param subset Boolean indicating whether another column needs to be selected.
+#' Use if an entire dataframe is passed to variableName.
+#' Default is False
+#' @param column_name A string of the column name
+#'
+#' @return Error message if one exists, otherwise will print that every test has passed.
+#' @export
+#'
+testGroupNumber <- function(variableName,
+                            student_environment=student_environment,
+                            instructor_environment=instructor_environment,
+                            subset = FALSE, column_name = NULL
+                            ){
+  correctArgsTest(variableName, student_environment=student_environment, instructor_environment=instructor_environment)
+
+  # Extract information from inputs
+  actualSoln <- instructor_environment[[variableName]]
+  variables <- names(student_environment) # this should be a list of the names
+  studentSoln <- NULL
+  if(variableName %in% variables) studentSoln <- student_environment[[variableName]]
+
+  if(isTRUE(subset)) {
+    if(isTRUE(is.null(column_name))) {
+      stop("Column name should be provided if subset is TRUE.")
+    }
+    actualSoln <- table(actualSoln[[column_name]])
+    if(isFALSE(is.null(studentSoln))) {studentSoln <- table(studentSoln[[column_name]])}
+  }
+  summary_table_name = paste(variableName,"summary_table_RMarkUs",sep='_')
+  instructor_environment[[summary_table_name]] = actualSoln
+  student_environment[[summary_table_name]] = studentSoln
+  testDataFrame(variableName,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
+}
+
 #' Source List
 #'
 #' Extracts all variables from the R file into a list

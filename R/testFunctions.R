@@ -357,11 +357,12 @@ testGroupNumber <- function(variableName,
   testDataFrame(variableName = summary_table_name,student_environment = student_environment, instructor_environment = instructor_environment, col_order=FALSE)
 }
 
-#' Check if the object is a boxplot.
+#' Check if the ggplot object is correct.
 #'
 #' @param variableName The name of the variable in question
 #' @param student_environment A list of all variables in the environment from the student's submission
 #' @param instructor_environment A list of all variables in the environment from the solution file
+#' @param plot_type A string indicating the plot type. User can choose from `histogram` or `boxplot`. Default is `boxplot`
 #' @param check_x Boolean. Whether to check if x is correct. Defaults to TRUE.
 #' @param x_error_msg Character or NULL. Custom error message if x variable fails the check. Defaults to NULL.
 #' @param check_y Boolean. Whether to check if y is correct. Defaults to TRUE.
@@ -374,14 +375,14 @@ testGroupNumber <- function(variableName,
 #' @param y_label_error_msg Character or NULL. Custom error message if y label check fails. Defaults to NULL.
 #' @param check_class Boolean. Whether to check if x and y have the expected class. Defaults to `TRUE`.
 #' @param class_error_msg Character or NULL. Custom error message if class validation fails. Defaults to NULL.
-
 #'
 #' @return Error message if one exists, otherwise will print that every test has passed.
 #' @export
 #'
-testBoxPlot <- function(variableName,
+testPlot <- function(variableName,
                         student_environment=student_environment,
                         instructor_environment=instructor_environment,
+                        plot_type="boxplot",
                         check_x=TRUE, x_error_msg=NULL,
                         check_y=TRUE, y_error_msg=NULL,
                         check_present=TRUE, present_error_msg=NULL,
@@ -403,12 +404,18 @@ testBoxPlot <- function(variableName,
   }
 
   if (isTRUE(check_class)) {
+    if (isTRUE(plot_type=="boxplot")){
     expected_geom <- "GeomBoxplot"
     class_error_msg <- paste('It should be a boxplot (GeomBoxplot), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
+    }
+    if (isTRUE(plot_type=="histogram")){
+      expected_geom <- "GeomCol"
+      class_error_msg <- paste('It should be a histogram (GeomCol), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
+    }
     test_that(class_error_msg, {
       expect_true(expected_geom %in% class(student_environment[[variableName]]$layers[[1]]$geom))
     })
-    print("Correct boxplot type.")
+    print("Correct plot type.")
   }
 
   if (isTRUE(check_x)) {

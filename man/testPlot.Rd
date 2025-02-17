@@ -30,9 +30,15 @@ testPlot(
 
 \item{student_environment}{A list of all variables in the environment from the student's submission}
 
+\item{expected_x_axis_var}{A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+Defaults to NULL (in which case no test run)}
+
+\item{expected_y_axis_var}{A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+Defaults to NULL (in which case no test run)}
+
 \item{instructor_environment}{A list of all variables in the environment from the solution file. Default is `NULL`}
 
-\item{plot_type}{A string indicating the plot type. User can choose from `histogram` or `boxplot`. Default is `boxplot`}
+\item{plot_type}{A string indicating the plot type. User can choose from `histogram` or `boxplot` or `scatterplot`. Default is `boxplot`}
 
 \item{check_x}{Boolean. Whether to check if x is correct. Defaults to TRUE.}
 
@@ -57,12 +63,6 @@ testPlot(
 \item{check_class}{Boolean. Whether to check if x and y have the expected class. Defaults to `TRUE`.}
 
 \item{class_error_msg}{Character or NULL. Custom error message if class validation fails. Defaults to NULL.}
-
-\item{expected_x_axis_var:}{A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
-Defaults to NULL (in which case no test run)}
-
-\item{expected_y_axis_var:}{A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
-Defaults to NULL (in which case no test run)}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

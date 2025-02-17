@@ -361,12 +361,12 @@ testGroupNumber <- function(variableName,
 #'
 #' @param variableName The name of the variable in question
 #' @param student_environment A list of all variables in the environment from the student's submission
-#' @param expected_x_axis_var: A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+#' @param expected_x_axis_var A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
 #'  Defaults to NULL (in which case no test run)
-#' @param expected_y_axis_var: A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+#' @param expected_y_axis_var A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
 #'  Defaults to NULL (in which case no test run)
 #' @param instructor_environment A list of all variables in the environment from the solution file. Default is `NULL`
-#' @param plot_type A string indicating the plot type. User can choose from `histogram` or `boxplot`. Default is `boxplot`
+#' @param plot_type A string indicating the plot type. User can choose from `histogram` or `boxplot` or `scatterplot`. Default is `boxplot`
 #' @param check_x Boolean. Whether to check if x is correct. Defaults to TRUE.
 #' @param x_error_msg Character or NULL. Custom error message if x variable fails the check. Defaults to NULL.
 #' @param check_y Boolean. Whether to check if y is correct. Defaults to TRUE.
@@ -409,18 +409,20 @@ testPlot <- function(variableName,
     present_error_msg <- paste(variableName, "is not present in the student solution.")
     variableExistsTest(variableName, variables, error_message=present_error_msg)
   }
-
+  expected_geom = NULL
   if (isTRUE(check_class)) {
-    if (isTRUE(plot_type %in% "boxplot")){
-    expected_geom <- "GeomBoxplot"
-    class_error_msg <- paste('It should be a boxplot (GeomBoxplot), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
+    if (isTRUE("boxplot" %in% plot_type)){
+      expected_geom <- c(expected_geom, "GeomBoxplot")
     }
-    if (isTRUE(plot_type %in% "histogram")){
-      expected_geom <- "GeomCol"
-      class_error_msg <- paste('It should be a histogram (GeomCol), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
+    if (isTRUE("histogram" %in% plot_type)){
+      expected_geom <-  c(expected_geom, "GeomCol")
     }
+    if (isTRUE("scatterplot" %in% plot_type)){
+      expected_geom <- c(expected_geom, "GeomPoint")
+    }
+    class_error_msg <- paste('It should be one of them:', paste(plot_type, collapse = ' '), 'not a', class(student_environment[[variableName]]$layers[[1]]$geom)[1])
     test_that(class_error_msg, {
-      expect_true(expected_geom %in% class(student_environment[[variableName]]$layers[[1]]$geom))
+      expect_true(class(student_environment[[variableName]]$layers[[1]]$geom) %in% expected_geom)
     })
     print("Correct plot type.")
   }

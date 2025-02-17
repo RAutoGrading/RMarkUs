@@ -435,7 +435,7 @@ testPlot <- function(variableName,
       rlang::get_expr(instructor_environment[[variableName]]$mapping$x),
       rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$x)))
     )}
-    x_error_msg <- paste(student_x_label, 'should be on the x-axis.')
+    x_error_msg <- paste('One of them:', paste(c(instructor_x_label,expected_x_axis_var), collapse = ", "), "should be on the x-axis.")
     test_that(x_error_msg, {
       expect_true(student_x_label %in% c(instructor_x_label,expected_x_axis_var))
     })
@@ -452,7 +452,7 @@ testPlot <- function(variableName,
         rlang::get_expr(instructor_environment[[variableName]]$mapping$y),
         rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$y)))
       )}
-    y_error_msg <- paste(student_y_label, 'should be on the y-axis.')
+    y_error_msg <- paste('One of them:', paste(c(instructor_y_label,expected_y_axis_var), collapse = ", "), "should be on the y-axis.")
     test_that(y_error_msg, {
       expect_true(student_y_label %in% c(instructor_y_label,expected_y_axis_var))
     })

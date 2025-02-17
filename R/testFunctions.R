@@ -361,7 +361,11 @@ testGroupNumber <- function(variableName,
 #'
 #' @param variableName The name of the variable in question
 #' @param student_environment A list of all variables in the environment from the student's submission
-#' @param instructor_environment A list of all variables in the environment from the solution file
+#' @param expected_x_axis_var: A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+#'  Defaults to NULL (in which case no test run)
+#' @param expected_y_axis_var: A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+#'  Defaults to NULL (in which case no test run)
+#' @param instructor_environment A list of all variables in the environment from the solution file. Default is `NULL`
 #' @param plot_type A string indicating the plot type. User can choose from `histogram` or `boxplot`. Default is `boxplot`
 #' @param check_x Boolean. Whether to check if x is correct. Defaults to TRUE.
 #' @param x_error_msg Character or NULL. Custom error message if x variable fails the check. Defaults to NULL.
@@ -380,18 +384,21 @@ testGroupNumber <- function(variableName,
 #' @export
 #'
 testPlot <- function(variableName,
-                        student_environment=student_environment,
-                        instructor_environment=instructor_environment,
-                        plot_type="boxplot",
-                        check_x=TRUE, x_error_msg=NULL,
-                        check_y=TRUE, y_error_msg=NULL,
-                        check_present=TRUE, present_error_msg=NULL,
-                        check_x_label=TRUE, x_label_error_msg=NULL,
-                        check_y_label=TRUE, y_label_error_msg=NULL,
-                        check_class=TRUE, class_error_msg=NULL
+                    student_environment=student_environment,
+                    expected_x_axis_var = NULL,
+                    expected_y_axis_var = NULL,
+                    instructor_environment=NULL,
+                    plot_type="boxplot",
+                    check_x=TRUE, x_error_msg=NULL,
+                    check_y=TRUE, y_error_msg=NULL,
+                    check_present=TRUE, present_error_msg=NULL,
+                    check_x_label=TRUE, x_label_error_msg=NULL,
+                    check_y_label=TRUE, y_label_error_msg=NULL,
+                    check_class=TRUE, class_error_msg=NULL
 ){
+  if(isFALSE(is.null(instructor_environment))){
   correctArgsTest(variableName, student_environment=student_environment, instructor_environment=instructor_environment)
-
+  }
   # Extract information from inputs
   actualSoln <- instructor_environment[[variableName]]
   variables <- names(student_environment) # this should be a list of the names
@@ -404,11 +411,11 @@ testPlot <- function(variableName,
   }
 
   if (isTRUE(check_class)) {
-    if (isTRUE(plot_type=="boxplot")){
+    if (isTRUE(plot_type %in% "boxplot")){
     expected_geom <- "GeomBoxplot"
     class_error_msg <- paste('It should be a boxplot (GeomBoxplot), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
     }
-    if (isTRUE(plot_type=="histogram")){
+    if (isTRUE(plot_type %in% "histogram")){
       expected_geom <- "GeomCol"
       class_error_msg <- paste('It should be a histogram (GeomCol), not a',class(student_environment[[variableName]]$layers[[1]]$geom)[1])
     }
@@ -419,55 +426,57 @@ testPlot <- function(variableName,
   }
 
   if (isTRUE(check_x)) {
-    x_label <- as.character(na.omit(c(
+    student_x_label <- as.character(na.omit(c(
+      rlang::get_expr(student_environment[[variableName]]$mapping$x),
+      rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$x))))
+    if (isFalse(is.null(instructor_environment))){
+      instructor_x_label <- as.character(na.omit(c(
       rlang::get_expr(instructor_environment[[variableName]]$mapping$x),
-      rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$x)
-    ))[1])
-    x_error_msg <- paste(x_label, 'should be on the x-axis.')
+      rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$x)))
+    )}
+    x_error_msg <- paste(student_x_label, 'should be on the x-axis.')
     test_that(x_error_msg, {
-      expect_true(x_label %in% c(
-        rlang::get_expr(student_environment[[variableName]]$mapping$x),
-        rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$x)
-      ))
+      expect_true(student_x_label %in% c(instructor_x_label,expected_x_axis_var))
     })
     print("Correct x axis.")
   }
 
   if (isTRUE(check_y)) {
-    y_label <- as.character(na.omit(c(
-      rlang::get_expr(instructor_environment[[variableName]]$mapping$y),
-      rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$y)
-    ))[1])
-    y_error_msg = paste(y_label, 'should be on the y-axis.')
+    student_y_label <- as.character(na.omit(c(
+      rlang::get_expr(student_environment[[variableName]]$mapping$y),
+      rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$y))))
+    if (isFalse(is.null(instructor_environment))){
+      instructor_y_label <- as.character(na.omit(c(
+        rlang::get_expr(instructor_environment[[variableName]]$mapping$y),
+        rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$y)))
+      )}
+    y_error_msg <- paste(student_y_label, 'should be on the y-axis.')
     test_that(y_error_msg, {
-      expect_true(y_label %in% c(
-        rlang::get_expr(student_environment[[variableName]]$mapping$y),
-        rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$y)
-      ))
+      expect_true(student_y_label %in% c(instructor_y_label,expected_y_axis_var))
     })
     print("Correct y axis.")
   }
 
   if (isTRUE(check_x_label)) {
-    x_label_instructor <- as.character(na.omit(c(
-      rlang::get_expr(instructor_environment[[variableName]]$mapping$x),
-      rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$x)
+    x_label_student <- as.character(na.omit(c(
+      rlang::get_expr(student_environment[[variableName]]$mapping$x),
+      rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$x)
     ))[1])
     x_label_error_msg <- 'Label on the x-axis should be descriptive and human readable.'
     test_that(x_label_error_msg, {
-      expect_false(student_environment[[variableName]]$labels$x == x_label_instructor)
+      expect_false(student_environment[[variableName]]$labels$x == x_label_student)
     })
     print("Reasonable x label.")
   }
 
   if (isTRUE(check_y_label)) {
-    y_label_instructor <- as.character(na.omit(c(
-      rlang::get_expr(instructor_environment[[variableName]]$mapping$y),
-      rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$y)
+    y_label_student <- as.character(na.omit(c(
+      rlang::get_expr(student_environment[[variableName]]$mapping$y),
+      rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$y)
     ))[1])
     y_label_error_msg <- 'Label on the y-axis should be descriptive and human readable.'
     test_that(y_label_error_msg, {
-      expect_false(student_environment[[variableName]]$labels$y == y_label_instructor)
+      expect_false(student_environment[[variableName]]$labels$y == y_label_student)
     })
     print("Reasonable y label.")
   }

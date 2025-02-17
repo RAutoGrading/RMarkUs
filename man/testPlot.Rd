@@ -7,7 +7,9 @@
 testPlot(
   variableName,
   student_environment = student_environment,
-  instructor_environment = instructor_environment,
+  expected_x_axis_var = NULL,
+  expected_y_axis_var = NULL,
+  instructor_environment = NULL,
   plot_type = "boxplot",
   check_x = TRUE,
   x_error_msg = NULL,
@@ -28,7 +30,7 @@ testPlot(
 
 \item{student_environment}{A list of all variables in the environment from the student's submission}
 
-\item{instructor_environment}{A list of all variables in the environment from the solution file}
+\item{instructor_environment}{A list of all variables in the environment from the solution file. Default is `NULL`}
 
 \item{plot_type}{A string indicating the plot type. User can choose from `histogram` or `boxplot`. Default is `boxplot`}
 
@@ -55,6 +57,12 @@ testPlot(
 \item{check_class}{Boolean. Whether to check if x and y have the expected class. Defaults to `TRUE`.}
 
 \item{class_error_msg}{Character or NULL. Custom error message if class validation fails. Defaults to NULL.}
+
+\item{expected_x_axis_var:}{A vector of possible variables for the x-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+Defaults to NULL (in which case no test run)}
+
+\item{expected_y_axis_var:}{A vector of possible variables for the y-axis of the plot; test will pass if any one of these variables is on the x-axis of the student's plot
+Defaults to NULL (in which case no test run)}
 }
 \value{
 Error message if one exists, otherwise will print that every test has passed.

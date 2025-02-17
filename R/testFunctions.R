@@ -422,7 +422,7 @@ testPlot <- function(variableName,
     }
     class_error_msg <- paste('It should be one of them:', paste(plot_type, collapse = ' '), 'not a', class(student_environment[[variableName]]$layers[[1]]$geom)[1])
     test_that(class_error_msg, {
-      expect_true(class(student_environment[[variableName]]$layers[[1]]$geom) %in% expected_geom)
+      expect_true(class(student_environment[[variableName]]$layers[[1]]$geom)[1] %in% expected_geom)
     })
     print("Correct plot type.")
   }

@@ -429,7 +429,8 @@ testPlot <- function(variableName,
     student_x_label <- as.character(na.omit(c(
       rlang::get_expr(student_environment[[variableName]]$mapping$x),
       rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$x))))
-    if (isFalse(is.null(instructor_environment))){
+    instructor_x_label <- NULL
+    if (isFALSE(is.null(instructor_environment))){
       instructor_x_label <- as.character(na.omit(c(
       rlang::get_expr(instructor_environment[[variableName]]$mapping$x),
       rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$x)))
@@ -445,7 +446,8 @@ testPlot <- function(variableName,
     student_y_label <- as.character(na.omit(c(
       rlang::get_expr(student_environment[[variableName]]$mapping$y),
       rlang::get_expr(student_environment[[variableName]]$layers[[1]]$mapping$y))))
-    if (isFalse(is.null(instructor_environment))){
+    instructor_y_label <- NULL
+    if (isFALSE(is.null(instructor_environment))){
       instructor_y_label <- as.character(na.omit(c(
         rlang::get_expr(instructor_environment[[variableName]]$mapping$y),
         rlang::get_expr(instructor_environment[[variableName]]$layers[[1]]$mapping$y)))

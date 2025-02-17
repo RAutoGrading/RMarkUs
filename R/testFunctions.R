@@ -420,7 +420,7 @@ testPlot <- function(variableName,
     if (isTRUE("scatterplot" %in% plot_type)){
       expected_geom <- c(expected_geom, "GeomPoint")
     }
-    class_error_msg <- paste('It should be one of them:', paste(plot_type, collapse = ' '), 'not a', class(student_environment[[variableName]]$layers[[1]]$geom)[1])
+    class_error_msg <- paste('It should be one of them:', paste(plot_type, collapse = ', '), 'not a', class(student_environment[[variableName]]$layers[[1]]$geom)[1])
     test_that(class_error_msg, {
       expect_true(class(student_environment[[variableName]]$layers[[1]]$geom)[1] %in% expected_geom)
     })

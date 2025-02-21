@@ -367,17 +367,17 @@ testGroupNumber <- function(variableName,
 #'  Defaults to NULL (in which case no test run)
 #' @param instructor_environment A list of all variables in the environment from the solution file. Default is `NULL`
 #' @param plot_type A string indicating the plot type. User can choose from `histogram` or `boxplot` or `scatterplot`. Default is `boxplot`
-#' @param check_x Boolean. Whether to check if x is correct. Defaults to TRUE.
-#' @param x_error_msg Character or NULL. Custom error message if x variable fails the check. Defaults to NULL.
-#' @param check_y Boolean. Whether to check if y is correct. Defaults to TRUE.
-#' @param y_error_msg Character or NULL. Custom error message if y variable fails the check. Defaults to NULL.
 #' @param check_present Boolean. Whether to check if required variables are present. Defaults to TRUE.
-#' @param present_error_msg Character or NULL. Custom error message if the variable is missing. Defaults to NULL.
+#' @param check_x Boolean. Whether to check if x is correct. Defaults to TRUE.
+#' @param check_y Boolean. Whether to check if y is correct. Defaults to TRUE.
 #' @param check_x_label Boolean. Whether to check if x has a descriptive label. Defaults to TRUE.
-#' @param x_label_error_msg Character or NULL. Custom error message if x label check fails. Defaults to NULL.
 #' @param check_y_label Boolean. Whether to check if y has a descriptive label. Defaults to TRUE.
-#' @param y_label_error_msg Character or NULL. Custom error message if y label check fails. Defaults to NULL.
 #' @param check_plot_type Boolean. Whether to check if the plot type is correct. Defaults to `TRUE`.
+#' @param x_error_msg Character or NULL. Custom error message if x variable fails the check. Defaults to NULL.
+#' @param y_error_msg Character or NULL. Custom error message if y variable fails the check. Defaults to NULL.
+#' @param present_error_msg Character or NULL. Custom error message if the variable is missing. Defaults to NULL.
+#' @param x_label_error_msg Character or NULL. Custom error message if x label check fails. Defaults to NULL.
+#' @param y_label_error_msg Character or NULL. Custom error message if y label check fails. Defaults to NULL.
 #' @param plot_type_error_msg Character or NULL. Custom error message if plot type validation fails. Defaults to NULL.
 #'
 #' @return Error message if one exists, otherwise will print that every test has passed.

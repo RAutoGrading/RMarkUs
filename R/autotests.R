@@ -13,9 +13,9 @@ library(cli)
 #' @export
 variableExistsTest <- function(variableName, variables, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message <- paste("Missing", variableName)
+    error_message <- paste("Missing", variableName, "in the student solution.")
   }
-  success_message <- paste(variableName, "present")
+  success_message <- paste(variableName, "is present in the student solution.")
   test_name <- paste(variableName, "Exists")
   var_exists <- variableName %in% variables
   tryCatch (
@@ -41,12 +41,13 @@ variableExistsTest <- function(variableName, variables, error_message=NULL) {
 #' @export
 dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message = "Incorrect data type"
+    error_message = paste("Data type in student solution:", class(studentSoln), 
+                          "\ndoes NOT match the actual solution:", datatype)
   }
-  success_message = "Correct data type"
+  success_message = paste("Correct data type", datatype, "is provided")
   test_name <- paste(variableName, "datatype test")
 
-  correct_dataType <- all(typeof(studentSoln) == datatype)
+  correct_dataType <- all(class(studentSoln) == datatype)
 
   #var_exists <- variableName %in% variables
 
@@ -58,7 +59,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
     },
   error = function(e) {
     message(error_message)
-  }
+    }
   )
 }
 
@@ -74,7 +75,8 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 #' @export
 variableClassTest <- function(variableName, variables, studentSoln, actualSoln, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message = "Incorrect variable classes"
+    error_message = paste("The type of", variableName, "in the student solution:", as.character(sapply(studentSoln, class)), 
+                          "\ndoes NOT match the actual solution:", as.character(sapply(actualSoln, class)))
   }
   success_message = "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
@@ -108,37 +110,21 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 #' @export
 correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
   if (is.null(error_message)) {
-    error_message = "Incorrect length"
+    error_message = paste("Length of", variableName, "in the student solution:", length(studentSoln), 
+                          "\ndoes NOT match the actual solution:", length(actualSoln))
   }
   success_message = "Correct length"
-
-  #var_exists <- variableName %in% variables
-
-  if (type=="vector" | type=="list") {
-    test_name <- paste(variableName, "correct length test")
-    tryCatch (
-      {
-        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
-        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
-        print(success_message)
-      },
-      error = function(e) {
-        message(error_message)
-      }
-    )
-  } else if (type == "scalar") {
-    test_name <- paste(variableName, "correct length test")
-    tryCatch (
-      {
-        test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
-        #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
-        print(success_message)
-      },
-      error = function(e) {
-        message(error_message)
-      }
-    )
-  }
+  test_name <- paste(variableName, "correct length test")
+  tryCatch (
+    {
+      test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
+      #test_that(test_name, {expect_equal(length(studentSoln), length(actualSoln)) & expect_equal(var_exists,TRUE)})
+      print(success_message)
+    },
+    error = function(e) {
+      message(error_message)
+    }
+  )
 }
 
 
@@ -154,15 +140,17 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
 #' @return Message for a successful test or an error message if fails
 #' @export
 correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message=NULL) {
-  if (is.null(error_message)) {
-    error_message = "Incorrect variable size"
-  }
+
   success_message = "Correct variable size"
 
   #var_exists <- variableName %in% variables
 
   if (type=="vector") {
     test_name <- paste(variableName, "correct length test")
+    if (is.null(error_message)) {
+      error_message = paste("Length of", variableName, "in the student solution:", length(studentSoln), 
+                            "\ndoes NOT match the actual solution:", length(actualSoln))
+    }
     tryCatch (
       {
         test_that(test_name, expect_equal(length(studentSoln), length(actualSoln)))
@@ -175,6 +163,10 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
     )
   } else if (type == "dataframe") {
     test_name <- paste(variableName, "correct dimensions test")
+    if (is.null(error_message)) {
+      error_message = paste("Length of", variableName, "in the student solution:", dim(studentSoln), 
+                            "\ndoes NOT match the actual solution:", dim(actualSoln))
+    }
     tryCatch (
       {
         test_that(test_name, expect_equal(dim(studentSoln), dim(actualSoln)))
@@ -255,7 +247,8 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
   # identical(attributes(d), attributes(d1)) # The order of items in the attributes list is different even though contents are the same - modifying the object somehow changes this
 
   if (is.null(error_message)) {
-    error_message = "Incorrect attributes"
+    error_message = paste("The attributes of", variableName, "in the student solution:", attributes(studentSoln), 
+                          "\ndoes NOT match the actual solution:", attributes(actualSoln))
   }
   success_message = "Correct attributes"
   test_name <- paste(variableName, "correct attributes")
@@ -276,4 +269,31 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
       message(error_message)
     }
   )
+}
+
+#' Test if the arguments have correct data types
+#'
+#' @param variableName The name of the variable in question
+#' @param student_environment A list of all variables in the environment from the student's submission
+#' @param instructor_environment A list of all variables in the environment from the solution file
+#'
+#' @return an error message will be provided if none of the tests passed
+#' @export
+
+correctArgsTest <- function(variableName,
+                            student_environment,
+                            instructor_environment){
+  # Initial validation of variableName, student_environment, and instructor_environment
+  if(!(is.character(variableName))){
+    stop("variableName should be a character object")
+  }
+  if(length(variableName) != 1){
+    stop("variableName should have length equal to 1")
+  }
+  if(!is.list(student_environment)){
+    stop("student_environment should be a list but it isn't")
+  }
+  if(!is.list(instructor_environment)){
+    stop("instructor_environment should be a list but it isn't")
+  }
 }

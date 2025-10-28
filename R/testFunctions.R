@@ -1,3 +1,5 @@
+library(rlang)
+
 #' testScalar
 #'
 #' Completes all of the basic tests for a single (scalar) value (that is, a vector of length 1), where the user can pass in the full environments from student and instructor solutions
@@ -512,7 +514,32 @@ testPlot <- function(variableName,
 #' @export
 sourceList <- function(path) {
   e <- new.env()
-  try(source(path, local = e))
+  try(withCallingHandlers(
+    source(path, local = e, keep.source = TRUE),
+    error = function(err) {
+      # This callback is run if there is an error raised in executing the code
+      cat("An error was encountered:", conditionMessage(err), "\n", file = stderr())
+      cat("This occurred when running the code:", deparse(conditionCall(err)), "\n\n", file = stderr())
+
+      # Show the traceback starting from where `source` is called.
+      # `source` calls `eval` twice before executing the code.
+      calls <- sys.calls()
+      idx <- which(vapply(calls, function(call) {
+        is.call(call) && identical(call[[1L]], quote(eval))
+      }, logical(1)))
+      if (length(idx) >= 2) {
+        # Start the traceback at the last `eval` call.
+        # Note: this assumes the code in `path` does not call `eval`.
+        frame <- sys.frame(idx[[length(idx)]])
+        tb <- rlang::trace_back(top = frame)
+      } else {
+        # If the eval calls aren't found, show full traceback
+        tb <- rlang::trace_back()
+      }
+
+      cat("Details:", capture.output(print(tb)), sep = "\n", file = stderr())
+    }
+  ))
   val <- as.list(e)
   return(val)
 }# end sourceList function

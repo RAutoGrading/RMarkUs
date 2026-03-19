@@ -191,44 +191,37 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
 #' @param type The type of data. Options are: scalar, vector, dataframe
 #' @param order Whether the order of the data matters for lists. Default is TRUE.
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
+#' @param actualOutput Boolean of whether to show desired output or not. Default is FALSE.description
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order=TRUE, type, error_message=NULL) {
+correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order=TRUE, type, error_message=NULL, actualOutput=FALSE) {
   if (is.null(error_message)) {
     error_message = "Incorrect answer"
   }
   success_message = "Correct answer"
+  
   test_name <- paste(variableName, "correct value")
 
-  if (order==FALSE & type == 'vector') {
-    studentSoln <- sort(studentSoln)
-    actualSoln <- sort(actualSoln)
-  }
-  if (order==FALSE & type == 'dataframe') {
-    studentSoln <- studentSoln[order(names(studentSoln))]
-    actualSoln <- actualSoln[order(names(actualSoln))]
+  if (order==FALSE) {
+    if (type == 'vector') {
+      studentSoln <- sort(studentSoln)
+      actualSoln <- sort(actualSoln)
+    }
+    if (type == 'dataframe') {
+      studentSoln <- studentSoln[order(names(studentSoln))]
+      actualSoln <- actualSoln[order(names(actualSoln))]
+    }
   }
 
   #var_exists <- variableName %in% variables
   #all_values_equal <- all(studentSoln == actualSoln)
 
-  tryCatch (
-    {
-      if (type=="dataframe") {
-        test_that(test_name, { expect_equal(studentSoln, actualSoln) }) # Not sure why was expect_identical before?
-        #test_that(test_name, { expect_identical(studentSoln, actualSoln) })
-        #test_that(test_name, { expect_identical(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
-      } else {
-        test_that(test_name, { expect_equal(studentSoln, actualSoln)})
-        #test_that(test_name, { expect_equal(all_values_equal, TRUE) & expect_equal(var_exists,TRUE) })
-        }
-      print(success_message)
-    },
-    error = function(e) {
-      message(error_message)
-    }
-  )
-}
+  if (actualOutput) {
+    test_that(test_name, {
+      expect(identical(studentSoln, actualSoln), error_message)
+    })
+  }
+} #end of correctSolnTest
 
 #' Test Correct Attributes
 #'

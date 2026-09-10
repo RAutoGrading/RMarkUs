@@ -313,30 +313,11 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
 #' @param actualOutput Boolean of whether to show desired output or not. Default is FALSE.description
 #' @return Message for a successful test or an error message if fails
 #' @export
-<<<<<<< HEAD
-correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order=TRUE, type, error_message=NULL, actualOutput=FALSE) {
-=======
 correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order = TRUE, type, error_message = NULL) {
->>>>>>> e23dc36 (Changed autotest functions and create a helper function to reduce repetition)
   if (is.null(error_message)) {
     # Keep this general so the expected solution is not revealed.
     error_message <- "Incorrect answer"
   }
-<<<<<<< HEAD
-  success_message = "Correct answer"
-  
-  test_name <- paste(variableName, "correct value")
-
-  if (order==FALSE) {
-    if (type == 'vector') {
-      studentSoln <- sort(studentSoln)
-      actualSoln <- sort(actualSoln)
-    }
-    if (type == 'dataframe') {
-      studentSoln <- studentSoln[order(names(studentSoln))]
-      actualSoln <- actualSoln[order(names(actualSoln))]
-    }
-=======
 
   success_message <- "Correct answer"
   test_name <- paste(variableName, "correct value")
@@ -352,21 +333,12 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
   if (order == FALSE && type %in% c("dataframe", "data.frame")) {
     studentSoln <- studentSoln[order(names(studentSoln))]
     actualSoln <- actualSoln[order(names(actualSoln))]
->>>>>>> e23dc36 (Changed autotest functions and create a helper function to reduce repetition)
   }
 
   # variables is kept in the function signature for compatibility with older code.
   # var_exists <- variableName %in% variables
   # all_values_equal <- all(studentSoln == actualSoln)
 
-<<<<<<< HEAD
-  if (actualOutput) {
-    test_that(test_name, {
-      expect(identical(studentSoln, actualSoln), error_message)
-    })
-  }
-} #end of correctSolnTest
-=======
   solution_is_correct <- safe_equal(studentSoln, actualSoln)
 
   run_autograder_test(
@@ -380,7 +352,6 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
     error_message = error_message
   )
 }
->>>>>>> e23dc36 (Changed autotest functions and create a helper function to reduce repetition)
 
 
 #' Test Correct Attributes

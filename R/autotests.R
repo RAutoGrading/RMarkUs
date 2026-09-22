@@ -1,5 +1,4 @@
 library(testthat)
-library(cli)
 
 # Purpose: Autograding testing functions for assignment solutions
 
@@ -28,6 +27,8 @@ library(cli)
 #
 # Note:
 # The check is passed in as a function so it is evaluated inside test_that().
+# Some exported functions retain parameters that are no longer used internally.
+# These parameters are kept to preserve compatibility with existing autograder code.
 # -------------------------------------------------------------------------
 run_autograder_test <- function(test_name, check, success_message, error_message) {
   tryCatch(
@@ -80,8 +81,8 @@ safe_equal <- function(studentSoln, actualSoln) {
 #   - list
 #   - dataframe
 #
-# correctLengthTest() is kept below as a wrapper so old code that calls it
-# will still work.
+# correctLengthTest() and correctSizeTest() are kept as wrappers so existing
+# autograder code that calls either function will continue to work.
 # -------------------------------------------------------------------------
 correctLengthOrSizeTest <- function(variableName,
                                     variables,
@@ -90,16 +91,17 @@ correctLengthOrSizeTest <- function(variableName,
                                     type,
                                     error_message = NULL,
                                     success_message = "Correct variable size") {
-  # variables is kept in the function signature for compatibility with older code.
-  # It is not used directly in this function.
-  # var_exists <- variableName %in% variables
 
   if (type %in% c("scalar", "vector", "list")) {
     test_name <- paste(variableName, "correct length test")
 
     if (is.null(error_message)) {
-      # Do not reveal the expected length.
-      error_message <- paste("Incorrect length for", variableName, "in the student solution.")
+      # Length is useful feedback for students, so include both the student's
+      # length and the expected length in the default error message.
+      error_message <- paste(
+        "Length of", variableName, "in the student solution:", length(studentSoln),
+        "\ndoes NOT match the actual solution:", length(actualSoln)
+      )
     }
 
     same_length <- length(studentSoln) == length(actualSoln)
@@ -117,8 +119,14 @@ correctLengthOrSizeTest <- function(variableName,
     test_name <- paste(variableName, "correct dimensions test")
 
     if (is.null(error_message)) {
-      # Do not reveal the expected dimensions.
-      error_message <- paste("Incorrect dimensions for", variableName, "in the student solution.")
+      # Dataframe dimensions are useful feedback for students, so include both
+      # the student's dimensions and the expected dimensions.
+      error_message <- paste(
+        "Dimensions of", variableName, "in the student solution:",
+        paste(dim(studentSoln), collapse = " x "),
+        "\ndoes NOT match the actual solution:",
+        paste(dim(actualSoln), collapse = " x ")
+      )
     }
 
     same_dimensions <- identical(dim(studentSoln), dim(actualSoln))
@@ -178,17 +186,22 @@ variableExistsTest <- function(variableName, variables, error_message = NULL) {
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_message = NULL) {
+dataTypeTest <- function(variableName,
+                         variables,
+                         studentSoln,
+                         datatype,
+                         error_message = NULL) {
   if (is.null(error_message)) {
-    # Do not reveal the expected datatype.
-    error_message <- paste("Incorrect data type for", variableName, "in the student solution.")
+    # Expected datatype is useful feedback for students and does not reveal
+    # the actual solution value.
+    error_message <- paste(
+      "Data type in student solution:", paste(class(studentSoln), collapse = ", "),
+      "\ndoes NOT match the actual solution:", paste(datatype, collapse = ", ")
+    )
   }
 
   success_message <- paste("Correct data type", datatype, "is provided")
   test_name <- paste(variableName, "datatype test")
-
-  # variables is kept in the function signature for compatibility with older code.
-  # var_exists <- variableName %in% variables
 
   correct_dataType <- identical(class(studentSoln), datatype) ||
     all(class(studentSoln) == datatype)
@@ -207,7 +220,7 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 
 #' Test Variable Class
 #'
-#'Tests to see if the columns of two given dataframes have the same classes
+#' Tests to see if the columns of two given dataframes have the same classes
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
@@ -215,19 +228,39 @@ dataTypeTest <- function(variableName, variables, studentSoln, datatype, error_m
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-variableClassTest <- function(variableName, variables, studentSoln, actualSoln, error_message = NULL) {
+variableClassTest <- function(variableName,
+                              variables,
+                              studentSoln,
+                              actualSoln,
+                              error_message = NULL) {
   if (is.null(error_message)) {
-    # Do not reveal the expected column classes.
-    error_message <- paste("Incorrect variable classes for", variableName, "in the student solution.")
+    # Expected column classes are useful feedback for students and do not
+    # reveal the actual values in the instructor solution.
+    student_classes <- vapply(
+      studentSoln,
+      function(x) paste(class(x), collapse = ", "),
+      character(1)
+    )
+
+    actual_classes <- vapply(
+      actualSoln,
+      function(x) paste(class(x), collapse = ", "),
+      character(1)
+    )
+
+    error_message <- paste(
+      "The type of", variableName, "in the student solution:",
+      paste(student_classes, collapse = ", "),
+      "\ndoes NOT match the actual solution:",
+      paste(actual_classes, collapse = ", ")
+    )
   }
 
   success_message <- "Correct variable classes"
   test_name <- paste(variableName, "variable class test")
 
-  # variables is kept in the function signature for compatibility with older code.
-  # var_exists <- variableName %in% variables
-
-  # Use lapply instead of sapply because columns can sometimes have multiple classes.
+  # Use lapply instead of sapply because columns can sometimes have
+  # multiple classes.
   all_columns_same_classes <- identical(
     lapply(studentSoln, class),
     lapply(actualSoln, class)
@@ -236,7 +269,8 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
   run_autograder_test(
     test_name = test_name,
     check = function() {
-      # Use expect_true() to avoid printing the expected class structure.
+      # The detailed class information is provided by error_message rather
+      # than by testthat's default comparison output.
       expect_true(all_columns_same_classes)
     },
     success_message = success_message,
@@ -247,7 +281,7 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 
 #' Test Correct Length (for vector, scalar, or list)
 #'
-#' Tests to see if the length of the student solution list is equal to the length of the actual solution list
+#' Tests whether the student solution has the expected length
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
@@ -256,7 +290,12 @@ variableClassTest <- function(variableName, variables, studentSoln, actualSoln, 
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message = NULL) {
+correctLengthTest <- function(variableName,
+                              variables,
+                              studentSoln,
+                              actualSoln,
+                              type,
+                              error_message = NULL) {
   # This function is now a wrapper around correctLengthOrSizeTest().
   # It is kept so older tests that call correctLengthTest() will not break.
 
@@ -274,7 +313,7 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
 
 #' Test Correct Size
 #'
-#' Tests to see if the length of the student solution list is equal to the length of the actual solution list
+#' Tests whether the student solution has the expected length or dimensions
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
@@ -283,8 +322,13 @@ correctLengthTest <- function(variableName, variables, studentSoln, actualSoln, 
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, type, error_message = NULL) {
-  # This function now uses the shared helper also used by correctLengthTest().
+correctSizeTest <- function(variableName,
+                            variables,
+                            studentSoln,
+                            actualSoln,
+                            type,
+                            error_message = NULL) {
+  # This function uses the shared helper also used by correctLengthTest().
   # For scalar/vector/list, it checks length.
   # For dataframe, it checks dimensions.
 
@@ -308,14 +352,20 @@ correctSizeTest <- function(variableName, variables, studentSoln, actualSoln, ty
 #' @param studentSoln The student's solution loaded from their assignment
 #' @param actualSoln The actual solution for the question
 #' @param type The type of data. Options are: scalar, vector, dataframe
-#' @param order Whether the order of the data matters for lists. Default is TRUE.
+#' @param order Whether the order of the data matters. Default is TRUE.
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
-#' @param actualOutput Boolean of whether to show desired output or not. Default is FALSE.description
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, order = TRUE, type, error_message = NULL) {
+correctSolnTest <- function(variableName,
+                            variables,
+                            studentSoln,
+                            actualSoln,
+                            order = TRUE,
+                            type,
+                            error_message = NULL) {
   if (is.null(error_message)) {
-    # Keep this general so the expected solution is not revealed.
+    # Keep this message general because the actual solution value should
+    # not be revealed to the student.
     error_message <- "Incorrect answer"
   }
 
@@ -335,17 +385,13 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
     actualSoln <- actualSoln[order(names(actualSoln))]
   }
 
-  # variables is kept in the function signature for compatibility with older code.
-  # var_exists <- variableName %in% variables
-  # all_values_equal <- all(studentSoln == actualSoln)
-
   solution_is_correct <- safe_equal(studentSoln, actualSoln)
 
   run_autograder_test(
     test_name = test_name,
     check = function() {
-      # Do not use expect_equal(studentSoln, actualSoln) here.
-      # That can reveal the expected solution.
+      # Do not use expect_equal(studentSoln, actualSoln) here because
+      # testthat's failure output can reveal the instructor's solution.
       expect_true(solution_is_correct)
     },
     success_message = success_message,
@@ -356,7 +402,7 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
 
 #' Test Correct Attributes
 #'
-#' Tests to see if the attributes of the student's DataFrame matches the attributes of the solution's DataFrame
+#' Tests whether the attributes of the student's data frame match those of the solution
 #' @param variableName The name of the variable in question
 #' @param variables List of variables in the student solution environment
 #' @param studentSoln The student's solution loaded from their assignment
@@ -364,22 +410,33 @@ correctSolnTest <- function(variableName, variables, studentSoln, actualSoln, or
 #' @param error_message A function that will generate the appropriate error message as a string. Default is NULL and will use preset error message.
 #' @return Message for a successful test or an error message if fails
 #' @export
-correctAttributes <- function(variableName, variables, studentSoln, actualSoln, error_message = NULL) {
-  # Note that this function can give somewhat weird results: Consider the following example:
-  # d <- tibble(v1=1:2, v2=3:4)
-  # d1 <- d; d1[1,1] <- 44
-  # identical(attributes(d), attributes(d1)) # The order of items in the attributes list is different even though contents are the same - modifying the object somehow changes this
+correctAttributes <- function(variableName,
+                              variables,
+                              studentSoln,
+                              actualSoln,
+                              error_message = NULL) {
+  # Note that this function can give somewhat weird results:
+  # d <- tibble(v1 = 1:2, v2 = 3:4)
+  # d1 <- d
+  # d1[1, 1] <- 44
+  # identical(attributes(d), attributes(d1))
+  #
+  # Attribute ordering can change when an object is modified, even when the
+  # attribute contents are otherwise equivalent.
 
   if (is.null(error_message)) {
-    # Do not reveal the expected attributes.
-    error_message <- paste("Incorrect attributes for", variableName, "in the student solution.")
+    # Keep expected attributes hidden for now. Unlike basic structural
+    # information such as datatype, length, dimensions, or column classes,
+    # arbitrary attributes may contain additional solution information.
+    error_message <- paste(
+      "Incorrect attributes for",
+      variableName,
+      "in the student solution."
+    )
   }
 
   success_message <- "Correct attributes"
   test_name <- paste(variableName, "correct attributes")
-
-  # variables is kept in the function signature for compatibility with older code.
-  # var_exists <- variableName %in% variables
 
   all_attributes_equal <- identical(
     attributes(studentSoln),
@@ -389,8 +446,8 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
   run_autograder_test(
     test_name = test_name,
     check = function() {
-      # Use expect_true() instead of expect_identical(attributes(...), attributes(...))
-      # to avoid printing expected attributes.
+      # Use expect_true() instead of comparing the attribute objects directly
+      # so testthat does not print the expected attribute structure.
       expect_true(all_attributes_equal)
     },
     success_message = success_message,
@@ -405,14 +462,14 @@ correctAttributes <- function(variableName, variables, studentSoln, actualSoln, 
 #' @param student_environment A list of all variables in the environment from the student's submission
 #' @param instructor_environment A list of all variables in the environment from the solution file
 #'
-#' @return an error message will be provided if none of the tests passed
+#' @return No return value; throws an error when an argument is invalid
 #' @export
 correctArgsTest <- function(variableName,
                             student_environment,
                             instructor_environment) {
   # Initial validation of variableName, student_environment, and instructor_environment
 
-  if (!(is.character(variableName))) {
+  if (!is.character(variableName)) {
     stop("variableName should be a character object")
   }
 

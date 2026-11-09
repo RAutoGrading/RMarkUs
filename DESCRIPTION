@@ -3,8 +3,8 @@ Title: Autograding Package for MarkUs
 Version: 0.3.1
 Authors@R: c(
     person("Siqi", "Zheng", email = "timothy.zheng@mail.utoronto.ca", role = "aut"),
-    person("Nathalie", "Moon", role = c("aut", "cre")),
-    person("Kanika", "Chopra", role = "aut")
+    person("Nathalie", "Moon", email = "nathalie.moon@utoronto.ca", role = c("aut", "cre")),
+    person("Kanika", "Chopra", role = "aut"),
     person("David", "Liu", role = c("aut")),
     person("Nathan", "Taback", role = c("aut")))
 Description: This package will allow for autograding capabilities for quantitative assessments using MarkUs.
